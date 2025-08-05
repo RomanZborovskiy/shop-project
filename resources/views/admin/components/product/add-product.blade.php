@@ -1,4 +1,4 @@
-@extends('layouts.adminlte')
+@extends('admin.layouts.app')
 
 @section('title', 'Додати продукт')
 

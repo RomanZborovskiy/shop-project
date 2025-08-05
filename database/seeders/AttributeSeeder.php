@@ -13,7 +13,7 @@ class AttributeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table("attributes")->insert([
+        DB::table('attributes')->insert([
             ['name'=>'Колір'],
             ['name'=>'Розмір'],
         ]);
