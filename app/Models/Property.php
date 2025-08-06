@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
-    protected $fillable = [
-        'value',
-        'attribute_id',
+    use HasFactory;
+
+    protected $guarded = [
+        'id',
     ];
 
     public function attributes()

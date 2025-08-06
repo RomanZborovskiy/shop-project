@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Propertyable extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'product_id',
-        'property_id',
+
+    protected $guarded = [
+        'id',
     ];
+
     public function products()
     {
         return $this->belongsToMany(Product::class);

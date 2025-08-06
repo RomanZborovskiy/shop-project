@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'rating',
-        'comment',
-        'status',
-        'user_id',
-        'product_id',
-        'parent_id',
+
+    const STATUS_PENDDING = 'pendding';
+    const STATUS_REJECTED = 'rejected';
+
+
+    protected $guarded = [
+        'id',
     ];
 
     public function user()
@@ -36,5 +36,21 @@ class Review extends Model
     public function replies()
     {
         return $this->hasMany(Review::class, 'parent_id');
+    }
+
+    public static function statusesList(string $columnKey = null, string $indexKey = null, array $options = []): array
+    {
+        $records = [
+            [
+                'key' => self::STATUS_PENDDING,
+                'name' => trans('lists. review_statuses.' . self::STATUS_PENDDING . '.name'),
+            ],
+            [
+                'key' => self::STATUS_REJECTED,
+                'name' => trans('lists.review_statuses.' . self::STATUS_REJECTED . '.name'),
+            ],
+        ];
+
+        return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
 }

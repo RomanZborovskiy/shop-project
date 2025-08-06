@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'total_price',
-        'status',
-        'type',
-        'user_info',
-        'payment_id',
-        'user_id',
+
+    const BASKER_TYPE = 'basket';
+    const ORDER_TYPE =  'order';
+
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
@@ -33,5 +32,21 @@ class Order extends Model
     public function purchase()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public static function statusesList(string $columnKey = null, string $indexKey = null, array $options = []): array
+    {
+        $records = [
+            [
+                'key' => self::BASKER_TYPE,
+                'name' => trans('lists.basket_type.' . self::BASKER_TYPE . '.name'),
+            ],
+            [
+                'key' => self::ORDER_TYPE,
+                'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
+            ],
+        ];
+
+        return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
 }

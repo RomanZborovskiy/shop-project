@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -38,7 +39,7 @@ class PageSeeder extends Seeder
         ];
 
         foreach ($pages as $page) {
-            DB::table('pages')->insert([
+            Page::updateOrCreate([
                 'name' => $page['name'],
                 'description' => $page['description'],
                 'template' => $page['template'],

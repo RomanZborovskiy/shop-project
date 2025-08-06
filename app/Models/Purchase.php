@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Purchase extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'price',
-        'quantity',
-        'product_id',
-        'order_id',
+
+    protected $guarded = [
+        'id',
     ];
 
     public function product()

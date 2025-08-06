@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedTinyInteger('rating'); 
             $table->text('comment')->nullable();
-            $table->string('status')->default('pending'); 
+            $table->string('status'); 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();

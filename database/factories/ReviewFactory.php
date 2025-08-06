@@ -25,16 +25,7 @@ class ReviewFactory extends Factory
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
             'user_id' => User::inRandomOrder()->value('id'),
             'product_id' => Product::inRandomOrder()->value('id'),
-            'parent_id' => null, 
+            'parent_id' => Review::inRandomOrder()->value('id'), 
         ];
-    }
-
-    public function withParent(): static
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'parent_id' => Review::inRandomOrder()->value('id'),
-            ];
-        });
     }
 }

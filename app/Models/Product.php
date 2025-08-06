@@ -11,6 +11,7 @@ class Product extends Model
     use HasFactory, HasStaticLists;
 
     const STATUS_PENDING = 'pending';
+    const STATUS_PUBLISHED = 'published';
 
     protected $guarded = [
         'id',
@@ -18,9 +19,11 @@ class Product extends Model
 
     protected $fillable = [
         'status' => self::STATUS_PENDING,
+        'name', 'description', 'price', 'old_price',
+        'quantity', 'brand_id', 'category_id', 'status',
+        'sku', 'slug',
     ];
 
-    // Зв'язки
     public function brand()
     {
         return $this->belongsTo(Brand::class);
@@ -56,8 +59,14 @@ class Product extends Model
         $records = [
             [
                 'key' => self::STATUS_PENDING,
-                'name' => trans('lists.order_statuses.' . self::STATUS_PENDING . '.name'),
+                // 'name' => trans('lists.product_statuses.' . self::STATUS_PENDING . '.name'),
+                'name'=>'Очікує'
             ],
+            [
+                'key' => self::STATUS_PUBLISHED,
+                // 'name' => trans('lists.product_statuses.' . self::STATUS_PUBLISHED . '.name'),
+                'name'=>'Опубліковано'
+            ]
         ];
 
         return self::staticListBuild($records, $columnKey, $indexKey, $options);

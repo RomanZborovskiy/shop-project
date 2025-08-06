@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Category extends Model
 {
     use HasFactory;
+
+    const ARTICLE_TYPE = 'article';
+    const PRODUCT_TYPE = 'product';
     
-    protected $fillable = [
-        'name',
-        'type',
-        'slug',
+    protected $guarded = [
+        'id',
     ];
 
-    // Зв'язок з продуктами (якщо є)
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -25,4 +25,21 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public static function typesList(string $columnKey = null, string $indexKey = null, array $options = []): array
+    {
+        $records = [
+            [
+                'key' => self::ARTICLE_TYPE,
+                'name' => trans('lists.category_type.' . self::ARTICLE_TYPE . '.name'),
+            ],
+            [
+                'key' => self::PRODUCT_TYPE,
+                'name' => trans('lists.category_type.' . self::PRODUCT_TYPE . '.name'),
+            ],
+        ];
+
+        return self::staticListBuild($records, $columnKey, $indexKey, $options);
+    }
+
 }

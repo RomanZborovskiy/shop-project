@@ -25,7 +25,7 @@ class PostFactory extends Factory
             'name' => $name,
             'description' => $this->faker->optional()->sentence(10),
             'text' => $this->faker->paragraphs(3, true),
-            'tags' => $this->faker->optional()->words(3, true), // рядок через пробіл
+            'tags' => $this->faker->optional()->words(3, true), 
             'slug' => Str::slug($name) . '-' . Str::random(4),
             'category_id' => Category::inRandomOrder()->value('id'),
             'user_id' => User::inRandomOrder()->value('id'),
