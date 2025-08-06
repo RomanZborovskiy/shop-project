@@ -17,12 +17,10 @@ class Product extends Model
         'id',
     ];
 
-    protected $fillable = [
+    protected $attributes = [
         'status' => self::STATUS_PENDING,
-        'name', 'description', 'price', 'old_price',
-        'quantity', 'brand_id', 'category_id', 'status',
-        'sku', 'slug',
     ];
+
 
     public function brand()
     {

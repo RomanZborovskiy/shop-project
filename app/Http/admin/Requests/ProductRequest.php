@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\admin;
+namespace App\Http\admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
-class StoreProductRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,5 +34,12 @@ class StoreProductRequest extends FormRequest
             'brand_id' => 'nullable|exists:brands,id',
             'category_id' => 'nullable|exists:categories,id',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'slug' => $this->input('slug') ?: Str::slug($this->input('name')),
+        ]);
     }
 }

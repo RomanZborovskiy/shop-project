@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\Controllers\ProductController;
+use App\Http\admin\Controllers\ProductController;
 
 
 
