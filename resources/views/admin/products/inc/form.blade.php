@@ -1,46 +1,45 @@
-        {!! Lte3::select2('brand_id', null, $brands->toArray(), [
+        {!! Lte3::select2('brand_id', $product->brand_id ?? null, $brands->toArray(), [
             'label' => 'Бренд',
             'placeholder' => 'Оберіть бренд',
         ]) !!}
 
 
-        {!! Lte3::select2('category_id', null, $categories->toArray(), [
-            'label' => 'Категорія',
-            'placeholder' => 'Оберіть категорію',
-        ]) !!}
+         {!! Lte3::select2('category_id', $product->category_id ?? null, $categories->pluck('name', 'id')->toArray(), [
+                'label' => 'Категорія',
+            ]) !!}
 
-        {!! Lte3::text('name', null, [
+        {!! Lte3::text('name', $product->name ?? null, [
             'label' => 'Назва продукту',
             'type' => 'text',
         ]) !!}
 
-         {!! Lte3::number('price', '', [
+         {!! Lte3::number('price', $product->price ?? null, [
             'label' => 'Ціна',
             'step' => 0.01,
 
         ]) !!}
 
-        {!! Lte3::number('old_price', '', [
+        {!! Lte3::number('old_price', $product->old_price ?? null, [
             'label' => 'Стара ціна',
             'step' => 0.01,
         ]) !!}
 
-        {!! Lte3::text('quantity', 'null', [
+        {!! Lte3::text('quantity', $product->quantity ?? null, [
             'label' => 'Кількість',
             'type' => 'number',
         ]) !!}
 
-        {!! Lte3::text('sku', '', [
+        {!! Lte3::text('sku', $product->sku ?? null, [
             'label' => 'артикул',
         ]) !!}
 
        
-        {!! Lte3::select2('status', null, App\Models\Product::statusesList(), [
+        {!! Lte3::select2('status', $product->status ?? null, App\Models\Product::statusesList(), [
             'label' => 'Статус',
             'placeholder' => 'Оберіть статус',
         ]) !!}
 
-        {!! Lte3::textarea('description', '', [
+        {!! Lte3::textarea('description', $product->description ?? null, [
             'label' => 'Description',
             'rows' => 3,
         ]) !!}

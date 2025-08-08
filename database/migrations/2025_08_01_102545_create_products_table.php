@@ -19,8 +19,8 @@ return new class extends Migration
             $table->decimal('old_price', 10, 2)->nullable();
             $table->integer('quantity')->default(0);
             $table->string('status')->nullable();
-            $table->string('sku')->unique()->nullable();
-            $table->string('slug')->unique()->nullable();
+            $table->string('sku')->nullable();
+            $table->string('slug')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();

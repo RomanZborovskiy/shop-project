@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,27 +23,21 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        $productId = $this->route('product')?->id;
-        
+        $postId = $this->route('post')?->id;
+
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'old_price' => 'nullable|numeric',
-            'quantity' => 'required|integer',
-            'sku' => [
+            'name' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'text' => 'required|string',
+            'tags' => 'nullable|string|max:255',
+            'slug' => [
                 'required',
                 'string',
-                Rule::unique('products', 'sku')->ignore($productId),
+                'max:255',
+                Rule::unique('posts', 'slug')->ignore($postId),
             ],
-            'slug' => [
-                'nullable',
-                'string',
-                Rule::unique('products', 'slug')->ignore($productId),
-            ],
-            'status'=>'required',
-            'brand_id' => 'nullable|exists:brands,id',
             'category_id' => 'nullable|exists:categories,id',
+            'user_id' => 'nullable|exists:users,id',
         ];
     }
 

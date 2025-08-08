@@ -6,11 +6,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Traits\HasStaticLists;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasStaticLists;
+
+    const STATUS_ACTIVE = 'active';
+    const STATUS_BLOCKED = 'blocked';
 
 
     /**
@@ -58,5 +62,23 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public static function statusList(string $columnKey = null, string $indexKey = null, array $options = []): array
+    {
+        $records = [
+            [
+                'key' => self::STATUS_ACTIVE,
+                //'name' => trans('lists.category_type.' . self::ARTICLE_TYPE . '.name'),
+                'name'=>'actiive',
+            ],
+            [
+                'key' => self::STATUS_BLOCKED,
+                //'name' => trans('lists.category_type.' . self::PRODUCT_TYPE . '.name'),
+                'name'=>'blocked'
+            ],
+        ];
+
+        return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
 }

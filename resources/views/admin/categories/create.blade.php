@@ -14,21 +14,19 @@
         <div class="container-fluid">
 
     {!! Lte3::formOpen([
-        'action' => route('products.update', $product),
-        'model' => $product,
+        'action' => route('categories.store'),
+        'model' => null,
         'files' => true,
-        'method' => 'PATCH'
+        'method' => 'POST'
     ]) !!}
 
-    @include('admin.products.inc.form')
+         @include('admin.categories.inc.form')
 
-    {!! Lte3::select2('attribute', null, $attributes->toArray(), [
-        'label' => 'Атрибут',
-        'placeholder' => 'Оберіть категорію',
-    ]) !!}
-
-    {!! Lte3::btnSubmit('Зберегти') !!}
+         {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
 
     </section>
+    <!-- /.content -->
 @endsection
+
+

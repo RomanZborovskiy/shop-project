@@ -14,18 +14,13 @@
         <div class="container-fluid">
 
     {!! Lte3::formOpen([
-        'action' => route('products.update', $product),
-        'model' => $product,
+        'action' => route('attributes.update', $attribute),
+        'model' => $attribute,
         'files' => true,
         'method' => 'PATCH'
     ]) !!}
 
-    @include('admin.products.inc.form')
-
-    {!! Lte3::select2('attribute', null, $attributes->toArray(), [
-        'label' => 'Атрибут',
-        'placeholder' => 'Оберіть категорію',
-    ]) !!}
+    @include('admin.attributes.inc.form')
 
     {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}

@@ -8,7 +8,6 @@ use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -20,10 +19,12 @@ class ProductController extends Controller
 
     public function create(Product $product)
     {
-        $brands = Brand::all();
-        $categories = Category::where('type', 'product')->pluck('name', 'id');
+        $brands = Brand::all()->pluck('name', 'id');
+        $categories = Category::where('type', 'product');
+
         return view('admin.products.create', compact('brands', 'categories'));
     }
+
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
@@ -36,17 +37,25 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $attributes = collect();
+        $brands = Brand::get();
+        $categories = Category::where('type', 'product');
+        $attributes = Attribute::where('category_id', $product->id)->get();
 
-        $brands = Brand::all();
-        $categories = Category::where('type', 'product')->pluck('name', 'id');
-
-        $categoryId = request('category_id', $product->category_id);
-
-        $attributes = collect();
-        if ($categoryId) {
-            $attributes = Attribute::where('category_id', $categoryId)->get();
-        }
-        //dd($attributes);
         return view('admin.products.edit', compact('brands','product', 'categories','attributes'));
+    }
+
+    public function update(ProductRequest $request, Product $product)  {
+        $data = $request->validated();
+
+        Product::findOrFail($product->id)->update($data);
+
+        return redirect()->route('products.index')->with('success', 'Продукт успішно оновлено!');
+    
+    }
+
+    public function destroy(Product $product){
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success','Продукти видалено');
     }
 }

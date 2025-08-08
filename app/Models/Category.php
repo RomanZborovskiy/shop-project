@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasStaticLists;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, HasStaticLists;
 
     const ARTICLE_TYPE = 'article';
     const PRODUCT_TYPE = 'product';
@@ -25,17 +26,23 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class);
+    }
 
     public static function typesList(string $columnKey = null, string $indexKey = null, array $options = []): array
     {
         $records = [
             [
                 'key' => self::ARTICLE_TYPE,
-                'name' => trans('lists.category_type.' . self::ARTICLE_TYPE . '.name'),
+                //'name' => trans('lists.category_type.' . self::ARTICLE_TYPE . '.name'),
+                'name'=>'article',
             ],
             [
                 'key' => self::PRODUCT_TYPE,
-                'name' => trans('lists.category_type.' . self::PRODUCT_TYPE . '.name'),
+                //'name' => trans('lists.category_type.' . self::PRODUCT_TYPE . '.name'),
+                'name'=>'product'
             ],
         ];
 
