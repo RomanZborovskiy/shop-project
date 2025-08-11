@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Models\Traits\HasStaticLists;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory, HasStaticLists;
+    use HasFactory, HasStaticLists, HasSlug, InteractsWithMedia;
 
     const STATUS_PENDING = 'pending';
     const STATUS_PUBLISHED = 'published';
@@ -21,6 +25,9 @@ class Product extends Model
         'status' => self::STATUS_PENDING,
     ];
 
+    protected $mediaSingleCollections = ['image']; 
+    protected $mediaMultipleCollections = ['images', 'files'];
+
 
     public function brand()
     {
@@ -32,7 +39,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function properyable()
+    public function propertyable()
     {
         return $this->belongsToMany(Propertyable::class);
     }
@@ -45,6 +52,26 @@ class Product extends Model
     public function purchase()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class, 'propertyables');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('products')
+            ->useDisk('public')
+            ->singleFile();
+            
+        $this->addMediaCollection('product_gallery')
+            ->useDisk('public');
     }
 
     /**

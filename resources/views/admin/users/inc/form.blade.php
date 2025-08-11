@@ -43,21 +43,6 @@
             'label' => 'Description',
             'rows' => 3,
         ]) !!}
-
-    {!! Lte3::file('main_image', null, [
-        'label' => 'Головне зображення продукту',
-        'help' => 'Рекомендований розмір: 800x800px. Формати: JPG, PNG, WEBP',
-        'placeholder' => 'Оберіть файл',
-    ]) !!}
-
-    {!! Lte3::file('images[]', null, [
-            'label' => 'Додаткові зображення',
-            'multiple' => true,
-            'help' => 'Можна вибрати кілька файлів'
-        ]) !!}
-
-    
-    
- 
+        
         
           

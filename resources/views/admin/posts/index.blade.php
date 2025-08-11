@@ -36,8 +36,8 @@
                             <td>{{ $post->text }}</td>
                             <td>{{ $post->tags }}</td>
                             <td>
-                                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
+                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-warning">Редагувати</a>
+                                <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Видалити</button>

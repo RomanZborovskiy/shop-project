@@ -34,11 +34,12 @@
                             <td>{{ $product->brand->name ?? '—' }}</td>
                             <td>{{ $product->quantity }}</td>
                             <td>
-                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
+                                <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-warning">Редагувати</a>
+                                <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Видалити</button>
+                                    
                                 </form>
                             </td>
                         </tr>
@@ -50,6 +51,7 @@
                 </tbody>
             </table>
         </div>
+        
 
         <div class="card-footer">
             {{ $products->links('pagination::bootstrap-4') }}
@@ -59,3 +61,22 @@
     </section>
 
 @endsection
+<script>
+document.getElementById('attributeSelect').addEventListener('change', function () {
+  let attributeId = this.value;
+  let valueSelect = document.getElementById('valueSelect');
+
+  fetch(`/admin/attributes/${attributeId}/values`)
+    .then(res => res.json())
+    .then(data => {
+      valueSelect.innerHTML = ''; // очистити попередні
+      data.forEach(function (item) {
+        let option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.value;
+        valueSelect.appendChild(option);
+      });
+      valueSelect.disabled = false;
+    });
+});
+</script>

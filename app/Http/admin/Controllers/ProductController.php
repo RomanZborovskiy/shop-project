@@ -8,9 +8,24 @@ use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Property;
+use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
+    public function addAttribute(Request $request, Product $product)
+    {
+        $request->validate([
+            'attribute_id' => 'required|exists:attributes,id',
+            'attribute_value_id' => 'required|exists:attribute_values,id',
+        ]);
+
+        $product->attributeValues()->attach($request->attribute_value_id);
+
+        return back()->with('success', 'Характеристика додана');
+    }
+    
     public function index()
     {
         $products = Product::with(['brand', 'category'])->paginate(10);
@@ -28,26 +43,64 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
+        
+        $product = Product::create($data);
 
-        Product::create($data);
-
+        if ($request->hasFile('main_image')) {
+            $product->clearMediaCollection('products');
+            $product->addMedia($request->file('main_image'))
+                ->toMediaCollection('products');
+        }
+        
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)
+                    ->toMediaCollection('product_gallery');
+            }
+        }
+        
         return redirect()->route('products.index')->with('success', 'Продукт успішно створено!');
     }
 
-    public function edit(Product $product)
-    {
-        $attributes = collect();
-        $brands = Brand::get();
-        $categories = Category::where('type', 'product');
-        $attributes = Attribute::where('category_id', $product->id)->get();
 
-        return view('admin.products.edit', compact('brands','product', 'categories','attributes'));
+    public function edit(Request $request, Product $product)
+    {
+        $brands = Brand::all();
+        $categories = Category::where('type', 'product')->get();
+        $attributes = Attribute::all();
+
+        $properties = collect();
+        if ($request->filled('attribute_id')) {
+            $properties = Property::where('attribute_id', $request->attribute_id)->get();
+        }
+
+        return view('admin.products.edit', compact(
+            'product',
+            'brands',
+            'categories',
+            'attributes',
+            'properties'
+        ));
     }
 
     public function update(ProductRequest $request, Product $product)  {
         $data = $request->validated();
 
-        Product::findOrFail($product->id)->update($data);
+        $product->findOrFail($product->id)->update($data);
+
+        if ($request->hasFile('main_image')) {
+            $product->clearMediaCollection('products');
+            $product->addMedia($request->file('main_image'))
+                ->toMediaCollection('products');
+        }
+        
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)
+                    ->toMediaCollection('product_gallery');
+            }
+        }
+        dd($product);
 
         return redirect()->route('products.index')->with('success', 'Продукт успішно оновлено!');
     
@@ -57,5 +110,16 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('success','Продукти видалено');
+    }
+
+    public function storeAttribute(Request $request, Product $product)
+    {
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+        ]);
+
+        $product->properties()->attach($request->property_id);
+
+        return redirect()->route('products.index')->with('success', 'Атрибут додано до продукту');
     }
 }

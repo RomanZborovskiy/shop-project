@@ -3,7 +3,6 @@
 namespace App\Http\admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
@@ -36,21 +35,12 @@ class ProductRequest extends FormRequest
                 'string',
                 Rule::unique('products', 'sku')->ignore($productId),
             ],
-            'slug' => [
-                'nullable',
-                'string',
-                Rule::unique('products', 'slug')->ignore($productId),
-            ],
             'status'=>'required',
             'brand_id' => 'nullable|exists:brands,id',
             'category_id' => 'nullable|exists:categories,id',
-        ];
-    }
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
 
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'slug' => $this->input('slug') ?: Str::slug($this->input('name')),
-        ]);
+        ];
     }
 }

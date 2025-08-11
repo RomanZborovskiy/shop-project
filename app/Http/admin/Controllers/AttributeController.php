@@ -9,6 +9,11 @@ use App\Models\Category;
 
 class AttributeController extends Controller
 {
+    public function values(Attribute $attribute)
+    {
+        return response()->json($attribute->values()->select('id', 'value')->get());
+    }
+    
     public function index()
     {
         $attributes = Attribute::with(['category'])->paginate(10);
@@ -41,7 +46,7 @@ class AttributeController extends Controller
 
         Attribute::findOrFail($attribute->id)->update($data);
 
-        return redirect()->route('posts.index')->with('success', 'Атрибут успішно оновлено!');
+        return redirect()->route('attributes.index')->with('success', 'Атрибут успішно оновлено!');
     
     }
 
@@ -49,6 +54,6 @@ class AttributeController extends Controller
     {
         $attribute->delete();
 
-        return redirect()->route('posts.index')->with('success','Атрибут видалено');
+        return redirect()->route('attributes.index')->with('success','Атрибут видалено');
     }
 }

@@ -28,8 +28,8 @@
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->type }}</td>
                             <td>
-                                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
+                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">Редагувати</a>
+                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Видалити</button>

@@ -11,10 +11,13 @@
     "require": {
         "php": "^8.2",
         "fomvasss/laravel-lte3": "^1.82",
+        "fomvasss/laravel-medialibrary-extension": "^6.2",
         "jeroennoten/laravel-adminlte": "^3.15",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "laravel/ui": "^4.6"
+        "laravel/ui": "^4.6",
+        "spatie/laravel-medialibrary": "^11.13",
+        "spatie/laravel-permission": "^6.21"
     },
     "require-dev": {
         "almasaeed2010/adminlte": "^3.2",

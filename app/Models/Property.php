@@ -22,4 +22,9 @@ class Property extends Model
     {
         return $this->hasMany(Propertyable::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'propertyables');
+    }
 }

@@ -3,8 +3,6 @@
 namespace App\Http\admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -28,19 +26,6 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'nullable|string|max:255',
             'type' => 'required|string',
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('posts', 'slug')->ignore($categoryId),
-            ],
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'slug' => $this->input('slug') ?: Str::slug($this->input('name')),
-        ]);
     }
 }

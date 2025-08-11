@@ -44,9 +44,9 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        Product::findOrFail($post->id)->update($data);
+        $post::findOrFail($post->id)->update($data);
 
-        return redirect()->route('posts.index')->with('success', 'Продукт успішно оновлено!');
+        return redirect()->route('posts.index')->with('success', 'Пост успішно оновлено!');
     
     }
 
