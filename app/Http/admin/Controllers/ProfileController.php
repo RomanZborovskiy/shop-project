@@ -2,22 +2,22 @@
 
 namespace App\Http\admin\Controllers;
 
+use App\Http\admin\Requests\ProfileRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     public function show()
     {
-        return view('admin.users.index');
+        return view('admin.profile.index');
     }
-
     public function showPasswordForm()
     {
-        return view('admin.users.confirm-password');
+        return view('admin.profile.confirm-password');
     }
 
     public function confirmPassword(Request $request)
@@ -41,19 +41,14 @@ class UserController extends Controller
             return redirect()->route('profile.confirm.password.form');
         }
 
-        return view('admin.users.edit');
+        return view('admin.profile.edit');
     }
 
-    public function update(Request $request)
+    public function update(ProfileRequest $request)
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'password' => ['nullable', 'confirmed'],
-            'avatar' => ['nullable', 'image', 'max:2048'], 
-        ]);
+        $validated = $request->validated();
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
@@ -63,10 +58,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        if ($request->hasFile('avatar')) {
-
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        }
+        $user->mediaManage($request);
 
         session()->forget('password_confirmed');
 

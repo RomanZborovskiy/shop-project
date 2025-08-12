@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Traits\HasStaticLists;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\Image\Enums\Fit;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\MediaLibrary\Models\Media;
+use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
+use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -40,6 +40,8 @@ class User extends Authenticatable implements HasMedia
         'password',
         'remember_token',
     ];
+
+    protected $mediaSingleCollections = ['avatar']; 
 
     /**
      * Get the attributes that should be cast.
@@ -71,7 +73,7 @@ class User extends Authenticatable implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('avatars')
+        $this->addMediaCollection('avatar')
             ->singleFile(); 
     }
 

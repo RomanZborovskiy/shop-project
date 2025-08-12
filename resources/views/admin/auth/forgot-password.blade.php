@@ -1,4 +1,4 @@
-@extends('admin.auth.app')
+@extends('auth.app')
 
 @section('content')
 <div class="card-body">

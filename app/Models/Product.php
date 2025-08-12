@@ -6,9 +6,9 @@ use App\Models\Traits\HasStaticLists;
 use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Models\Media;
+use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
+use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 
 class Product extends Model implements HasMedia
 {
@@ -25,8 +25,8 @@ class Product extends Model implements HasMedia
         'status' => self::STATUS_PENDING,
     ];
 
-    protected $mediaSingleCollections = ['image']; 
-    protected $mediaMultipleCollections = ['images', 'files'];
+    protected $mediaSingleCollections = ['']; 
+    protected $mediaMultipleCollections = ['images'];
 
 
     public function brand()
@@ -65,11 +65,7 @@ class Product extends Model implements HasMedia
     }
 
     public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('products')
-            ->useDisk('public')
-            ->singleFile();
-            
+    {       
         $this->addMediaCollection('product_gallery')
             ->useDisk('public');
     }

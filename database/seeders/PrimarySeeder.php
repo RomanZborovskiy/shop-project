@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class PrimarySeeder extends Seeder
 {
@@ -13,6 +14,11 @@ class PrimarySeeder extends Seeder
      */
     public function run(): void
     {
+		$superUser = User::updateOrCreate([
+			'name'=> 'SupreAdmin',
+			'email' => 'superadmin@app.com',
+			'password' => bcrypt('password'),
+		]);
         
 	    $users = [
 			[
@@ -40,6 +46,21 @@ class PrimarySeeder extends Seeder
 				['email' => $user['email']], 
 				$user                         
 			);
-		}       
-    }
+		}
+
+		$roles = [
+			['name'=>'SupreAdmin',],
+			['name'=>'admin',],
+			['name'=> 'user',],
+		];
+
+		foreach ($roles as $role) {
+			Role::updateOrCreate(
+				['name'=> $role['name']],
+				$role
+			);
+		}
+
+		$superUser->assignRole('SupreAdmin');
+	}
 }

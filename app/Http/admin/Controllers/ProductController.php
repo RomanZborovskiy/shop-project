@@ -2,13 +2,12 @@
 
 namespace App\Http\admin\Controllers;
 
+use App\Actions\Products\CreateProductAction;
+use App\Actions\Products\GetProductFormDataAction;
+use App\Actions\Products\UpdateProductAction;
 use App\Http\admin\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Attribute;
-use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
-use App\Models\Property;
 use Illuminate\Http\Request;
 
 
@@ -32,81 +31,38 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function create(Product $product)
+    public function create(GetProductFormDataAction $formData)
     {
-        $brands = Brand::all()->pluck('name', 'id');
-        $categories = Category::where('type', 'product');
+         $data = $formData->handle();
 
-        return view('admin.products.create', compact('brands', 'categories'));
+        return view('admin.products.create', $data);
     }
 
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request, CreateProductAction $createProduct)
     {
-        $data = $request->validated();
-        
-        $product = Product::create($data);
-
-        if ($request->hasFile('main_image')) {
-            $product->clearMediaCollection('products');
-            $product->addMedia($request->file('main_image'))
-                ->toMediaCollection('products');
-        }
-        
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $product->addMedia($image)
-                    ->toMediaCollection('product_gallery');
-            }
-        }
+        $createProduct->handle($request->validated(), $request);
         
         return redirect()->route('products.index')->with('success', 'Продукт успішно створено!');
     }
 
 
-    public function edit(Request $request, Product $product)
+    public function edit(Request $request, Product $product, GetProductFormDataAction $formData)
     {
-        $brands = Brand::all();
-        $categories = Category::where('type', 'product')->get();
-        $attributes = Attribute::all();
-
-        $properties = collect();
-        if ($request->filled('attribute_id')) {
-            $properties = Property::where('attribute_id', $request->attribute_id)->get();
-        }
-
-        return view('admin.products.edit', compact(
-            'product',
-            'brands',
-            'categories',
-            'attributes',
-            'properties'
-        ));
+        $data = $formData->handle($request->only('attribute_id'));
+        $data['product'] = $product;
+        return view('admin.products.edit', $data);
     }
 
-    public function update(ProductRequest $request, Product $product)  {
-        $data = $request->validated();
-
-        $product->findOrFail($product->id)->update($data);
-
-        if ($request->hasFile('main_image')) {
-            $product->clearMediaCollection('products');
-            $product->addMedia($request->file('main_image'))
-                ->toMediaCollection('products');
-        }
-        
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $product->addMedia($image)
-                    ->toMediaCollection('product_gallery');
-            }
-        }
-        dd($product);
+    public function update(ProductRequest $request, Product $product, UpdateProductAction $updateProduct)  
+    {
+        $$updateProduct->execute($product, $request->validated(), $request);
 
         return redirect()->route('products.index')->with('success', 'Продукт успішно оновлено!');
     
     }
 
-    public function destroy(Product $product){
+    public function destroy(Product $product)
+    {
         $product->delete();
 
         return redirect()->route('products.index')->with('success','Продукти видалено');
