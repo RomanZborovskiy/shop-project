@@ -9,10 +9,9 @@ class UpdateProductAction
 {
     use AsAction;
 
-    public function handle(Product $product, array $data, $request)
+    public function handle(Product $product, array $data)
     {
         $product->update($data);
-        $product->mediaManage($request);
         return $product;
     }
 }

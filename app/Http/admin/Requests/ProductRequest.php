@@ -39,7 +39,6 @@ class ProductRequest extends FormRequest
             'brand_id' => 'nullable|exists:brands,id',
             'category_id' => 'nullable|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
 
         ];
     }

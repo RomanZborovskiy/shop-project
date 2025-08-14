@@ -25,7 +25,6 @@ class Product extends Model implements HasMedia
         'status' => self::STATUS_PENDING,
     ];
 
-    protected $mediaSingleCollections = ['']; 
     protected $mediaMultipleCollections = ['images'];
 
 

@@ -44,7 +44,7 @@ class AttributeController extends Controller
     {
         $data = $request->validated();
 
-        Attribute::findOrFail($attribute->id)->update($data);
+        Attribute::update($data);
 
         return redirect()->route('attributes.index')->with('success', 'Атрибут успішно оновлено!');
     

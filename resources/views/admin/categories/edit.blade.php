@@ -14,16 +14,26 @@
         <div class="container-fluid">
 
     {!! Lte3::formOpen([
-        'action' => route('categories.edit', $category),
+        'action' => route('categories.update', $category),
         'model' => $category,
         'files' => true,
-        'method' => 'PATCH'
+        'method' => 'PUT'
     ]) !!}
 
-    @include('admin.categories.inc.form')
+        {!! Lte3::text('name', $category->name ?? null, [
+            'label' => 'Назва категорії',
+            'type' => 'text',
+        ]) !!}
+
+        {!! Lte3::select2('parent_id', $product->parent_id ?? null, $categories->toArray(), [
+            'label' => 'Батьківська категорія',
+            'placeholder' => 'Оберіть батьківську категорію',
+        ]) !!}
+
 
     {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
+
 
     </section>
 @endsection

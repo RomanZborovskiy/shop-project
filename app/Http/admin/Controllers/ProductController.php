@@ -2,14 +2,14 @@
 
 namespace App\Http\admin\Controllers;
 
-use App\Actions\Products\CreateProductAction;
-use App\Actions\Products\GetProductFormDataAction;
-use App\Actions\Products\UpdateProductAction;
 use App\Http\admin\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Property;
 use Illuminate\Http\Request;
-
 
 class ProductController extends Controller
 {
@@ -31,31 +31,52 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function create(GetProductFormDataAction $formData)
+    public function create(Product $product)
     {
-         $data = $formData->handle();
+        $brands = Brand::all()->pluck('name', 'id');
+        $categories = Category::where('type', 'product')->get()->toTree();;
 
-        return view('admin.products.create', $data);
+        return view('admin.products.create', compact('brands', 'categories'));
     }
 
-    public function store(ProductRequest $request, CreateProductAction $createProduct)
+    public function store(ProductRequest $request)
     {
-        $createProduct->handle($request->validated(), $request);
+        $data = $request->validated();
+        
+        $product = Product::create($data);
+
+        $product->mediaManage($request);
         
         return redirect()->route('products.index')->with('success', 'Продукт успішно створено!');
     }
 
 
-    public function edit(Request $request, Product $product, GetProductFormDataAction $formData)
+     public function edit(Request $request, Product $product)
     {
-        $data = $formData->handle($request->only('attribute_id'));
-        $data['product'] = $product;
-        return view('admin.products.edit', $data);
+        $brands = Brand::all();
+        $categories = Category::where('type', 'product')->get();
+        $attributes = Attribute::all();
+
+        $properties = collect();
+        if ($request->filled('attribute_id')) {
+            $properties = Property::where('attribute_id', $request->attribute_id)->get();
+        }
+
+        return view('admin.products.edit', compact(
+            'product',
+            'brands',
+            'categories',
+            'attributes',
+            'properties'
+        ));
     }
 
-    public function update(ProductRequest $request, Product $product, UpdateProductAction $updateProduct)  
-    {
-        $$updateProduct->execute($product, $request->validated(), $request);
+    public function update(ProductRequest $request, Product $product)  {
+        $data = $request->validated();
+
+        $product->update($data);
+
+        $product->mediaManage($request);
 
         return redirect()->route('products.index')->with('success', 'Продукт успішно оновлено!');
     

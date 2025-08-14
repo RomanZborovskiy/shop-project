@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             PropertySeeder::class,
             PrimarySeeder::class,
+            TaxonomySeeder::class,
         ]);
 
     }

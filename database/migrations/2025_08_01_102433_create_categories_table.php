@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('type')->nullable();
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('_lft')->default(0);
+            $table->unsignedBigInteger('_rgt')->default(0);
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
+
+            $table->index(['_lft', '_rgt', 'parent_id']);
         });
     }
 

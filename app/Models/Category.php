@@ -6,11 +6,12 @@ use App\Models\Traits\HasStaticLists;
 use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Kalnoy\Nestedset\NodeTrait;
 
 
 class Category extends Model
 {
-    use HasFactory, HasStaticLists, HasSlug;
+    use HasFactory, HasStaticLists, HasSlug, NodeTrait;
 
     const ARTICLE_TYPE = 'article';
     const PRODUCT_TYPE = 'product';

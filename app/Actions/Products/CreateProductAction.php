@@ -9,10 +9,8 @@ class CreateProductAction
 {
     use AsAction;
 
-    public function handle(array $data, $request)
+    public function handle(array $data)
     {
-        $product = Product::create($data);
-        $product->mediaManage($request);
-        return $product;
+        return Product::create($data);
     }
 }

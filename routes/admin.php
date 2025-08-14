@@ -2,6 +2,7 @@
 
 use App\Http\admin\Controllers\AttributeController;
 use App\Http\admin\Controllers\CategoryController;
+use App\Http\admin\Controllers\OrderController;
 use App\Http\admin\Controllers\PostController;
 use App\Http\admin\Controllers\ProductController;
 use App\Http\admin\Controllers\ProfileController;
@@ -18,7 +19,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('products/{product}/add-attribute', [ProductController::class, 'storeAttribute'])->name('products.storeAttribute');
     Route::resource('posts',PostController::class)->except('show');
     Route::resource('categories',CategoryController::class)->except('show');
+    Route::post('/categories/move', [CategoryController::class, 'move'])->name('categories.move');
     Route::resource('attributes',AttributeController::class)->except('show');
+    Route::resource('orders', OrderController::class)->except('show');
 
     Route::get('roles',[RoleController::class, 'index'])->name('roles.index');
     Route::get('/roles/{user}/edit', [RoleController::class, 'edit'])->name('roles.edit');

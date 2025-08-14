@@ -1,6 +1,37 @@
 @extends('admin.layouts.app')
 
 @section('content')
+<div class="container">
+    <h2>Нова категорія</h2>
+    {!! Lte3::formOpen([
+        'action' => route('categories.store'),
+        'model' => null,
+        'files' => true,
+        'method' => 'POST'
+    ]) !!}
+
+        {!! Lte3::text('name', $category->name ?? null, [
+            'label' => 'Назва категорії',
+            'type' => 'text',
+        ]) !!}
+
+        {!! Lte3::select2('parent_id', $category->parent_id->name ?? null, $categories->toArray(), [
+            'label' => 'Батьківська категорія',
+            'placeholder' => 'Оберіть Батьківську категорію',
+        ]) !!}
+
+
+    {!! Lte3::btnSubmit('Зберегти') !!}
+    {!! Lte3::formClose() !!}
+
+</div>
+@endsection
+
+
+
+{{-- @extends('admin.layouts.app')
+
+@section('content')
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -27,6 +58,6 @@
 
     </section>
     <!-- /.content -->
-@endsection
+@endsection --}}
 
 

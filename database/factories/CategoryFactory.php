@@ -21,7 +21,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => ucfirst($name),
-            'type' => $this->faker->randomElement(['product', 'article', 'service']),
+            'type' => $this->faker->randomElement(['product', 'article']),
             'slug' => Str::slug($name) . '-' . Str::random(5),
         ];
     }

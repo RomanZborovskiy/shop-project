@@ -1,4 +1,29 @@
+
+
+
 @extends('admin.layouts.app')
+
+@section('content')
+<div class="container">
+    <h2>Категорії</h2>
+    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Додати категорію</a>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <ul>
+        @foreach($categories as $category)
+            @include('admin.categories.node', ['category' => $category])
+        @endforeach
+    </ul>
+</div>
+@endsection
+
+
+
+
+{{-- @extends('admin.layouts.app')
 
 @section('content')
 <section class="content">
@@ -52,4 +77,4 @@
 </div>
     </section>
 
-@endsection
+@endsection --}}

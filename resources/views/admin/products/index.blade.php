@@ -16,6 +16,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Фото</th>
                         <th>Назва</th>
                         <th>Ціна</th>
                         <th>Категорія</th>
@@ -28,6 +29,14 @@
                     @forelse($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
+                            <td>
+                                @if($product->hasMedia('images'))
+                                    <img src="{{ $product->getFirstMediaUrl('images', 'thumb') }}"  
+                                        width="50" height="50">
+                                @else
+                                    <span>—</span>
+                                @endif
+                            </td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->price }} грн</td>
                             <td>{{ $product->category->name ?? '—' }}</td>
@@ -69,7 +78,7 @@ document.getElementById('attributeSelect').addEventListener('change', function (
   fetch(`/admin/attributes/${attributeId}/values`)
     .then(res => res.json())
     .then(data => {
-      valueSelect.innerHTML = ''; // очистити попередні
+      valueSelect.innerHTML = ''; 
       data.forEach(function (item) {
         let option = document.createElement('option');
         option.value = item.id;
