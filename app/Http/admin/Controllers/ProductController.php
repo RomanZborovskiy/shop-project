@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Property;
+use App\Models\Term;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -34,17 +35,16 @@ class ProductController extends Controller
     public function create(Product $product)
     {
         $brands = Brand::all()->pluck('name', 'id');
-        $categories = Category::where('type', 'product')->get()->toTree();;
-
-        return view('admin.products.create', compact('brands', 'categories'));
+        return view('admin.products.create', compact('brands'));
     }
 
     public function store(ProductRequest $request)
     {
-        $data = $request->validated();
+         $data = $request->validated();
+    
+        $data['category_id'] = $request->subcategory_id ?? $request->category_id;
         
         $product = Product::create($data);
-
         $product->mediaManage($request);
         
         return redirect()->route('products.index')->with('success', 'Продукт успішно створено!');
@@ -98,5 +98,33 @@ class ProductController extends Controller
         $product->properties()->attach($request->property_id);
 
         return redirect()->route('products.index')->with('success', 'Атрибут додано до продукту');
+    }
+
+    public function suggest(Request $request)
+    {
+        $request->validate([
+            'parent_id' => 'nullable|integer|exists:terms,id',
+            'term' => 'nullable|string|max:255',
+        ]);
+
+        \Log::info('Suggest request:', $request->all());
+
+        $query = Term::where('vocabulary', 'categories')
+                    ->when($request->term, function($q) use ($request) {
+                        $q->where('name', 'like', "%{$request->term}%");
+                    });
+
+        if ($request->has('parent_id') && $request->parent_id) {
+            \Log::info('Filtering by parent_id:', ['parent_id' => $request->parent_id]);
+            $query->where('parent_id', $request->parent_id);
+        } else {
+            \Log::info('Fetching root categories');
+            $query->whereNull('parent_id');
+        }
+
+        $results = $query->get()->map(fn($term) => ['id' => $term->id, 'text' => $term->name])->values();
+        \Log::info('Suggest results for parent_id: ' . ($request->parent_id ?? 'null'), ['results' => $results]);
+
+        return response()->json(['results' => $results]);
     }
 }

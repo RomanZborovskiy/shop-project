@@ -2,8 +2,8 @@
 
 namespace App\Http\admin\Controllers;
 
+use App\Http\admin\Requests\CategoryRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Term;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Term::where('vocabulary', 'categories')->defaultOrder()->get()->toTree();
+        $categories = Term::whereIn('vocabulary', ['categories','articles'])->defaultOrder()->get()->toTree();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -21,13 +21,9 @@ class CategoryController extends Controller
         return view('admin.categories.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validate([
-            'name'      => 'required|string|max:255',
-            'slug'      => 'nullable|string|unique:terms,slug',
-            'parent_id' => 'nullable|exists:terms,id',
-        ]);
+        $data = $request->validated();
 
         $data['vocabulary'] = 'categories';
 
@@ -46,13 +42,9 @@ class CategoryController extends Controller
         return view('admin.categories.edit', compact('category', 'categories'));
     }
 
-    public function update(Request $request, Term $category)
+    public function update(CategoryRequest $request, Term $category)
     {
-        $data = $request->validate([
-            'name'      => 'required|string|max:255',
-            'slug'      => 'nullable|string|unique:terms,slug,' . $category->id,
-            'parent_id' => 'nullable|exists:terms,id',
-        ]);
+        $data = $request->validated();
 
         $category->update($data);
 

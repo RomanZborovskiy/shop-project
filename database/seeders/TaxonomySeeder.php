@@ -66,6 +66,20 @@ class TaxonomySeeder extends Seeder
                     ],
                 ],
             ],
+            //ARTICLE
+            [
+                'vocabulary' => 'articles',
+                'terms' => [
+                    [
+                        'name' => 'Nature',
+                        'terms' => ['Eath', 'Sky', 'Wather'],
+                    ],
+                    [
+                        'name' => 'Electronix',
+                        'terms' => ['Washengnashines', 'Phones'],
+                    ],
+                ],
+            ],
 
         ]);
     }

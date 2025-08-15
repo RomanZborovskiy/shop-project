@@ -9,11 +9,9 @@ use App\Http\admin\Controllers\ProfileController;
 use App\Http\admin\Controllers\RoleController;
 use App\Http\admin\Controllers\UserController;
 
-
-
 Route::view('admin', 'admin.examples.blank');
 
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware(['auth','admin.panel'])->prefix('admin')->group(function () {
 
     Route::resource('products',ProductController::class)->except('show');
     Route::post('products/{product}/add-attribute', [ProductController::class, 'storeAttribute'])->name('products.storeAttribute');
@@ -33,6 +31,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/profile/confirm-password', [ProfileController::class, 'confirmPassword'])->name('profile.confirm.password');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
 });
 
 
+Route::get('/categories/suggest', [ProductController::class, 'suggest'])
+    ->name('lte3.categories.suggest');

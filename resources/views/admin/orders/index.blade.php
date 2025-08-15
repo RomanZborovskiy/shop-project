@@ -6,9 +6,6 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Замовлення</h3>
-            <div class="card-tools">
-                <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
-            </div>
         </div>
 
         <div class="card-body table-responsive p-0">
