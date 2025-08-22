@@ -6,17 +6,16 @@
 @section('content')
 <div class="container">
     <h2>Категорії</h2>
-    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Додати категорію</a>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <ul>
-        @foreach($categories as $category)
-            @include('admin.categories.node', ['category' => $category])
-        @endforeach
-    </ul>
+    {!! Lte3::nestedset($categories, [
+        'label' => 'Категорії',
+        'has_nested' => $vocabulary['has_hierarchy'],
+        'routes' => [
+            'edit'   => \Illuminate\Support\Arr::get($vocabulary, 'permissions.update') === false ? null : 'admin.categories.edit',
+            'create' => \Illuminate\Support\Arr::get($vocabulary, 'permissions.create') === false ? null : 'admin.categories.create',
+            'delete' => \Illuminate\Support\Arr::get($vocabulary, 'permissions.delete') === false ? null : 'admin.categories.destroy',
+            'order'  => \Illuminate\Support\Arr::get($vocabulary, 'permissions.update') === false ? null : 'admin.categories.order',
+        ],
+    ]) !!}
 </div>
 @endsection
 

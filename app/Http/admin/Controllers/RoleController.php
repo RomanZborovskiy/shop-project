@@ -10,10 +10,11 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {   
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->paginate(10);
-        $roles = Role::all();
+        $users = User::with('roles')->filter($request)->paginate(10);
+
+        $roles = Role::pluck('name', 'name');;
 
         return view('admin.roles.index', compact('users', 'roles'));
     }

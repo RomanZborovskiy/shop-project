@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -32,5 +33,20 @@ class ProductFactory extends Factory
             'brand_id' => Brand::inRandomOrder()->value('id'),
             'category_id' => Category::inRandomOrder()->value('id'),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Product $product) {
+            $services = [
+                'https://picsum.photos/600/600?random=' . rand(1, 1000),
+            ];
+
+            $url = $services[array_rand($services)];
+
+            $product
+                ->addMediaFromUrl($url)
+                ->toMediaCollection('images');
+        });
     }
 }

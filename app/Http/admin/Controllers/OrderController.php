@@ -2,6 +2,7 @@
 
 namespace App\Http\admin\Controllers;
 
+use App\Events\ConfirmOrder;
 use App\Http\admin\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -38,6 +39,8 @@ class OrderController extends Controller
         foreach ($data['purchases'] as $purchase) {
             $order->purchases()->create($purchase);
         }
+
+        ConfirmOrder::dispatch($order);
 
         return redirect()->route('orders.index')->with('success', 'Замовлення оновлено');
     }

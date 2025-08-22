@@ -4,21 +4,24 @@
 <div class="container">
     <h2>Нова категорія</h2>
     {!! Lte3::formOpen([
-        'action' => route('categories.store'),
+        'action' => route('admin.categories.store'),
         'model' => null,
         'files' => true,
         'method' => 'POST'
     ]) !!}
 
-        {!! Lte3::text('name', $category->name ?? null, [
-            'label' => 'Назва категорії',
-            'type' => 'text',
-        ]) !!}
+    {!! Lte3::text('name', null, [
+        'label' => 'Назва категорії',
+        'required' => true
+    ]) !!}
 
-        {!! Lte3::select2('parent_id', $category->parent_id->name ?? null, $categories->toArray(), [
+    {!! Lte3::select2('parent_id', null, 
+        \App\Models\Term::pluck('name', 'id')->toArray(),
+        [
             'label' => 'Батьківська категорія',
-            'placeholder' => 'Оберіть Батьківську категорію',
-        ]) !!}
+            'placeholder' => '— Без батьківської —',
+        ]
+    ) !!}
 
 
     {!! Lte3::btnSubmit('Зберегти') !!}

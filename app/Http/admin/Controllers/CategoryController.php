@@ -9,53 +9,118 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+public function index()
     {
-        $categories = Term::whereIn('vocabulary', ['categories','articles'])->defaultOrder()->get()->toTree();
-        return view('admin.categories.index', compact('categories'));
+        $categories = Term::defaultOrder()->get()->toTree();
+
+        $vocabulary = [
+            'has_hierarchy' => true,
+            'permissions' => [
+                'create' => true,
+                'update' => true,
+                'delete' => true,
+            ],
+        ];
+
+        return view('admin.categories.index', compact('categories', 'vocabulary'));
     }
 
     public function create()
     {
-        $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
-        return view('admin.categories.create', compact('categories'));
+        return view('admin.categories.create');
     }
 
-    public function store(CategoryRequest $request)
+   public function store(Request $request)
     {
-        $data = $request->validated();
+        $term = new Term([
+            'name'       => $request->name,
+            'vocabulary' => 'categories',
+        ]);
 
-        $data['vocabulary'] = 'categories';
+        if ($request->filled('parent_id')) {
+            $parent = Term::findOrFail($request->parent_id);
+            $term->appendToNode($parent)->save();
+        } else {
+            $term->saveAsRoot();
+        }
 
-        Term::create($data);
-
-        return redirect()->route('categories.index')->with('success', 'Категорія створена');
+        return redirect()->route('admin.categories.index');
     }
 
-    public function edit(Term $category)
+    public function edit(Term $term)
     {
-        $categories = Term::where('vocabulary', 'categories')
-            ->where('id', '!=', $category->id) 
-            ->pluck('name', 'id');
-
-
-        return view('admin.categories.edit', compact('category', 'categories'));
+        return view('admin.categories.edit', compact('term'));
     }
 
-    public function update(CategoryRequest $request, Term $category)
+    public function update(Request $request, Term $term)
     {
-        $data = $request->validated();
-
-        $category->update($data);
-
-        return redirect()->route('categories.index')->with('success', 'Категорія оновлена');
+        $term->update($request->only('name', 'parent_id'));
+        return redirect()->route('admin.categories.index');
     }
 
-    public function destroy(Term $category)
+    public function destroy(Term $term)
     {
-        $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Категорія видалена');
+        $term->delete();
+        return redirect()->route('admin.categories.index');
     }
+
+    public function order(Request $request)
+    {
+        $nodeList = $request->input('order', []);
+         \Log::info($request);
+
+        Term::rebuildTree($nodeList, false);
+
+        return response()->json(['status' => 'ok']);
+    }
+}
+    // public function index()
+    // {
+    //     $categories = Term::whereIn('vocabulary', ['categories','articles'])->defaultOrder()->get()->toTree();
+    //     return view('admin.categories.index', compact('categories'));
+    // }
+
+    // public function create()
+    // {
+    //     $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
+    //     return view('admin.categories.create', compact('categories'));
+    // }
+
+    // public function store(CategoryRequest $request)
+    // {
+    //     $data = $request->validated();
+
+    //     $data['vocabulary'] = 'categories';
+
+    //     Term::create($data);
+
+    //     return redirect()->route('categories.index')->with('success', 'Категорія створена');
+    // }
+
+    // public function edit(Term $category)
+    // {
+    //     $categories = Term::where('vocabulary', 'categories')
+    //         ->where('id', '!=', $category->id) 
+    //         ->pluck('name', 'id');
+
+
+    //     return view('admin.categories.edit', compact('category', 'categories'));
+    // }
+
+    // public function update(CategoryRequest $request, Term $category)
+    // {
+    //     $data = $request->validated();
+
+    //     $category->update($data);
+
+    //     return redirect()->route('categories.index')->with('success', 'Категорія оновлена');
+    // }
+
+    // public function destroy(Term $category)
+    // {
+    //     $category->delete();
+    //     return redirect()->route('categories.index')->with('success', 'Категорія видалена');
+    // }
 
     // public function index()
     // {
@@ -97,4 +162,4 @@ class CategoryController extends Controller
 
     //     return redirect()->route('posts.index')->with('success','Категорію видалено');
     // }
-}
+

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasSlug;
+///use Kalnoy\Nestedset\NodeTrait;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 {
@@ -14,7 +15,10 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 
     protected $attributes = [
         'weight' => 10000,
+        'vocabulary'=>self::VOCABULARY_CATEGORIES,
     ];
+
+    
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
@@ -48,5 +52,10 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
         ];
 
         return self::staticListBuild($records, $columnKey, $indexKey);
+    }
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

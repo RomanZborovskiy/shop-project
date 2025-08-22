@@ -7,6 +7,7 @@
         <div class="card-header">
             <h3 class="card-title">Ролі користувачів</h3>
         </div>
+        @include('admin.roles.inc.filter')
 
         <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -15,6 +16,7 @@
                         <th>ID</th>
                         <th>Ім'я</th>
                         <th>email</th>
+                        <th>Дата реєстрації</th>
                         <th>Роль</th>
                         <th>Дії</th>
                     </tr>
@@ -24,7 +26,8 @@
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }} грн</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->created_at }}</td>
                             <td>{{ $user->getRoleNames()->implode(', ') ?: '—' }}</td>
                             <td>
                                 <a href="{{ route('roles.edit', $user->id) }}" class="btn btn-sm btn-warning">Редагувати</a>

@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'turbosms' => [
+        'api_token'       => env('TURBOSMS_API_TOKEN'),
+        'sender'          => env('TURBOSMS_SENDER', 'TAXI'),
+        'is_test'         => env('TURBOSMS_IS_TEST', false),
+        'timeout'         => env('TURBOSMS_TIMEOUT', 30),
+        'connect_timeout' => env('TURBOSMS_CONNECT_TIMEOUT', 30),
+    ],
+
 ];

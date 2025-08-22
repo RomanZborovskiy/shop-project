@@ -6,10 +6,13 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Продукти</h3>
-            <div class="card-tools">
+            <div class="card-tools">                 
                 <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
             </div>
         </div>
+
+
+        @include('admin.products.inc.filter')
 
         <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -60,6 +63,18 @@
                 </tbody>
             </table>
         </div>
+        <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <label for="file">Оберіть Excel файл:</label>
+    <input type="file" name="file" id="file" accept=".xlsx,.xls,.csv" required>
+    <button type="submit">Імпортувати</button>
+</form>
+<form action="{{ route('products.export') }}" method="GET">
+    @csrf
+    <button type="submit" class="btn btn-success">
+        Експортувати продукти
+    </button>
+</form>
         
 
         <div class="card-footer">

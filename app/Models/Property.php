@@ -13,7 +13,7 @@ class Property extends Model
         'id',
     ];
 
-    public function attributes()
+    public function attribute()
     {
         return $this->belongsTo(Attribute::class);
     }

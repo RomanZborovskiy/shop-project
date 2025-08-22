@@ -3,24 +3,11 @@
             'placeholder' => 'Оберіть бренд',
         ]) !!}
 
-
-         {{-- {!! Lte3::select2('category_id', $product->category_id ?? null, $categories->pluck('name', 'id')->toArray(), [
-                'label' => 'Категорія',
-            ]) !!} --}}
-
-        {!! Lte3::select2('category_id', null, [], [
-            'label' => 'Батьківська категорія',
-            'url_suggest' => route('lte3.categories.suggest'),
-            'placeholder' => 'Оберіть батьківську категорію'
+        {!! Lte3::select2('category_id', $product->category_id ?? null, $categories->toArray(), [
+            'label' => 'Категорія',
+            'placeholder' => 'Оберіть категорію ',
         ]) !!}
-
-        {!! Lte3::select2('subcategory_id', null, [], [
-            'label' => 'Підкатегорія',
-            'url_suggest' => route('lte3.categories.suggest'),
-            'disabled' => true,
-            'placeholder' => 'Спочатку оберіть батьківську категорію'
-        ]) !!}
-
+        
         {!! Lte3::text('name', $product->name ?? null, [
             'label' => 'Назва продукту',
             'type' => 'text',

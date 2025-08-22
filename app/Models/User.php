@@ -82,6 +82,11 @@ class User extends Authenticatable implements HasMedia
         return $this->getFirstMediaUrl('avatars') ?: null;
     }
 
+    public function routeNotificationForTurboSMS()
+    {
+        return $this->phone;
+    }
+
     public static function statusList(string $columnKey = null, string $indexKey = null, array $options = []): array
     {
         $records = [
@@ -98,5 +103,50 @@ class User extends Authenticatable implements HasMedia
         ];
 
         return self::staticListBuild($records, $columnKey, $indexKey, $options);
+    }
+
+
+     // фільтрувіання та сортування
+    public function scopeFilterNameEmail($query, $search)
+    {
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            });
+        }
+    }
+
+    public function scopeFilterRoles($query, $roles)
+    {
+        if (!empty($roles)) {
+            $query->whereHas('roles', function ($q) use ($roles) {
+                $q->whereIn('name', (array) $roles);
+            });
+        }
+    }
+
+    public function scopeFilterDate($query, $date)
+    {
+        if (!empty($date)) {
+            $query->whereDate('created_at', $date);
+        }
+    }
+
+    public function scopeSortBy($query, $sortBy, $direction)
+    {
+        if (!empty($sortBy)) {
+            $direction = $direction === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($sortBy, $direction);
+        }
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        return $query
+            ->filterNameEmail($request->input('search'))
+            ->filterRoles($request->input('roles'))
+            ->filterDate($request->input('registered_at'))
+            ->sortBy($request->input('sort_by'), $request->input('direction'));
     }
 }

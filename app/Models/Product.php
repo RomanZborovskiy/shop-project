@@ -35,7 +35,7 @@ class Product extends Model implements HasMedia
 
     public function category()
     {
-        return $this->belongsTo(Term::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     public function propertyable()
@@ -92,4 +92,54 @@ class Product extends Model implements HasMedia
         return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
 
+    public function scopeFilterName($query, $name)
+    {
+        if (!empty($name)) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+    }
+     // 💰 Фільтр по ціні (від-до)
+    public function scopeFilterPrice($query, $from, $to)
+    {
+        if (!empty($from)) {
+            $query->where('price', '>=', $from);
+        }
+        if (!empty($to)) {
+            $query->where('price', '<=', $to);
+        }
+    }
+
+    // фільтрування та пощук
+    public function scopeFilterCategory($query, $categoryId)
+    {
+        if (!empty($categoryId)) {
+            $query->where('category_id', $categoryId);
+        }
+    }
+
+    public function scopeFilterHasImages($query, $hasImages)
+    {
+        if ($hasImages === '1') {
+            $query->whereHas('media', fn($q) => $q->where('collection_name', 'images'));
+        } elseif ($hasImages === '0') {
+            $query->whereDoesntHave('media', fn($q) => $q->where('collection_name', 'images'));
+        }
+    }
+
+    public function scopeSortBy($query, $sortBy, $direction = 'asc')
+    {
+        if (in_array($sortBy, ['name', 'price', 'sku'])) {
+            $query->orderBy($sortBy, $direction);
+        }
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        return $query
+            ->filterName($request->name ?? null)
+            ->filterPrice($request->price_from ?? null, $request->price_to ?? null)
+            ->filterCategory($request->category_id ?? null)
+            ->filterHasImages($request->has_images ?? null)
+            ->sortBy($request->sort_by ?? null, $request->direction ?? 'asc');
+    }
 }
