@@ -91,14 +91,14 @@ class Product extends Model implements HasMedia
 
         return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
-
+    // фільтрування та пощук
     public function scopeFilterName($query, $name)
     {
         if (!empty($name)) {
             $query->where('name', 'like', '%' . $name . '%');
         }
     }
-     // 💰 Фільтр по ціні (від-до)
+
     public function scopeFilterPrice($query, $from, $to)
     {
         if (!empty($from)) {
@@ -109,7 +109,7 @@ class Product extends Model implements HasMedia
         }
     }
 
-    // фільтрування та пощук
+
     public function scopeFilterCategory($query, $categoryId)
     {
         if (!empty($categoryId)) {
