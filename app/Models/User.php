@@ -107,46 +107,33 @@ class User extends Authenticatable implements HasMedia
 
 
      // фільтрувіання та сортування
-    public function scopeFilterNameEmail($query, $search)
+    public function scopeFilter($query, array $filters = [])
     {
-        if (!empty($search)) {
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%");
+                ->orWhere('email', 'like', "%$search%");
             });
         }
-    }
 
-    public function scopeFilterRoles($query, $roles)
-    {
-        if (!empty($roles)) {
+        if (!empty($filters['roles'])) {
+            $roles = (array) $filters['roles'];
             $query->whereHas('roles', function ($q) use ($roles) {
-                $q->whereIn('name', (array) $roles);
+                $q->whereIn('name', $roles);
             });
         }
-    }
 
-    public function scopeFilterDate($query, $date)
-    {
-        if (!empty($date)) {
-            $query->whereDate('created_at', $date);
+        if (!empty($filters['registered_at'])) {
+            $query->whereDate('created_at', $filters['registered_at']);
         }
-    }
 
-    public function scopeSortBy($query, $sortBy, $direction)
-    {
-        if (!empty($sortBy)) {
-            $direction = $direction === 'desc' ? 'desc' : 'asc';
-            $query->orderBy($sortBy, $direction);
+
+        if (!empty($filters['sort_by'])) {
+            $direction = strtolower($filters['direction'] ?? 'asc') === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($filters['sort_by'], $direction);
         }
-    }
 
-    public function scopeFilter($query, $request)
-    {
-        return $query
-            ->filterNameEmail($request->input('search'))
-            ->filterRoles($request->input('roles'))
-            ->filterDate($request->input('registered_at'))
-            ->sortBy($request->input('sort_by'), $request->input('direction'));
+        return $query;
     }
 }

@@ -4,18 +4,19 @@ namespace App\Jobs;
 
 use App\Mail\LeadMessageMail;
 use App\Models\Lead;
-use App\Models\LeadMessage;
+use App\Models\Mailing;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Bus\Dispatchable;
+
 class SendLeadMessageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public LeadMessage $mailing) {}
+    public function __construct(public Mailing $mailing) {}
 
     public function handle(): void
     {

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lead_messages', function (Blueprint $table) {
+        Schema::create('mailings', function (Blueprint $table) {
             $table->id();
             $table->string('subject');
             $table->text('body');                      
             $table->json('filters')->nullable();       
             $table->timestamp('scheduled_at')->nullable();
-            $table->enum('status', ['pending','processing','done']);
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lead_messages');
+        Schema::dropIfExists('mailings');
     }
 };

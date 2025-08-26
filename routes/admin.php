@@ -4,7 +4,7 @@ use App\Http\admin\Controllers\AttributeController;
 use App\Http\admin\Controllers\CategoryController;
 use App\Http\admin\Controllers\DashboardController;
 use App\Http\admin\Controllers\LeadController;
-use App\Http\admin\Controllers\LeadMessageController;
+use App\Http\admin\Controllers\MailingController;
 use App\Http\admin\Controllers\OrderController;
 use App\Http\admin\Controllers\PostController;
 use App\Http\admin\Controllers\ProductController;
@@ -23,13 +23,14 @@ Route::prefix('admin')->group(function () {
 
     Route::resource('posts',PostController::class)->except('show');
     Route::resource('categories',CategoryController::class)->except('show');
-    Route::post('/categories/move', [CategoryController::class, 'move'])->name('categories.move');
+    Route::post('/categories/order', [CategoryController::class, 'order'])->name('categories.order');
+
     Route::resource('attributes',AttributeController::class)->except('show');
     Route::resource('orders', OrderController::class)->except('show');
 
     Route::prefix('leads')->group(function () {
         Route::get('/', [LeadController::class,'index'])->name('leads.index');
-        Route::resource('lead-messages', LeadMessageController::class)->except('show');
+        Route::resource('mailings', MailingController::class)->except('show');
     });
 
     Route::get('roles',[RoleController::class, 'index'])->name('roles.index');
@@ -59,6 +60,6 @@ Route::name('admin.')->group(function () {
     Route::post('categories/order', [CategoryController::class, 'order'])->name('categories.order');
 });
 
-Route::get('/mailings', [LeadMessageController::class, 'index'])->name('mailings.index');
-Route::get('/mailings/create', [LeadMessageController::class, 'create'])->name('mailings.create');
-Route::post('/mailings', [LeadMessageController::class, 'store'])->name('mailings.store');
+// Route::get('/mailings', [LeadMessageController::class, 'index'])->name('mailings.index');
+// Route::get('/mailings/create', [LeadMessageController::class, 'create'])->name('mailings.create');
+// Route::post('/mailings', [LeadMessageController::class, 'store'])->name('mailings.store');

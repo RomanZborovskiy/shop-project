@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasSlug;
+use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,8 +19,4 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
     
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 }

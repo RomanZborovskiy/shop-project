@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\HasSlug;
+use App\Models\Traits\HasSlug
+
+;
 ///use Kalnoy\Nestedset\NodeTrait;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 {
-    use HasSlug;
+    //use HasSlug;
     // NEXT RELATIONS, METHODS IS EXAMPLES, YOU CAN DELETE IT:
 
     const VOCABULARY_TAGS = 'tags';
@@ -54,8 +56,4 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
         return self::staticListBuild($records, $columnKey, $indexKey);
     }
     
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 }

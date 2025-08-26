@@ -67,9 +67,12 @@ public function index()
     public function order(Request $request)
     {
         $nodeList = $request->input('order', []);
-         \Log::info($request);
 
-        Term::rebuildTree($nodeList, false);
+        \Log::info('Payload для reorder:', $nodeList);
+
+        if (!empty($nodeList)) {
+            Term::rebuildTree($nodeList, true); 
+        }
 
         return response()->json(['status' => 'ok']);
     }

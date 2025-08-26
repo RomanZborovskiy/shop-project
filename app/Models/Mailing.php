@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LeadMessage extends Model
+class Mailing extends Model
 {
     protected $guarded = [
         'id',

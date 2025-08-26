@@ -41,7 +41,11 @@
                                 @endif
                             </td>
                             <td>{{ $product->name }}</td>
-                            <td>{{ $product->price }} грн</td>
+                            <td>
+                                @foreach($product->prices as $currency => $price)
+                                    <div>{{ $price }} {{ $currency }}</div>
+                                @endforeach
+                            </td>
                             <td>{{ $product->category->name ?? '—' }}</td>
                             <td>{{ $product->brand->name ?? '—' }}</td>
                             <td>{{ $product->quantity }}</td>

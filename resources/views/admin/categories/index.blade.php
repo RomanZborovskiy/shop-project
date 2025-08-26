@@ -10,10 +10,10 @@
         'label' => 'Категорії',
         'has_nested' => $vocabulary['has_hierarchy'],
         'routes' => [
-            'edit'   => \Illuminate\Support\Arr::get($vocabulary, 'permissions.update') === false ? null : 'admin.categories.edit',
-            'create' => \Illuminate\Support\Arr::get($vocabulary, 'permissions.create') === false ? null : 'admin.categories.create',
-            'delete' => \Illuminate\Support\Arr::get($vocabulary, 'permissions.delete') === false ? null : 'admin.categories.destroy',
-            'order'  => \Illuminate\Support\Arr::get($vocabulary, 'permissions.update') === false ? null : 'admin.categories.order',
+            'edit'   => $vocabulary['permissions']['update'] ? 'admin.categories.edit'   : null,
+            'create' => $vocabulary['permissions']['create'] ? 'admin.categories.create' : null,
+            'delete' => $vocabulary['permissions']['delete'] ? 'admin.categories.destroy': null,
+            'order'  => $vocabulary['permissions']['update'] ? 'categories.order' : null,
         ],
     ]) !!}
 </div>

@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
 
 
@@ -14,11 +15,15 @@ class DashboardController extends Controller
 {   
     public function index()
     {
-        $products = Product::count();
-        $orders = Order::count();
-        $leads = Lead::count();
-        $users = User::role('user')->count();
+        $stats = Cache::get('dashboard_stats', [
+            'productsCount' => 0,
+            'ordersCount' => 0,
+            'leadsCount' => 0,
+            'clientsCount'  => 0,
+        ]);
 
-        return view('admin.dashboard.index', compact('products','orders', 'leads' ,'users'));
+        $latestOrders = Order::with('user')->latest()->take(20)->get();
+
+        return view('admin.dashboard.index', compact('stats','latestOrders'));
     }
 }

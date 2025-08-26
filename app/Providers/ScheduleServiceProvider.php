@@ -20,6 +20,6 @@ class ScheduleServiceProvider extends ServiceProvider
      */
     public function boot(Schedule $schedule): void
     {
-        $schedule->command('sendemail:process')->everyMinute();
+        //
     }
 }

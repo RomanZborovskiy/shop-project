@@ -6,7 +6,7 @@
     <div class="card">
         <h1>Ліди</h1>
         <div class="card-tools">
-            <a href="{{ route('lead-messages.index') }}" class="btn btn-primary btn-sm">Додати розсилку</a>
+            <a href="{{ route('mailings.index') }}" class="btn btn-primary btn-sm">Додати розсилку</a>
         </div>
 
         <div class="card-body table-responsive p-0">

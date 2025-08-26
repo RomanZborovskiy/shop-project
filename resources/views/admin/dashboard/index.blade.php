@@ -12,7 +12,7 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{$orders}}</h3>
+                            <h3>{{{ $stats['ordersCount'] }}}</h3>
 
                             <p>Кількість замовлень</p>
                         </div>
@@ -27,7 +27,7 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{$products}}</h3>
+                            <h3>{{$stats['productsCount']}}</h3>
 
                             <p>Кількість товарів</p>
                         </div>
@@ -42,7 +42,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{$users}}</h3>
+                            <h3>{{$stats['clientsCount']}}</h3>
 
                             <p>Користувачів зареєстровано</p>
                         </div>
@@ -57,7 +57,7 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{$leads}}</h3>
+                            <h3>{{$stats['leadsCount']}}</h3>
 
                             <p>Кількість підписників</p>
                         </div>
@@ -69,6 +69,36 @@
                 </div>
                 <!-- ./col -->
             </div>
+            <h3>Останні 20 замовлень</h3>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клієнт</th>
+                        <th>Email</th>
+                        <th>Сума</th>
+                        <th>Статус</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($latestOrders as $order)
+                        <tr>
+                            <td>{{ $order->id }}</td>
+                            <td>{{ $order->user->name ?? 'Гість' }}</td>
+                            <td>{{ $order->user->email ?? '-' }}</td>
+                            <td>{{ number_format($order->total_price, 2) }} грн</td>
+                            <td>{{($order->status) }}</td>
+                            <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Замовлень поки немає</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
             <!-- /.row -->
             <!-- Main row -->
             <div class="row">

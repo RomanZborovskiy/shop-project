@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\HasStaticLists;
-use App\Traits\HasSlug;
+use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kalnoy\Nestedset\NodeTrait;
@@ -34,10 +34,6 @@ class Category extends Model
         return $this->hasMany(Attribute::class);
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 
     public static function typesList(string $columnKey = null, string $indexKey = null, array $options = []): array
     {

@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Models\Traits\HasStaticLists;
-use App\Traits\HasSlug;
+use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\Models\Media;
 use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
 use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model implements HasMedia
 {
@@ -58,11 +59,6 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Property::class, 'propertyables');
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
     public function registerMediaCollections(): void
     {       
         $this->addMediaCollection('product_gallery')
@@ -92,54 +88,36 @@ class Product extends Model implements HasMedia
         return self::staticListBuild($records, $columnKey, $indexKey, $options);
     }
     // фільтрування та пощук
-    public function scopeFilterName($query, $name)
+    public function scopeFilter(Builder $query, array $filters): Builder
     {
-        if (!empty($name)) {
-            $query->where('name', 'like', '%' . $name . '%');
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
-    }
 
-    public function scopeFilterPrice($query, $from, $to)
-    {
-        if (!empty($from)) {
-            $query->where('price', '>=', $from);
+        if (!empty($filters['price_from'])) {
+            $query->where('price', '>=', (float) $filters['price_from']);
         }
-        if (!empty($to)) {
-            $query->where('price', '<=', $to);
+        if (!empty($filters['price_to'])) {
+            $query->where('price', '<=', (float) $filters['price_to']);
         }
-    }
 
-
-    public function scopeFilterCategory($query, $categoryId)
-    {
-        if (!empty($categoryId)) {
-            $query->where('category_id', $categoryId);
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', (int) $filters['category_id']);
         }
-    }
 
-    public function scopeFilterHasImages($query, $hasImages)
-    {
-        if ($hasImages === '1') {
-            $query->whereHas('media', fn($q) => $q->where('collection_name', 'images'));
-        } elseif ($hasImages === '0') {
-            $query->whereDoesntHave('media', fn($q) => $q->where('collection_name', 'images'));
+        if (isset($filters['has_images'])) {
+            if ($filters['has_images'] === '1') {
+                $query->whereHas('media', fn (Builder $q) => $q->where('collection_name', 'images'));
+            } elseif ($filters['has_images'] === '0') {
+                $query->whereDoesntHave('media', fn (Builder $q) => $q->where('collection_name', 'images'));
+            }
         }
-    }
 
-    public function scopeSortBy($query, $sortBy, $direction = 'asc')
-    {
-        if (in_array($sortBy, ['name', 'price', 'sku'])) {
-            $query->orderBy($sortBy, $direction);
+        if (!empty($filters['sort_by']) && in_array($filters['sort_by'], ['name', 'price', 'sku'])) {
+            $direction = $filters['direction'] ?? 'asc';
+            $query->orderBy($filters['sort_by'], $direction);
         }
-    }
 
-    public function scopeFilter($query, $request)
-    {
-        return $query
-            ->filterName($request->name ?? null)
-            ->filterPrice($request->price_from ?? null, $request->price_to ?? null)
-            ->filterCategory($request->category_id ?? null)
-            ->filterHasImages($request->has_images ?? null)
-            ->sortBy($request->sort_by ?? null, $request->direction ?? 'asc');
+        return $query;
     }
 }

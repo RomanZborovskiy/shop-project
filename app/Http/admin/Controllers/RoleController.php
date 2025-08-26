@@ -12,7 +12,15 @@ class RoleController extends Controller
 {   
     public function index(Request $request)
     {
-        $users = User::with('roles')->filter($request)->paginate(10);
+        $filters = $request->only([
+            'search',
+            'roles',
+            'registered_at',
+            'sort_by',
+            'direction',
+        ]);
+        
+        $users = User::with('roles')->filter($filters)->paginate(10);
 
         $roles = Role::pluck('name', 'name');;
 

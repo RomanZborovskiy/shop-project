@@ -3,6 +3,7 @@
 namespace App\Http\admin\Controllers;
 
 use App\Exports\ProductsExport;
+use App\Facades\Currency;
 use App\Http\admin\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductsImport;
@@ -17,31 +18,24 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    public function import(Request $request)
-    {
-        Excel::import(new ProductsImport, $request->file('file'));
-        return back()->with('success', 'Товари імпортовано!');
-    }
-    public function export()
-    {
-        return Excel::download(new ProductsExport, 'products.xlsx');
-    }
-
-    public function addAttribute(Request $request, Product $product)
-    {
-        $request->validate([
-            'attribute_id' => 'required|exists:attributes,id',
-            'attribute_value_id' => 'required|exists:attribute_values,id',
-        ]);
-
-        $product->attributeValues()->attach($request->attribute_value_id);
-
-        return back()->with('success', 'Характеристика додана');
-    }
-    
     public function index(Request $request)
     {
-        $products = Product::with(['brand', 'category'])->filter($request)->paginate(10);
+        $filters = $request->only([
+            'name',
+            'price_from',
+            'price_to',
+            'category_id',
+            'has_images',
+            'sort_by',
+            'direction',
+        ]);
+        
+        $products = Product::with(['brand', 'category'])->filter($filters)->paginate(10);
+
+        foreach ($products as $product) {
+            $product->prices = Currency::getPrices($product->price);
+        }
+        
         $categories = Category::pluck('name', 'id')->prepend('Всі', '');
         return view('admin.products.index', compact('products','categories'));
     }
@@ -134,4 +128,25 @@ class ProductController extends Controller
         return response()->json($traverse($nodes));
     }
 
+    public function import(Request $request)
+    {
+        Excel::import(new ProductsImport, $request->file('file'));
+        return back()->with('success', 'Товари імпортовано!');
+    }
+    public function export()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+    }
+
+    public function addAttribute(Request $request, Product $product)
+    {
+        $request->validate([
+            'attribute_id' => 'required|exists:attributes,id',
+            'attribute_value_id' => 'required|exists:attribute_values,id',
+        ]);
+
+        $product->attributeValues()->attach($request->attribute_value_id);
+
+        return back()->with('success', 'Характеристика додана');
+    }
 }
