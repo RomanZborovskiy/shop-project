@@ -9,6 +9,14 @@ return [
         'PLN',
     ],
 
+    'names' => [
+        'UAH' => 'грн',
+        'USD' => '$',
+        'EUR' => 'EUR',
+        'GBP' => 'GBP',
+        'PLN' => 'PLN',
+    ],
+
     'default' => 'UAH',
 
     'api_url' => 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json',

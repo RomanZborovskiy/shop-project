@@ -11,10 +11,16 @@ use App\Http\admin\Controllers\ProductController;
 use App\Http\admin\Controllers\ProfileController;
 use App\Http\admin\Controllers\RoleController;
 use App\Http\admin\Controllers\UserController;
+use App\Http\admin\Controllers\VariableController;
+use App\Http\Auth\ForgotPasswordController;
+use App\Http\Auth\LoginController;
+use App\Http\Auth\RegisterController;
+use App\Http\Auth\ResetPasswordController;
+use PHPUnit\TextUI\Configuration\VariableCollection;
 
 
-Route::prefix('admin')->group(function () {
-    Route::get('/',[DashboardController::class,'index'])->name('dashboard.index');
+Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
+    Route::get('/',[DashboardController::class,'index'])->name('admin.dashboard.index');
 
     Route::resource('products',ProductController::class)->except('show');
     Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
@@ -44,7 +50,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::resource('variables', VariableController::class)->except('show');
+
     Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 });
 
 
@@ -60,6 +69,17 @@ Route::name('admin.')->group(function () {
     Route::post('categories/order', [CategoryController::class, 'order'])->name('categories.order');
 });
 
-// Route::get('/mailings', [LeadMessageController::class, 'index'])->name('mailings.index');
-// Route::get('/mailings/create', [LeadMessageController::class, 'create'])->name('mailings.create');
-// Route::post('/mailings', [LeadMessageController::class, 'store'])->name('mailings.store');
+
+Route::prefix('admin')->name('admin')->group(function () {
+        Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
+
+    Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+});

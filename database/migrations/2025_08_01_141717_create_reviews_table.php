@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('rating'); 
+            $table->unsignedTinyInteger('rating')->nullable(); 
             $table->text('comment')->nullable();
-            $table->string('status'); 
+            $table->string('status')->nullable(); 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();

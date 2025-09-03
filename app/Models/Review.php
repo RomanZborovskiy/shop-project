@@ -35,7 +35,7 @@ class Review extends Model
 
     public function replies()
     {
-        return $this->hasMany(Review::class, 'parent_id');
+        return $this->hasMany(Review::class, 'parent_id')->with('user', 'replies');;
     }
 
     public static function statusesList(string $columnKey = null, string $indexKey = null, array $options = []): array

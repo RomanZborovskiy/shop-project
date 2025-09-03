@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('status')->default('pending');    
             $table->string('type')->nullable(); 
             $table->json('user_info')->nullable();
-            //$table->unsignedBigInteger('payment_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
-            //$table->foreign('payment_id')->references('id')->on('payments')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }

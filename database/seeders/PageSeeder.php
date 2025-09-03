@@ -16,11 +16,6 @@ class PageSeeder extends Seeder
     {
         $pages = [
             [
-                'name' => 'Головна',
-                'description' => 'Це головна сторінка сайту.',
-                'template' => 'home',
-            ],
-            [
                 'name' => 'Про нас',
                 'description' => 'Інформація про компанію.',
                 'template' => 'about',
@@ -32,7 +27,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'name' => 'Політика конфіденційності',
-                'description' => null,
+                'description' => 'Політика конфіденційності',
                 'template' => 'policy',
             ],
         ];

@@ -35,7 +35,11 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
      */
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class, );
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class, );
     }
 
     public static function vocabulariesList(string $columnKey = null, string $indexKey = null): array

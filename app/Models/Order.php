@@ -28,13 +28,23 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function payment()
-    // {
-    //     return $this->belongsTo(Payment::class);
-    // }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function recalculateTotalPrice()
+    {
+        $total = $this->purchases->reduce(function ($carry, $purchase) {
+            return $carry + ($purchase->price * $purchase->quantity);
+        }, 0);
+
+        $this->total_price = $total;
+        $this->save();
     }
 
     public static function statusesList(string $columnKey = null, string $indexKey = null, array $options = []): array

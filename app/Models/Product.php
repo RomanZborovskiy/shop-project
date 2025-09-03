@@ -44,9 +44,9 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Propertyable::class);
     }
 
-    public function rewiews()
+    public function reviews()
     {
-        return $this->belongsTo(Review::class);
+        return $this->hasMany(Review::class);
     }
 
     public function purchase()
@@ -103,6 +103,10 @@ class Product extends Model implements HasMedia
 
         if (!empty($filters['category_id'])) {
             $query->where('category_id', (int) $filters['category_id']);
+        }
+
+        if (!empty($filters['brand_id'])) {
+            $query->where('brand_id', (int) $filters['brand_id']);
         }
 
         if (isset($filters['has_images'])) {

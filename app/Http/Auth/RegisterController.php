@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Route;
 
 class RegisterController extends Controller
 {
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/products';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -73,5 +74,17 @@ class RegisterController extends Controller
 
         return $user;
 
+    }
+     public function showRegistrationForm()
+    {
+        if (Route::is('register')) {
+            return view('client.auth.register');
+        }
+
+        if (Route::is('admin.register')) {
+            return view('admin.auth.register');
+        }
+
+        return view('auth.register');
     }
 }

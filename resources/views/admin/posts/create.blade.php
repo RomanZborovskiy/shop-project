@@ -26,7 +26,6 @@
     {!! Lte3::formClose() !!}
 
     </section>
-    <!-- /.content -->
 @endsection
 
 

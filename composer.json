@@ -10,10 +10,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cloudipsp/php-sdk-v2": "^1.0",
+        "diglactic/laravel-breadcrumbs": "^10.0",
         "fomvasss/laravel-lte3": "^1.82",
         "fomvasss/laravel-medialibrary-extension": "^6.2",
         "fomvasss/laravel-notification-channel-turbo-sms": "^1.4",
         "fomvasss/laravel-simple-taxonomy": "^1.6",
+        "fomvasss/laravel-variables": "^5.7",
         "jeroennoten/laravel-adminlte": "^3.15",
         "kalnoy/nestedset": "^6.0",
         "laravel-lang/lang": "^15.22",

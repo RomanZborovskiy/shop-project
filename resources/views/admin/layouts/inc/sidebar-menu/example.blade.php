@@ -5,27 +5,58 @@
         <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Home<i class="right fas fa-angle-left"></i></p>
+                <p>Сторінки<i class="right fas fa-angle-left"></i></p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="/lte3" class="nav-link">
+                    <a href="{{route('admin.dashboard.index')}}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard v1</p>
+                        <p> Головна</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/lte3/2" class="nav-link">
+                    <a href="{{route('products.index')}}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard v2</p>
+                        <p>Продукти</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/lte3/3" class="nav-link">
+                    <a href="{{route('posts.index')}}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard v3</p>
+                        <p>Пости</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('attributes.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Атрибути</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('attributes.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Атрибути</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('categories.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Категорії</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('orders.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Замовлення</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('roles.index')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Ролі</p>
+                    </a>
+                </li>
+                
             </ul>
         </li>
         <li class="nav-item">

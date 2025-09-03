@@ -15,3 +15,18 @@ if (! function_exists('currency_prices')) {
         return Currency::getPrices($amount);
     }
 }
+
+if (! function_exists('currency_active')) {
+    function currency_active(): string
+    {
+        return session('currency', config('currency.default')); 
+    }
+}
+
+if (! function_exists('currency_name')) {
+    function currency_name(string $currency = null): string
+    {
+        $currency = $currency ?? currency_active();
+        return config("currency.names.$currency", $currency);
+    }
+}

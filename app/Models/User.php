@@ -87,6 +87,21 @@ class User extends Authenticatable implements HasMedia
         return $this->phone;
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorites');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public static function statusList(string $columnKey = null, string $indexKey = null, array $options = []): array
     {
         $records = [
