@@ -6,7 +6,6 @@ use App\Http\admin\Requests\PostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -28,7 +27,14 @@ class PostController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = Auth::id(); 
-        Post::create($data);
+        $post = Post::create($data);
+
+        if (!empty($data['seo'])) {
+            $post->seo('uk')->updateOrCreate([], [
+                'tags' => $data['seo'],
+                'group' => 'ua',
+            ]);
+        }
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно створено!');
     }
@@ -45,6 +51,13 @@ class PostController extends Controller
         $data = $request->validated();
 
         $post::findOrFail($post->id)->update($data);
+
+        if (!empty($data['seo'])) {
+            $post->seo('uk')->updateOrCreate([], [
+                'tags' => $data['seo'],
+                'group' => 'ua',
+            ]);
+        }
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно оновлено!');
     

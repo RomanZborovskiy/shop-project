@@ -15,6 +15,7 @@
         "fomvasss/laravel-lte3": "^1.82",
         "fomvasss/laravel-medialibrary-extension": "^6.2",
         "fomvasss/laravel-notification-channel-turbo-sms": "^1.4",
+        "fomvasss/laravel-seo": "^1.10",
         "fomvasss/laravel-simple-taxonomy": "^1.6",
         "fomvasss/laravel-variables": "^5.7",
         "jeroennoten/laravel-adminlte": "^3.15",
@@ -25,6 +26,7 @@
         "laravel/ui": "^4.6",
         "lorisleiva/laravel-actions": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "orchestra/parser": "^10.0",
         "rap2hpoutre/laravel-log-viewer": "^2.5",
         "spatie/laravel-medialibrary": "^11.13",
         "spatie/laravel-permission": "^6.21"

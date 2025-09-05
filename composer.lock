@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5269b49077d6bea4cf36429cfcb1f4cd",
+    "content-hash": "c4789a181f8aa24a8a4ac971868a1017",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1414,6 +1414,67 @@
                 "source": "https://github.com/fomvasss/laravel-notification-channel-turbosms/tree/1.4.0"
             },
             "time": "2025-03-05T08:42:10+00:00"
+        },
+        {
+            "name": "fomvasss/laravel-seo",
+            "version": "1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fomvasss/laravel-seo.git",
+                "reference": "1e27ce2f565cd437f21d144126f879a91bfccf02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fomvasss/laravel-seo/zipball/1e27ce2f565cd437f21d144126f879a91bfccf02",
+                "reference": "1e27ce2f565cd437f21d144126f879a91bfccf02",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9|^10|^11|^12",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Seo": "Fomvasss\\Seo\\Facades\\Seo"
+                    },
+                    "providers": [
+                        "Fomvasss\\Seo\\SeoServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fomvasss\\Seo\\": "src",
+                    "Fomvasss\\Seo\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fomvasss",
+                    "email": "fomvasss@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel SEO package",
+            "homepage": "https://github.com/fomvasss/laravel-seo",
+            "keywords": [
+                "fomvasss",
+                "laravel",
+                "laravel-seo",
+                "metatag",
+                "seo"
+            ],
+            "support": {
+                "issues": "https://github.com/fomvasss/laravel-seo/issues",
+                "source": "https://github.com/fomvasss/laravel-seo/tree/1.10.0"
+            },
+            "time": "2025-06-24T10:39:34+00:00"
         },
         {
             "name": "fomvasss/laravel-simple-taxonomy",
@@ -3245,6 +3306,75 @@
             "time": "2025-01-28T15:15:29+00:00"
         },
         {
+            "name": "laravie/parser",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravie/parser.git",
+                "reference": "a2ac52def67cb16895bc1c11fea77748089b44e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravie/parser/zipball/a2ac52def67cb16895bc1c11fea77748089b44e8",
+                "reference": "a2ac52def67cb16895bc1c11fea77748089b44e8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "illuminate/collections": "^10.0 || ^11.0 || ^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4.2",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Laravie\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for PHP",
+            "keywords": [
+                "parser",
+                "xml"
+            ],
+            "support": {
+                "source": "https://github.com/laravie/parser/tree/v3.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/crynobone",
+                    "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2025-02-02T00:58:31+00:00"
+        },
+        {
             "name": "league/commonmark",
             "version": "2.7.1",
             "source": {
@@ -4709,6 +4839,81 @@
                 }
             ],
             "time": "2025-05-08T08:14:37+00:00"
+        },
+        {
+            "name": "orchestra/parser",
+            "version": "v10.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/parser.git",
+                "reference": "7dfe57ee9cbf07853e09f620689e35e9f883b6ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/parser/zipball/7dfe57ee9cbf07853e09f620689e35e9f883b6ba",
+                "reference": "7dfe57ee9cbf07853e09f620689e35e9f883b6ba",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^12.0",
+                "laravie/parser": "^3.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.21",
+                "orchestra/testbench": "^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orchestra\\Parser\\XmlServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "9.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchestra\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for Laravel and PHP",
+            "keywords": [
+                "laravel",
+                "orchestra-platform",
+                "orchestral",
+                "parser",
+                "xml"
+            ],
+            "support": {
+                "source": "https://github.com/orchestral/parser/tree/v10.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2025-03-01T01:13:06+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",

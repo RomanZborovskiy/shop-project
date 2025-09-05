@@ -40,10 +40,10 @@ Breadcrumbs::for('client.posts.index', function (BreadcrumbTrail $trail) {
     $trail->push('Блог', route('client.posts.index'));
 });
 
-Breadcrumbs::for('client.posts.show', function (BreadcrumbTrail $trail, $post) {
-    $trail->parent('client.posts.index');
-    $trail->push($post->name, route('client.posts.show', $post));
-});
+// Breadcrumbs::for('client.posts.show', function (BreadcrumbTrail $trail, $post) {
+//     $trail->parent('client.posts.index');
+//     $trail->push($post->name, route('client.posts.show', $post));
+// });
 
 //каталог
 Breadcrumbs::for('client.catalog.index', function (BreadcrumbTrail $trail) {

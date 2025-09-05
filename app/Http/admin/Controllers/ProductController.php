@@ -44,18 +44,26 @@ class ProductController extends Controller
     {
         $brands = Brand::all()->pluck('name', 'id');
         $categories = Term::pluck('name', 'id');
+
         return view('admin.products.create', compact('brands','categories'));
     }
 
-    public function store(ProductRequest $request, Product $product)
+    public function store(ProductRequest $request, )
     {   
         $data = $request->validated();
 
-        $product->update($data);
+        $product=Product::create($data);
+
+        if (!empty($data['seo'])) {
+            $product->seo('uk')->updateOrCreate([], [
+                'tags' => $data['seo'],
+                'group' => 'ua',
+            ]);
+        }
 
         $product->mediaManage($request);
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('products.index');
     }
 
 
@@ -84,6 +92,13 @@ class ProductController extends Controller
         $data = $request->validated();
 
         $product->update($data);
+
+        if (!empty($data['seo'])) {
+            $product->seo('uk')->updateOrCreate([], [
+                'tags' => $data['seo'],
+                'group' => 'ua',
+            ]);
+        }
 
         $product->mediaManage($request);
 

@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Fomvasss\Seo\Models\HasSeo;
 
 class Post extends Model
 {
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, HasSeo;
     
     protected $guarded = [
         'id',

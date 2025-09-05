@@ -44,6 +44,7 @@ public function index()
             $term->saveAsRoot();
         }
 
+
         return redirect()->route('admin.categories.index');
     }
 

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasSlug
-
-;
+use App\Models\Traits\HasSlug;
+use Fomvasss\Seo\Models\HasSeo;
 ///use Kalnoy\Nestedset\NodeTrait;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 {
-    //use HasSlug;
+    use HasSeo;
     // NEXT RELATIONS, METHODS IS EXAMPLES, YOU CAN DELETE IT:
 
     const VOCABULARY_TAGS = 'tags';

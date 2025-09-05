@@ -89,8 +89,4 @@ class CheckoutController extends Controller
         return redirect()->route('client.dashboard')->with('message', 'Ваше замовлення успішно оформлено!');
     }
 
-    public function success(){
-                    //Order::update(['status' => 'paid']);
-        return view('client.shop');
-    }
 }

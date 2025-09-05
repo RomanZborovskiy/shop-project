@@ -10,10 +10,11 @@ use Spatie\MediaLibrary\Models\Media;
 use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
 use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Builder;
+use Fomvasss\Seo\Models\HasSeo;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, HasStaticLists, HasSlug, InteractsWithMedia;
+    use HasFactory, HasStaticLists, HasSlug, InteractsWithMedia, HasSeo;
 
     const STATUS_PENDING = 'pending';
     const STATUS_PUBLISHED = 'published';

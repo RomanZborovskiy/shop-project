@@ -22,6 +22,8 @@
             'placeholder' => '— Без батьківської —',
         ]
     ) !!}
+    
+    @include('admin.components.meta', ['model' => $category ?? null])
 
 
     {!! Lte3::btnSubmit('Зберегти') !!}

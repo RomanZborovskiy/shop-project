@@ -22,6 +22,8 @@
 
          @include('admin.products.inc.form')
 
+         @include('admin.components.meta', ['model' => $product ?? null])
+
          {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
 

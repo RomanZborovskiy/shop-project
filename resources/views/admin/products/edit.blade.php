@@ -21,6 +21,7 @@
     ]) !!}
 
     @include('admin.products.inc.form')
+    @include('admin.components.meta', ['model' => $product ?? null])
 
     @foreach($product->getMedia('images') as $media)
             

@@ -30,6 +30,10 @@ class PostRequest extends FormRequest
             'tags' => 'nullable|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
             'user_id' => 'nullable|exists:users,id',
+            'seo' => 'array',
+            'seo.title' => 'nullable|string|max:255',
+            'seo.description' => 'nullable|string|max:500',
+            'seo.keywords' => 'nullable|string|max:255',
         ];
     }
 }

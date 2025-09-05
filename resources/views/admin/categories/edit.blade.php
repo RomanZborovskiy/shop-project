@@ -33,7 +33,8 @@
         ]
     ) !!}
 
-
+        @include('admin.components.meta', ['model' => $category ?? null])
+        
     {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
 

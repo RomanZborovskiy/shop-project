@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\client\Controllers\CartController;
-use App\Http\client\Controllers\CategoryController;
-use App\Http\client\Controllers\CheckoutController;
-use App\Http\client\Controllers\CurrencyController;
-use App\Http\client\Controllers\FavoriteController;
-use App\Http\client\Controllers\FondyController;
-use App\Http\client\Controllers\PageController;
-use App\Http\client\Controllers\PostController;
-use App\Http\client\Controllers\ProductController;
+use App\Http\Client\Controllers\CartController;
+use App\Http\Client\Controllers\CategoryController;
+use App\Http\Client\Controllers\CheckoutController;
+use App\Http\Client\Controllers\CurrencyController;
+use App\Http\Client\Controllers\FavoriteController;
+use App\Http\Client\Controllers\FondyController;
+use App\Http\Client\Controllers\PageController;
+use App\Http\Client\Controllers\PostController;
+use App\Http\Client\Controllers\ProductController;
 use App\Http\Auth\ForgotPasswordController;
 use App\Http\Auth\LoginController;
 use App\Http\Auth\RegisterController;
 use App\Http\Auth\ResetPasswordController;
-use App\Http\client\Controllers\ProfileController;
-use App\Http\client\Controllers\ReviewController;
-use App\Http\client\Controllers\UserOrderController;
+use App\Http\Client\Controllers\ProfileController;
+use App\Http\Client\Controllers\ReviewController;
+use App\Http\Client\Controllers\UserOrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -67,10 +67,11 @@ Route::delete('/cart/remove/{purchase}', [CartController::class, 'remove'])->nam
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index'); 
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+//Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::get('/payment/redirect/{order}', [FondyController::class, 'redirectToGateway'])->name('payment.gateway');
 Route::post('/payment/callback', [FondyController::class, 'handleCallback'])->name('payment.callback');
+Route::match(['get', 'post'], '/payment/response', [FondyController::class, 'handleResponse'])->name('payment.response');
 
 
 

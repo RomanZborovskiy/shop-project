@@ -22,6 +22,8 @@
 
     @include('admin.posts.inc.form')
 
+    @include('admin.components.meta', ['model' => $post ?? null])
+
     {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
 

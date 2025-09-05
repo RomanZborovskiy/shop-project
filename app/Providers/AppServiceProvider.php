@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\CartService;
 use App\Services\CurrencyService;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CurrencyService::class, function ($app) {
             return new CurrencyService();
         });
+         $this->app->singleton('cart', function ($app) {
+            return new CartService();
+        });
     }
 
     /**
@@ -22,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if ($url = env('NGROK_URL')) {
+        URL::forceScheme(env('NGROK_SCHEME') ?: 'https');
+        URL::forceRootUrl($url);
+  }
     }
 }
