@@ -4,7 +4,7 @@ namespace App\Http\Client\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class ReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +21,10 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $categoryId = $this->route('category')?->id;
-
         return [
-            'name' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:terms,id',
+            'rating'=> 'integer',
+            'comment'=> 'nullable|string|max:1000',
+            'parent_id'=> 'nullable|exists:reviews,id',
         ];
     }
 }

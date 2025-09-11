@@ -37,7 +37,7 @@ class Product extends Model implements HasMedia
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Term::class);
     }
 
     public function propertyable()

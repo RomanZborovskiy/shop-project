@@ -67,7 +67,7 @@ Route::delete('/cart/remove/{purchase}', [CartController::class, 'remove'])->nam
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index'); 
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-//Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/settlements', [CheckoutController::class, 'suggest'])->name('checkout.settlements');
 
 Route::get('/payment/redirect/{order}', [FondyController::class, 'redirectToGateway'])->name('payment.gateway');
 Route::post('/payment/callback', [FondyController::class, 'handleCallback'])->name('payment.callback');

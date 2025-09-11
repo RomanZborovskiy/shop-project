@@ -21,15 +21,15 @@ class ProductsExport implements FromCollection, WithHeadings
                 return $attributeName . ': ' . $property->value;
             })->implode(' | ');
                 return [
-                    'Name'       => $product->name,
-                    'Sku'        => $product->sku,
-                    'Price'      => $product->price,
-                    'Price_Old'  => $product->price_old,
-                    'Attributes' => $attributesString,
-                    'Brand'      => $product->brand?->name,
-                    'Category'   => $product->category?->name,
-                    'Images'     => $product->getMedia('images')->pluck('original_url')->implode(', '),
-                    'Body'       => $product->description,
+                    'Name'=> $product->name,
+                    'Sku'=> $product->sku,
+                    'Price'=> $product->price,
+                    'Price_Old'=> $product->price_old,
+                    'Attributes'=> $attributesString,
+                    'Brand'=> $product->brand?->name,
+                    'Category'=> $product->category?->name,
+                    'Images'=> $product->getMedia('images')->pluck('original_url')->implode(', '),
+                    'Body'=> $product->description,
                 ];
             });
     }

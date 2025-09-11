@@ -3,6 +3,7 @@
 namespace App\Http\client\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\location;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
@@ -39,7 +40,7 @@ class CheckoutController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
+            'settlement_id' => 'nullable|exists:locations,id',
             'delivery' => 'required|string|max:255',
             'payment_method' => 'required|in:cash_on_delivery,online',
         ]);
@@ -87,6 +88,27 @@ class CheckoutController extends Controller
         Cookie::queue(Cookie::forget('cart_id'));
 
         return redirect()->route('client.dashboard')->with('message', 'Ваше замовлення успішно оформлено!');
+    }
+
+    public function suggest(Request $request)
+    {
+        $q = $request->get('q', '');
+
+        $results = Location::query()->where('name', 'like', "%{$q}%")
+            ->limit(20000) 
+            ->get(['id', 'name'])
+            ->unique('name') 
+            ->values()
+            ->take(20);
+
+        $formatted = $results->map(function ($settlement) {
+            return [
+                'id' => $settlement->id,
+                'text' => $settlement->name,
+            ];
+        });
+
+        return response()->json(['results' => $formatted]);
     }
 
 }

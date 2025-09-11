@@ -2,24 +2,20 @@
 
 namespace App\Http\client\Controllers;
 
+use App\Http\Client\Requests\ReviewRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-     public function store(Request $request, Product $product)
+     public function store(ReviewRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'rating'    => 'integer',
-            'comment'   => 'nullable|string|max:1000',
-            'parent_id' => 'nullable|exists:reviews,id',
-        ]);
+        $validated = $request->validated();
 
-        $validated['status']     = 'pending';
-        $validated['user_id']    = Auth::id();
+        $validated['status'] = 'pending';
+        $validated['user_id'] = Auth::id();
         $validated['product_id'] = $product->id;
 
         Review::create($validated);

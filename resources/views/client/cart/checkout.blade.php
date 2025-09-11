@@ -57,8 +57,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-item">
-                                <label class="form-label my-2">Місто*</label>
-                                <input type="text" name="address" class="form-control" required>
+                               <label for="settlement">Населений пункт</label>
+                                <select id="settlement" name="settlement_id" style="width: 100%"></select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -132,3 +132,28 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('#settlement').select2({
+        placeholder: 'Оберіть населений пункт',
+        ajax: {
+            url: '{{ route("checkout.settlements") }}',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.results
+                };
+            },
+            cache: true
+        }
+    });
+});
+</script>
+@endpush

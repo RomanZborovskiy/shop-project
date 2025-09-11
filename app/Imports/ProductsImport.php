@@ -21,16 +21,19 @@ class ProductsImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $brand = Brand::firstOrCreate(['name' => $row['brand']]);
-        $category = Category::firstOrCreate(['name'=> $row['category']]);
+        $category = Term::firstOrCreate([
+                'name' => $row['category'],
+                'vocabulary' => 'categories',
+            ]);
 
          $product = Product::create([
-            'name'       => $row['name'],
-            'sku'        => $row['sku'],
-            'price'      => $row['price'],
-            'price_old'  => $row['price_old'],
-            'brand_id'   => $brand->id,
+            'name'=> $row['name'],
+            'sku'=> $row['sku'],
+            'price'=> $row['price'],
+            'price_old'=> $row['price_old'],
+            'brand_id'=> $brand->id,
             'category_id'=> $category->id,
-            'description'       => $row['body'],
+            'description'=> $row['body'],
         ]);
 
         $images = array_filter(array_map('trim', explode(',', $row['images'])));

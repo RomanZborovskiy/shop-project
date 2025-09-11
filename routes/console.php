@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\CacheDashboardStatsJob;
+use App\Jobs\GenerateSitemapJob;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -16,3 +17,5 @@ Schedule::call(function () {
 })->everyMinute();
 
 Schedule::job(new CacheDashboardStatsJob())->hourly();
+
+Schedule::job(new GenerateSitemapJob())->everyMinute();

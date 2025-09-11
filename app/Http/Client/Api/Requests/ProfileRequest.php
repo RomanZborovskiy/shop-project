@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Client\Requests;
+namespace App\Http\Client\Api\Requests;
+
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class CategoryRequest extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +23,14 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $categoryId = $this->route('category')?->id;
-
+        $user = Auth::user();
         return [
-            'name' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:terms,id',
+           'name' => ['required', 'string'],
+            'email' => ['required', 'email', 'unique:users,email,'. $user->id ],
+            'password' => ['nullable', 'confirmed'],
+            'avatar' => ['nullable', 'image', 'max:2048'],
         ];
     }
+
+
 }

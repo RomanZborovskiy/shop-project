@@ -10,13 +10,13 @@ use App\Http\admin\Controllers\PostController;
 use App\Http\admin\Controllers\ProductController;
 use App\Http\admin\Controllers\ProfileController;
 use App\Http\admin\Controllers\RoleController;
+use App\Http\admin\Controllers\SettingsController;
 use App\Http\admin\Controllers\UserController;
 use App\Http\admin\Controllers\VariableController;
 use App\Http\Auth\ForgotPasswordController;
 use App\Http\Auth\LoginController;
 use App\Http\Auth\RegisterController;
 use App\Http\Auth\ResetPasswordController;
-use PHPUnit\TextUI\Configuration\VariableCollection;
 
 
 Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
@@ -49,6 +49,8 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
     Route::post('/profile/confirm-password', [ProfileController::class, 'confirmPassword'])->name('profile.confirm.password');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/settings/', [SettingsController::class, 'index'])->name('admin.settings.index');
+    Route::post('/profile/settings/sitemap', [SettingsController::class, 'generateSitemap'])->name('admin.settings.generateSitemap');
 
     Route::resource('variables', VariableController::class)->except('show');
 
@@ -57,13 +59,6 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
 });
 
 
-// Route::get('/categories/categories-tree', [ProductController::class, 'categoriesTree'])
-//     ->name('lte3.categories.tree');
-
-//     Route::prefix('categories')->group(function () {
-//     Route::get('/', [CategoryController::class, 'index'])->name('admin.categories.index');
-//     Route::post('/save', [CategoryController::class, 'save'])->name('admin.categories.save');
-// });
 Route::name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::post('categories/order', [CategoryController::class, 'order'])->name('categories.order');

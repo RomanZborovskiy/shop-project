@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Traits\HasStaticLists;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Image\Enums\Fit;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\Models\Media;
@@ -16,7 +17,7 @@ use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasStaticLists, InteractsWithMedia, HasRoles;
+    use HasFactory, Notifiable, HasStaticLists, InteractsWithMedia, HasRoles, HasApiTokens;
 
     const STATUS_ACTIVE = 'active';
     const STATUS_BLOCKED = 'blocked';

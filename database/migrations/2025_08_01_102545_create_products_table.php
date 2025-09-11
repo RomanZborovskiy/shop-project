@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            $table->foreign('category_id')->references('id')->on('terms')->onDelete('set null');
         });
     }
 
