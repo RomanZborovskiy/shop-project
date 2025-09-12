@@ -6,26 +6,38 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+        Schema::create('regions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create('districts', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('region_id')->constrained('regions')->onDelete('cascade');
+            $table->timestamps();
+
+            $table->unique(['name', 'region_id']);
+        });
+
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable(); 
+            $table->string('type')->nullable();
             $table->string('name');
-            $table->string('region')->nullable(); 
-            $table->string('district')->nullable(); 
-            $table->timestamps();;
+            $table->foreignId('district_id')->constrained('districts')->onDelete('cascade');
+            $table->timestamps();
+
+            $table->unique(['name', 'district_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('locations');
+        Schema::dropIfExists('districts');
+        Schema::dropIfExists('regions');
     }
 };

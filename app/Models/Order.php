@@ -10,10 +10,11 @@ class Order extends Model
 {
     use HasFactory, HasStaticLists;
 
-    const BASKER_STATUS = 'basket';
-    const ORDER_STATUS =  'order';
-    const TYPE_CASH =  'cash';
-    const TYPE_CARD =  'card';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_PENDING =  'pending';
+    const NEW_STATUS = 'new';
+    const TYPE_CART =  'cart';
+    const TYPE_ORDER =  'order';
 
     protected $guarded = [
         'id',
@@ -56,9 +57,9 @@ class Order extends Model
                 'name'=>'Корзина'
             ],
             [
-                'key' => self::ORDER_STATUS,
+                'key' => self::STATUS_PENDING,
                 //'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
-                'name'=>'Замовлення'
+                'name'=>'Обробляється'
             ],
         ];
 
@@ -74,7 +75,7 @@ class Order extends Model
                 'name'=>'Готівкою'
             ],
             [
-                'key' => self::TYPE_CARD,
+                'key' => self::TYPE_CART,
                 //'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
                 'name'=>'Картою'
             ],

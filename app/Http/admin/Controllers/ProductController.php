@@ -15,6 +15,7 @@ use App\Models\Property;
 use App\Models\Term;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Actions\SaveSeoAction;
 
 class ProductController extends Controller
 {
@@ -48,18 +49,13 @@ class ProductController extends Controller
         return view('admin.products.create', compact('brands','categories'));
     }
 
-    public function store(ProductRequest $request, )
+    public function store(ProductRequest $request, SaveSeoAction $saveSeo)
     {   
         $data = $request->validated();
 
         $product=Product::create($data);
 
-        if (!empty($data['seo'])) {
-            $product->seo('uk')->updateOrCreate([], [
-                'tags' => $data['seo'],
-                'group' => 'ua',
-            ]);
-        }
+        $saveSeo->execute($product, $data['seo'] ?? []);
 
         $product->mediaManage($request);
 
@@ -88,17 +84,12 @@ class ProductController extends Controller
         ));
     }
 
-    public function update(ProductRequest $request, Product $product)  {
+    public function update(ProductRequest $request, Product $product, SaveSeoAction $saveSeo)  {
         $data = $request->validated();
 
         $product->update($data);
 
-        if (!empty($data['seo'])) {
-            $product->seo('uk')->updateOrCreate([], [
-                'tags' => $data['seo'],
-                'group' => 'ua',
-            ]);
-        }
+        $saveSeo->execute($product, $data['seo'] ?? []);
 
         $product->mediaManage($request);
 

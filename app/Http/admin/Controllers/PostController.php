@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Actions\SaveSeoAction;
 
 class PostController extends Controller
 {
@@ -23,18 +24,13 @@ class PostController extends Controller
         return view('admin.posts.create', compact( 'categories'));
     }
 
-    public function store(PostRequest $request)
+    public function store(PostRequest $request, SaveSeoAction $saveSeo)
     {
         $data = $request->validated();
         $data['user_id'] = Auth::id(); 
         $post = Post::create($data);
 
-        if (!empty($data['seo'])) {
-            $post->seo('uk')->updateOrCreate([], [
-                'tags' => $data['seo'],
-                'group' => 'ua',
-            ]);
-        }
+        $saveSeo->execute($post, $data['seo'] ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно створено!');
     }
@@ -46,18 +42,13 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post', 'categories'));
     }
 
-    public function update(PostRequest $request, Post $post)  
+    public function update(PostRequest $request, Post $post, SaveSeoAction $saveSeo)  
     {
         $data = $request->validated();
 
         $post::findOrFail($post->id)->update($data);
 
-        if (!empty($data['seo'])) {
-            $post->seo('uk')->updateOrCreate([], [
-                'tags' => $data['seo'],
-                'group' => 'ua',
-            ]);
-        }
+        $saveSeo->execute($post, $data['seo'] ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно оновлено!');
     

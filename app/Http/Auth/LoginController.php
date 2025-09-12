@@ -2,6 +2,7 @@
 
 namespace App\Http\Auth;
 
+use App\Facades\Cart;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        Cart::mergeGuestCartIntoUserCart();
+        
         if ($user->hasAnyRole('admin','SuperAdmin')) {
             return redirect()->route('admin.dashboard.index');
         }

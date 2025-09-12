@@ -10,30 +10,89 @@ use Illuminate\Support\Facades\Cookie;
 
 class CartService
 {
+    protected ?Order $order = null;
+
     public function getCart(): Order
     {
+        if ($this->order) {
+            return $this->order;
+        }
+
         if (Auth::check()) {
             $cart = Order::where('user_id', Auth::id())
-                         ->where('type', 'cart')
-                         ->first();
-            if ($cart) return $cart;
+                        ->where('type', Order::TYPE_CART)
+                        ->first();
+            if ($cart) {
+                return $this->order = $cart;
+            }
         }
 
         $cartId = Cookie::get('cart_id');
         if ($cartId) {
-            $cart = Order::where('id', $cartId)->where('type', 'cart')->first();
-            if ($cart) return $cart;
+            $cart = Order::where('id', $cartId)
+                        ->where('type', Order::TYPE_CART)
+                        ->first();
+            if ($cart) {
+                return $this->order = $cart;
+            }
         }
 
         $cart = Order::create([
             'user_id' => Auth::id() ?? null,
-            'type' => 'cart',
-            'status' => 'new',
+            'type'    => Order::TYPE_CART,
+            'status'  => Order::NEW_STATUS,
         ]);
 
-        Cookie::queue('cart_id', $cart->id, 60 * 24 * 7); 
+        Cookie::queue('cart_id', $cart->id, 60 * 24 * 7);
 
-        return $cart;
+        return $this->order = $cart;
+    }
+
+    public function mergeGuestCartIntoUserCart(): void
+    {
+        if (!Auth::check()) {
+            return;
+        }
+
+        $guestCartId = Cookie::get('cart_id');
+        if (!$guestCartId) {
+            return;
+        }
+
+        $guestCart = Order::where('id', $guestCartId)
+            ->where('type', Order::TYPE_CART)
+            ->first();
+
+        if (!$guestCart) {
+            return;
+        }
+
+        $userCart = Order::firstOrCreate(
+            ['user_id' => Auth::id(), 'type' => Order::TYPE_CART],
+            ['status' => Order::NEW_STATUS]
+        );
+
+        foreach ($guestCart->purchases as $purchase) {
+            $existing = $userCart->purchases()
+                ->where('product_id', $purchase->product_id)
+                ->first();
+
+            if ($existing) {
+                $existing->quantity += $purchase->quantity;
+                $existing->save();
+            } else {
+                $userCart->purchases()->create([
+                    'product_id' => $purchase->product_id,
+                    'quantity'   => $purchase->quantity,
+                    'price'      => $purchase->price,
+                ]);
+            }
+        }
+
+        $userCart->recalculateTotalPrice();
+
+        $guestCart->delete();
+        Cookie::queue(Cookie::forget('cart_id'));
     }
 
     public function addProduct(Product $product, int $quantity = 1): void
@@ -43,14 +102,13 @@ class CartService
         $purchase = $cart->purchases()->where('product_id', $product->id)->first();
 
         if ($purchase) {
-            $purchase->quantity = $quantity;
+            $purchase->quantity += $quantity;
             $purchase->save();
         } else {
-            Purchase::create([
-                'order_id'   => $cart->id,
+            $cart->purchases()->create([
                 'product_id' => $product->id,
-                'quantity'   => $quantity,
-                'price'      => $product->price,
+                'quantity' => $quantity,
+                'price' => $product->price,
             ]);
         }
 

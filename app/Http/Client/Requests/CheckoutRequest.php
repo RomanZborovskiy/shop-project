@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\admin\Requests;
-
+namespace App\Http\Client\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class ProfileRequest extends FormRequest
+class CheckoutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +21,13 @@ class ProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = Auth::user();
         return [
-           'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email,'. $user->id ],
-            'password' => ['nullable', 'confirmed'],
-            'avatar' => ['nullable', 'image', 'max:2048'],
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|max:255',
+            'phone'          => 'required|string|max:20',
+            'settlement_id'  => 'nullable|exists:locations,id',
+            'delivery'       => 'required|string|max:255',
+            'payment_method' => 'required|in:cash_on_delivery,online',
         ];
     }
 }

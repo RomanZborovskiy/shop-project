@@ -2,77 +2,146 @@
 
 namespace App\Actions;
 
-
-use App\Models\location;
+use App\Models\District;
+use App\Models\Location;
+use App\Models\Region;
 use XMLReader;
-use DOMDocument;
+use RuntimeException;
+use Lorisleiva\Actions\Concerns\AsAction;
 
 class ImportLocationsAction
-{
-    public function execute(string $filePath, int $batchSize = 1000, callable $progressCallback = null): int
+{ 
+    use AsAction;
+
+    public string $commandSignature = 'locations:import {file : Path to the XML file} {--batch=1000}';
+    public string $commandDescription = 'Імпорт населених пунктів з XML файлу';
+
+    public function handle(string $filePath, int $batchSize = 1000, callable $progressCallback = null)
     {
         if (!file_exists($filePath)) {
-            throw new \RuntimeException("Файл не знайдено: {$filePath}");
+            throw new RuntimeException("Файл не знайдено: {$filePath}");
         }
 
-        $content = file_get_contents($filePath);
-
-        $content = preg_replace('/encoding="[^"]+"/i', 'encoding="UTF-8"', $content);
-
-        $content = mb_convert_encoding($content, 'UTF-8', 'Windows-1251');
-
         $tempFile = tempnam(sys_get_temp_dir(), 'xml_utf8_');
-        file_put_contents($tempFile, $content);
-
         $reader = new XMLReader();
-        $reader->open($tempFile);
 
-        $batch = [];
-        $count = 0;
+        $regionsCache = [];
+        $districtsCache = [];
 
-        while ($reader->read()) {
-            if ($reader->nodeType == XMLReader::ELEMENT && $reader->name === 'RECORD') {
-                $node = $reader->expand();
+        try {
+            $sourceHandle = fopen($filePath, 'r');
+            $tempHandle = fopen($tempFile, 'w');
 
-                $dom = new DOMDocument();
-                $node = $dom->importNode($node, true);
-                $dom->appendChild($node);
+            $firstLine = fgets($sourceHandle);
+            if ($firstLine) {
+                $firstLine = preg_replace('/encoding="[^"]+"/i', 'encoding="UTF-8"', $firstLine);
+                fwrite($tempHandle, $firstLine);
+            }
 
-                $simpleXml = simplexml_import_dom($dom);
+            while (!feof($sourceHandle)) {
+                $chunk = fread($sourceHandle, 8192);
+                $convertedChunk = mb_convert_encoding($chunk, 'UTF-8', 'Windows-1251');
+                fwrite($tempHandle, $convertedChunk);
+            }
 
-                $oblName    = (string) $simpleXml->OBL_NAME;
-                $regionName = (string) $simpleXml->REGION_NAME;
-                $cityName   = (string) $simpleXml->CITY_NAME;
-                $cityRegion = (string) $simpleXml->CITY_REGION_NAME;
-                $streetName = (string) $simpleXml->STREET_NAME;
+            fclose($sourceHandle);
+            fclose($tempHandle);
 
-                $batch[] = [
-                    'region'   => $oblName,
-                    'district' => $regionName,
-                    'name'     => $cityName ?: $streetName ?: $cityRegion,
-                    'type'     => $streetName ? 'street' : ($cityName ? 'city' : 'region'),
-                ];
+            $reader->open($tempFile);
 
-                $count++;
+            $batch = [];
+            $count = 0;
 
-                if (count($batch) >= $batchSize) {
-                    location::insert($batch);
-                    $batch = [];
+            while ($reader->read()) {
+                if ($reader->nodeType == XMLReader::ELEMENT && $reader->name === 'RECORD') {
+                    $xmlString = $reader->readOuterXML();
+                    $simpleXml = simplexml_load_string($xmlString);
 
-                    if ($progressCallback) {
-                        $progressCallback($count);
+                    if (!$simpleXml) {
+                        continue;
+                    }
+
+                    $oblName = (string) $simpleXml->OBL_NAME;
+                    $regionName = (string) $simpleXml->REGION_NAME;
+                    $cityName = (string) $simpleXml->CITY_NAME;
+                    //$cityRegion = (string) $simpleXml->CITY_REGION_NAME;
+                    //$streetName = (string) $simpleXml->STREET_NAME;
+
+                    if (!isset($regionsCache[$oblName])) {
+                        $region = Region::firstOrCreate(['name' => $oblName]);
+                        $regionsCache[$oblName] = $region->id;
+                    }
+                    $regionId = $regionsCache[$oblName];
+
+                    $districtCacheKey = "{$regionId}_{$regionName}";
+                    if (!isset($districtsCache[$districtCacheKey])) {
+                        $district = District::firstOrCreate([
+                            'name' => $regionName,
+                            'region_id' => $regionId
+                        ]);
+                        $districtsCache[$districtCacheKey] = $district->id;
+                    }
+                    $districtId = $districtsCache[$districtCacheKey];
+
+                    $locationName = $cityName;
+                    $locationType = 'city';
+
+                    if (!empty($locationName)) {
+                        $batch[] = [
+                            'name' => $locationName,
+                            'type' => $locationType,
+                            'district_id' => $districtId,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+
+                    $count++;
+
+                    if (count($batch) >= $batchSize) {
+                        Location::insertOrIgnore($batch);
+                        $batch = [];
+
+                        if ($progressCallback) {
+                            $progressCallback($count);
+                        }
                     }
                 }
             }
+
+            if (!empty($batch)) {
+                Location::insertOrIgnore($batch);
+            }
+
+            return $count;
+        } finally {
+            $reader->close();
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
         }
+    }
 
-        if (!empty($batch)) {
-            Location::insert($batch);
-        }
+    public function asCommand($command): int
+    {
+        $file = $command->argument('file');
+        $batchSize = (int) $command->option('batch');
 
-        $reader->close();
-        unlink($tempFile);
+        $command->info("Починаю імпорт з файлу: {$file}");
 
-        return $count;
+        $total = null; 
+
+        $bar = $command->output->createProgressBar($total);
+        $bar->start();
+
+        $count = $this->handle($file, $batchSize, function ($processed) use ($bar) {
+            $bar->advance();
+        });
+
+        $bar->finish();
+        $command->newLine(2);
+        $command->info("Готово! Імпортовано {$count} записів.");
+
+        return 0;
     }
 }

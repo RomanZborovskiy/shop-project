@@ -1,3 +1,6 @@
+@php
+\Seo::setModel($post)
+@endphp
 @extends('client.layouts.app')
 
 @section('title', $post->name)

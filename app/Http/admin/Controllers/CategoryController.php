@@ -6,6 +6,7 @@ use App\Http\admin\Requests\CategoryRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Term;
 use Illuminate\Http\Request;
+use App\Actions\SaveSeoAction;
 
 class CategoryController extends Controller
 {
@@ -30,7 +31,7 @@ public function index()
         return view('admin.categories.create');
     }
 
-   public function store(Request $request)
+   public function store(Request $request, SaveSeoAction $saveSeo)
     {
         $term = new Term([
             'name'       => $request->name,
@@ -44,6 +45,8 @@ public function index()
             $term->saveAsRoot();
         }
 
+        $saveSeo->execute($term, $data['seo'] ?? []);
+
 
         return redirect()->route('admin.categories.index');
     }
@@ -53,9 +56,12 @@ public function index()
         return view('admin.categories.edit', compact('term'));
     }
 
-    public function update(Request $request, Term $term)
+    public function update(Request $request, Term $term, SaveSeoAction $saveSeo)
     {
         $term->update($request->only('name', 'parent_id'));
+
+        $saveSeo->execute($term, $data['seo'] ?? []);
+
         return redirect()->route('admin.categories.index');
     }
 

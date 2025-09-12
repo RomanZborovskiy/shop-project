@@ -5,6 +5,14 @@
     <title>@yield('title', 'Electro Shop')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
+    @php
+        Seo::setDefault([
+            'title' => 'Магазин',
+            'description' => 'Опис за замовчуванням',
+            'keywords' => 'laravel, shop, seo',
+        ]);
+    @endphp
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
