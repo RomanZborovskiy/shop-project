@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\CartService;
 use App\Services\CurrencyService;
 use App\Services\CheckoutService;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,8 +23,11 @@ class AppServiceProvider extends ServiceProvider
             return new CartService();
         });
         $this->app->singleton('checkout', function ($app) {
-        return new CheckoutService();
-    });
+            return new CheckoutService();
+        });
+        $this->app->singleton('payment', function ($app) {
+            return new PaymentService();
+        });
     }
 
     /**

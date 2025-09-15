@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.panel' => AdminPanel::class,
         ]);
     })
+    ->withCommands([
+        \App\Actions\ImportLocationsAction::class,  // реєструвати клас-команду
+    ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

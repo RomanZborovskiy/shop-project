@@ -5,8 +5,8 @@ use App\Http\Client\Controllers\CategoryController;
 use App\Http\Client\Controllers\CheckoutController;
 use App\Http\Client\Controllers\CurrencyController;
 use App\Http\Client\Controllers\FavoriteController;
-use App\Http\Client\Controllers\FondyController;
 use App\Http\Client\Controllers\PageController;
+use App\Http\Client\Controllers\PaymentController;
 use App\Http\Client\Controllers\PostController;
 use App\Http\Client\Controllers\ProductController;
 use App\Http\Auth\ForgotPasswordController;
@@ -69,9 +69,9 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/checkout/settlements', [CheckoutController::class, 'suggest'])->name('checkout.settlements');
 
-Route::get('/payment/redirect/{order}', [FondyController::class, 'redirectToGateway'])->name('payment.gateway');
-Route::post('/payment/callback', [FondyController::class, 'handleCallback'])->name('payment.callback');
-Route::match(['get', 'post'], '/payment/response', [FondyController::class, 'handleResponse'])->name('payment.response');
+Route::get('/payment/redirect/{order}', [PaymentController::class, 'redirectToGateway'])->name('payment.gateway');
+Route::post('/payment/callback', [PaymentController::class, 'handleCallback'])->name('payment.callback');
+Route::match(['get', 'post'], '/payment/response', [PaymentController::class, 'handleResponse'])->name('payment.response');
 
 
 

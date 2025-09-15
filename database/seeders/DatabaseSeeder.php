@@ -28,8 +28,6 @@ class DatabaseSeeder extends Seeder
     {   
         $this->call([
             PageSeeder::class,
-            PropertySeeder::class,
-            PrimarySeeder::class,
             TaxonomySeeder::class,
         ]);
         User::factory(10)->create();
@@ -44,5 +42,9 @@ class DatabaseSeeder extends Seeder
         Order::factory()->count(10)->create();
         Purchase::factory()->count(30)->create();
         Lead::factory()->count(30)->create();
+        $this->call([
+            PropertySeeder::class,
+            PrimarySeeder::class,
+        ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Region;
 use XMLReader;
 use RuntimeException;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Illuminate\Console\Command;
 
 class ImportLocationsAction
 { 
@@ -122,16 +123,14 @@ class ImportLocationsAction
         }
     }
 
-    public function asCommand($command): int
+    public function asCommand(Command $command): int
     {
         $file = $command->argument('file');
         $batchSize = (int) $command->option('batch');
 
         $command->info("Починаю імпорт з файлу: {$file}");
 
-        $total = null; 
-
-        $bar = $command->output->createProgressBar($total);
+        $bar = $command->getOutput()->createProgressBar(0);
         $bar->start();
 
         $count = $this->handle($file, $batchSize, function ($processed) use ($bar) {

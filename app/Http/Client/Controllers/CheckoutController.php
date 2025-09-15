@@ -2,8 +2,9 @@
 
 namespace App\Http\client\Controllers;
 
+use App\Http\Client\Requests\CheckoutRequest;
 use App\Http\Controllers\Controller;
-use App\Models\location;
+use App\Models\Location;
 use App\Facades\Checkout;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class CheckoutController extends Controller
         return view('client.cart.checkout', compact('cart'));
     }
 
-    public function process(Request $request)
+    public function process(CheckoutRequest $request)
     {
         $validated = $request->validated();
 
@@ -38,21 +39,19 @@ class CheckoutController extends Controller
     {
         $q = $request->get('q', '');
 
-        $results = Location::query()->where('name', 'like', "%{$q}%")
-            ->limit(20000) 
+        $results = Location::query()
+            ->limit(20)
+            ->where('name', 'like', "%{$q}%")
             ->get(['id', 'name'])
-            ->unique('name') 
-            ->values()
-            ->take(20);
+            ->unique('name')
+            ->take(20)
+            ->values();
 
-        $formatted = $results->map(function ($settlement) {
-            return [
-                'id' => $settlement->id,
-                'text' => $settlement->name,
-            ];
-        });
+        $formatted = $results->map(fn($settlement) => [
+            'id' => $settlement->id,
+            'text' => $settlement->name,
+        ]);
 
         return response()->json(['results' => $formatted]);
     }
-
 }

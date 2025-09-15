@@ -25,7 +25,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
-        "lorisleiva/laravel-actions": "^2.9",
+        "lorisleiva/laravel-actions": "^2.7",
         "maatwebsite/excel": "^3.1",
         "orchestra/parser": "^10.0",
         "rap2hpoutre/laravel-log-viewer": "^2.5",
