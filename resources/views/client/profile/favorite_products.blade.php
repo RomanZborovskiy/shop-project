@@ -11,16 +11,18 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5>
-                            <a href="{{ route('client.catalog.show', $product) }}">
+                            <a href="{{ route('client.shop.show', $product) }}">
                                 {{ $product->name }}
                             </a>
                         </h5>
                         <p>{{ $product->price }} грн</p>
 
-                        <form action="{{ route('client.favorites.destroy', $product) }}" method="POST">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Видалити</button>
-                        </form>
+                        <form method="POST" action="{{ route('client.favorites.product', $product) }}">
+                        @csrf
+                        <button class="btn btn-sm {{ \App\Facades\Favorite::isFavorite($product) ? 'btn-outline-danger' : 'btn-outline-success' }}" type="submit">
+                            {{ \App\Facades\Favorite::isFavorite($product) ? 'Видалити з обраних' : 'Додати в обрані' }}
+                        </button>
+                    </form>
                     </div>
                 </div>
             </div>

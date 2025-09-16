@@ -3,14 +3,13 @@
 namespace App\Http\Client\Api\Controllers;
 
 use App\Facades\Cart;
+use App\Http\Client\Api\Requests\CartRequest;
 use App\Http\Client\Api\Resources\CartResource;
-use App\Http\Client\Api\Resources\CategoryResource;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\Term;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +34,7 @@ class CartController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Product added to cart',
+            'message' => 'Продукт додано до корзини',
         ]);
     }
 
@@ -44,19 +43,18 @@ class CartController extends Controller
         $qty = (int) $request->input('qty', 1);
 
         if ($qty > 0 && $purchase->quantity > $qty) {
-            $purchase->update(['quantity' => $purchase->quantity - $qty]);
-            $purchase->order->recalculateTotalPrice();
+            Cart::updatePurchase($purchase, $purchase->quantity - $qty);
         } else {
-            Cart::removePurchase(($purchase));
+            Cart::removePurchase($purchase);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Product removed from cart',
+            'message' => 'Продукт видалено з корзини',
         ]);
     }
-
-    public function checkout (Request $request)
+    
+    public function checkout (CartRequest $request)
     {
         $cartId = Cookie::get('cart_id');
         if (!$cartId) {
@@ -74,14 +72,7 @@ class CartController extends Controller
             ], 404);
         }
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'settlement_id' => 'nullable|exists:locations,id',
-            'delivery' => 'required|string|max:255',
-            'payment_method' => 'required|in:cash_on_delivery,online',
-        ]);
+        $validated = $request->validated();
 
         $user = Auth::user();
 

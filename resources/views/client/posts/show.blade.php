@@ -31,6 +31,15 @@
                 </div>
             @endif
         </div>
+        @auth
+            <form method="POST" action="{{ route('client.favorites.post', $post) }}">
+                @csrf
+                <button class="form-control w-25 d-inline" type="submit">
+                    {{ \App\Facades\Favorite::isFavorite($post) ? 'Видалити з обраних' : 'Додати в обрані' }}
+                </button>
+            </form>
+        @endauth
+        
     </div>
 
     <div class="mt-3">

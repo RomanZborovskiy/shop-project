@@ -54,10 +54,12 @@ Route::name('client.')->middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/orders',[UserOrderController::class,'index'])->name('profile.orders.index');
     Route::get('/profile/orders/{order}',[UserOrderController::class,'show'])->name('profile.orders.show');
-    Route::get('profile/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
-    Route::post('/favorites/{product}', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::delete('/favorites/{product}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::post('/profile/products/{product}', [FavoriteController::class, 'product'])->name('favorites.product');
+    Route::get('/profile/products', [FavoriteController::class, 'products'])->name('favorites.products');
+
+    Route::post('/profile/posts/{post}', [FavoriteController::class, 'post'])->name('favorites.post');
+    Route::get('/profile/posts', [FavoriteController::class, 'posts'])->name('favorites.posts');
 });
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

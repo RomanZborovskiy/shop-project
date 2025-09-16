@@ -6,6 +6,7 @@ use App\Http\Client\Api\Controllers\CartController;
 use App\Http\Client\Api\Controllers\CategoryController;
 use App\Http\Client\Api\Controllers\FavoriteController;
 use App\Http\Client\Api\Controllers\PageController;
+use App\Http\Client\Api\Controllers\PostController;
 use App\Http\Client\Api\Controllers\ProductController;
 use App\Http\Client\Api\Controllers\ReviewController;
 use Illuminate\Http\Request;
@@ -19,7 +20,26 @@ Route::middleware('api')->name('api')->prefix('auth')->group(function(){
 });
 
 
-Route::middleware(['api', 'auth:sanctum'])->name('api')->group(function () {
+Route::middleware(['api', 'auth:sanctum'])->name('api')->group(function (){
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    Route::prefix('my')->group(function (){
+        Route::get('/profile', [ProductController::class, 'index']);
+        Route::post('/profile', [ProductController::class, 'update']);
+        Route::get('/favorites', [FavoriteController::class, 'index']);
+        Route::get('/products', [FavoriteController::class, 'products']);
+        Route::get('/posts', [FavoriteController::class, 'posts']);
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::get('/{product}/reviews', [ReviewController::class, 'index']);
+        Route::post('/{product}/review', [ReviewController::class, 'store']);
+        Route::post('/{product}/favorite', [FavoriteController::class, 'toggleProduct']);
+        Route::post('/{post}/favorite', [FavoriteController::class, 'togglePost']);
+    });
+});
+
+Route::middleware(['api'])->name('api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/page/{template}',[PageController::class,'show'])->name('page.show');
 
@@ -30,21 +50,15 @@ Route::middleware(['api', 'auth:sanctum'])->name('api')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
         Route::get('{slug}', [ProductController::class, 'show']);
         Route::get('/search', [ProductController::class, 'search']);
-        Route::get('/{product}/reviews', [ReviewController::class, 'index']);
-        Route::post('/{product}/review', [ReviewController::class, 'store']);
-        Route::post('/{product}/favorites', [FavoriteController::class, 'toggle']);
     });
+
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/posts/{post}', [PostController::class, 'show']); 
 
     Route::prefix('cart')->group(function () {
         Route::get('/', [CartController::class, 'index']);
         Route::post('{product}/add', [CartController::class, 'add']);
         Route::post('{purchase}/remove', [CartController::class, 'remove']);
         Route::post('checkout', [CartController::class, 'checkout']);
-    });
-
-    Route::prefix('my')->group(function (){
-        Route::get('/profile', [ProductController::class, 'index']);
-        Route::post('/profile', [ProductController::class, 'update']);
-        Route::get('/favorites', [FavoriteController::class, 'index']);
     });
 });

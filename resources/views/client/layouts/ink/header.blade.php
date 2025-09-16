@@ -65,7 +65,7 @@
                         @else
                             <a href="{{ route('client.profile.orders.index') }}" class="dropdown-item">Мої замовлення</a>
                             <a href="{{ route('client.profile.show') }}" class="dropdown-item">Мій профіль</a>
-                            <a href="{{ route('client.favorites.index') }}" class="dropdown-item">Обрані</a>
+                            <a href="{{ route('client.favorites.products') }}" class="dropdown-item">Обрані</a>
                             @role('admin')
                                 <hr class="dropdown-divider">
                                 <a href="{{ route('admin.dashboard') }}" class="dropdown-item">Адмін-панель</a>

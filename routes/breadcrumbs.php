@@ -51,10 +51,10 @@ Breadcrumbs::for('client.catalog.index', function (BreadcrumbTrail $trail) {
     $trail->push('Каталог', route('client.catalog.index'));
 });
 
-Breadcrumbs::for('client.catalog.show', function (BreadcrumbTrail $trail, $category) {
-    $trail->parent('client.catalog.index');
-    $trail->push($category->name, route('client.catalog.show', $category));
-});
+// Breadcrumbs::for('client.catalog.show', function (BreadcrumbTrail $trail, $category) {
+//     $trail->parent('client.catalog.index');
+//     $trail->push($category->name, route('client.catalog.show', $category));
+// });
 
 //магазин
 Breadcrumbs::for('client.shop.index', function (BreadcrumbTrail $trail) {

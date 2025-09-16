@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('model_id');
+            $table->string('model_type');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->unique(['user_id', 'product_id']);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
+            $table->unique(['model_id', 'model_type', 'user_id']); // унікальна пара
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

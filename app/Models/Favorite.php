@@ -10,8 +10,8 @@ class Favorite extends Model
         'id',
     ];
 
-    public function product()
+    public function model()
     {
-        return $this->belongsTo(Product::class);
+        return $this->morphTo();
     }
 }

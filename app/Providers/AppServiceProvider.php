@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\CartService;
+use App\Services\FavoriteService;
 use App\Services\CurrencyService;
 use App\Services\CheckoutService;
 use App\Services\PaymentService;
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton('payment', function ($app) {
             return new PaymentService();
+        });
+        $this->app->singleton('favorite', function () {
+            return new FavoriteService();
         });
     }
 

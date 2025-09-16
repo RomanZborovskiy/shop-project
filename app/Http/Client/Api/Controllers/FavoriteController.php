@@ -2,51 +2,56 @@
 
 namespace App\Http\Client\Api\Controllers;
 
+use App\Http\Client\Api\Resources\PostResource;
 use App\Http\Client\Api\Resources\ProductResource;
 use App\Http\Controllers\Controller;
-use App\Models\Favorite;
+use App\Facades\Favorite;
+use App\Models\Post;
 use App\Models\Product;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Favorite as FavoriteModel;
 
 class FavoriteController extends Controller
 {
-    public function index()
+
+    public function toggleProduct(Product $product)
     {
-        $products = auth()->user()->favoriteProducts()->paginate(20);
+        $added = Favorite::toggle($product);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => $added ? 'Товар додано до обраних' : 'Товар видалено з обраних',
+        ]);
+    }
+
+    public function products()
+    {
+        $products = FavoriteModel::where('user_id', auth()->id())
+            ->where('model_type', Product::class)
+            ->with('model')
+            ->paginate(12)
+            ->through(fn ($favorite) => $favorite->model);
 
         return ProductResource::collection($products);
     }
-    public function toggle(Product $product)
+
+    public function togglePost(Post $post)
     {
-        $user = Auth::user();
+        $added = Favorite::toggle($post);
 
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Користувач не авторизований',
-            ], 401);
-        }
+        return response()->json([
+            'status'  => 'success',
+            'message' => $added ? 'Статтю додано до обраних' : 'Статтю видалено з обраних',
+        ]);
+    }
 
-        $favorite = Favorite::where('user_id', $user->id)
-                ->where('product_id', $product->id)->first();
+    public function posts()
+    {
+        $posts = FavoriteModel::where('user_id', auth()->id())
+            ->where('model_type', Post::class)
+            ->with('model')
+            ->paginate(12)
+            ->through(fn ($favorite) => $favorite->model);
 
-        if ($favorite) {
-            $favorite->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Продук був видалений з улюблених',
-            ]);
-        } else {
-            Favorite::create([
-                'user_id'    => $user->id,
-                'product_id' => $product->id,
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Продук був доданий до улюблених',
-            ]);
-        }
+        return PostResource::collection($posts);
     }
 }

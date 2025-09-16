@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Property;
 use App\Models\Term;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -24,6 +25,7 @@ class ProductsImport implements ToModel, WithHeadingRow
         $category = Term::firstOrCreate([
                 'name' => $row['category'],
                 'vocabulary' => 'categories',
+                'slug' => Str::slug($row['category']),
             ]);
 
          $product = Product::create([

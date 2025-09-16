@@ -3,29 +3,51 @@
 namespace App\Http\client\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Facades\Favorite;
+use App\Models\Post;
 use App\Models\Product;
+use App\Models\Favorite as FavoriteModel;
+use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-    public function index()
+    public function product(Product $product)
     {
-        $products = auth()->user()->favoriteProducts()->paginate(20);
-        return view('client.profile.favorite', compact('products'));
+        $added = Favorite::toggle($product);
+
+        return redirect()
+            ->back()
+            ->with('success', $added ? 'Товар додано до обраних' : 'Товар видалено з обраних');
     }
 
-    public function store(Product $product)
+    public function products()
     {
-        auth()->user()->favorites()->firstOrCreate([
-            'product_id' => $product->id,
-        ]);
+        $products = FavoriteModel::where('user_id', auth()->id())
+            ->where('model_type', Product::class)
+            ->with('model')
+            ->paginate(12) 
+            ->through(fn ($favorite) => $favorite->model); 
 
-        return back()->with('success', 'Товар додано в обрані');
+        return view('client.profile.favorite_products', compact('products'));
     }
 
-    public function destroy(Product $product)
+    public function post(Post $post)
     {
-        auth()->user()->favorites()->where('product_id', $product->id)->delete();
+        $added = Favorite::toggle($post);
 
-        return back()->with('success', 'Товар видалено з обраних');
+        return redirect()
+            ->back()
+            ->with('success', $added ? 'Статтю додано до обраних' : 'Статтю видалено з обраних');
+    }
+
+    public function posts()
+    {
+        $posts = FavoriteModel::where('user_id', auth()->id())
+            ->where('model_type', Post::class)
+            ->with('model')
+            ->paginate(12) 
+            ->through(fn ($favorite) => $favorite->model); 
+
+        return view('client.profile.favorite_posts', compact('posts'));
     }
 }

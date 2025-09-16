@@ -49,24 +49,13 @@
                                 <input type="number" name="quantity" value="1" min="1" class="form-control w-25 d-inline">
                                 <button type="submit" class="btn btn-primary">Додати в кошик</button>
                             </form>
-                            <br/>
-                                    @auth
-                                        @if(auth()->user()->favoriteProducts->contains($product->id))
-                                            <form action="{{ route('client.favorites.destroy', $product) }}" method="POST">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="bi bi-heart-fill"></i> В обраних
-                                                </button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('client.favorites.store', $product) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger">
-                                                    <i class="bi bi-heart"></i> Додати в обрані
-                                                </button>
-                                            </form>
-                                        @endif
-                                    @endauth
+                            <br/>                            
+                            <form method="POST" action="{{ route('client.favorites.product', $product) }}">
+                                @csrf
+                                <button class="btn btn-sm {{ \App\Facades\Favorite::isFavorite($product) ? 'btn-outline-danger' : 'btn-outline-success' }}" type="submit">
+                                    {{ \App\Facades\Favorite::isFavorite($product) ? 'Видалити з обраних' : 'Додати в обрані' }}
+                                </button>
+                            </form>           
                         </div>
                         <div class="col-lg-12">
                             <nav>
