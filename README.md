@@ -28,6 +28,12 @@ docker compose up -d workspace php-fpm adminer nginx mysql redis redis-webui pos
 
 ### 2. Увійди у контейнер workspace:
 docker compose exec --user=laradock workspace bash
+### 2. Увійди в папку з проектом
+
+composer install
+php artisan key:generate
+php artisan migrate 
+php artisan db:seed 
 
 ### 3. Доступи
 
@@ -35,4 +41,4 @@ docker compose exec --user=laradock workspace bash
 
 API документація: http://localhost/docs
 
-phpMyAdmin (якщо запущено): http://localhost:8080
+phpMyAdmin: http://localhost:8080
