@@ -10,34 +10,35 @@
         </ul>
     </div>
 @endif
+
 <section class="content">
-        <div class="container-fluid">
+    <div class="container-fluid">
 
-    {!! Lte3::formOpen([
-        'action' => route('admin.categories.update', $term),
-        'model' => $term,
-        'files' => true,
-        'method' => 'PUT'
-    ]) !!}
+        {!! Lte3::formOpen([
+            'action' => route('admin.categories.update', $category),
+            'model' => $category,
+            'files' => true,
+            'method' => 'PUT'
+        ]) !!}
 
-    {!! Lte3::text('name', $term->name, [
-        'label' => 'Назва категорії',
-        'required' => true
-    ]) !!}
+        {!! Lte3::text('name', $category->name, [
+            'label' => 'Назва категорії',
+            'required' => true
+        ]) !!}
 
-    {!! Lte3::select2('parent_id', $term->parent_id, 
-        \App\Models\Term::pluck('name', 'id')->toArray(),
-        [
-            'label' => 'Батьківська категорія',
-            'placeholder' => '— Без батьківської —',
-        ]
-    ) !!}
+        {!! Lte3::select2('parent_id', $category->parent_id, 
+            \Fomvasss\SimpleTaxonomy\Models\Term::pluck('name', 'id')->toArray(),
+            [
+                'label' => 'Батьківська категорія',
+                'placeholder' => '— Без батьківської —',
+            ]
+        ) !!}
 
-        @include('admin.components.meta', ['model' => $category ?? null])
+        @include('admin.components.meta', ['model' => $category])
         
-    {!! Lte3::btnSubmit('Зберегти') !!}
-    {!! Lte3::formClose() !!}
+        {!! Lte3::btnSubmit('Зберегти') !!}
+        {!! Lte3::formClose() !!}
 
-
-    </section>
+    </div>
+</section>
 @endsection

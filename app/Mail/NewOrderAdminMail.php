@@ -18,10 +18,10 @@ class NewOrderAdminMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(string $subjectText, string $bodyText)
-    {
-        $this->subjectText = $subjectText;
-        $this->bodyText    = $bodyText;
+    public function __construct($order)
+{
+        $this->subjectText = 'Нове замовлення #' . $order->id;
+        $this->bodyText    = 'Клієнт: ' . $order->name . ', сума: ' . $order->total_price ;
     }
 
     /**

@@ -37,7 +37,7 @@ class ProductRequest extends FormRequest
             ],
             'status'=>'required',
             'brand_id' => 'nullable|exists:brands,id',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'nullable|exists:terms,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'seo' => 'array',
             'seo.title' => 'nullable|string|max:255',

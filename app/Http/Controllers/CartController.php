@@ -146,6 +146,6 @@ class CartController extends Controller
      */
     public function checkout(Request $request)
     {
-        // ... твій код checkout ...
+       
     }
 }

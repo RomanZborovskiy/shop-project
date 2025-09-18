@@ -95,8 +95,10 @@
                             <h5 class="mb-0 ps-4 me-4">Total</h5>
                             <p class="mb-0 pe-4">{{currency_convert($cart->total_price, currency_active())}} {{ currency_name() }}</p>
                         </div>
-                        <button class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mb-4 ms-4"
-                            type="button">Proceed Checkout</button>
+                        <<a href="{{ route('checkout.index') }}" 
+                            class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mb-4 ms-4">
+                            Proceed Checkout
+                        </a>
                     </div>
                 </div>
             </div>

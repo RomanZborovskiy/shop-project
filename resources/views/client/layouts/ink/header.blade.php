@@ -13,7 +13,7 @@
         <div class="col-lg-4">
             @if (Breadcrumbs::exists(Route::currentRouteName()))
                 <div aria-label="breadcrumb">
-                    {{ Breadcrumbs::render(Route::currentRouteName(), $category ?? $product ?? $order ?? $page ?? null) }}
+                    {{ Breadcrumbs::render(Route::currentRouteName(), $category ?? $product ?? $order ?? $page ?? $post ?? null) }}
                 </div>
             @endif
         </div>
@@ -65,10 +65,11 @@
                         @else
                             <a href="{{ route('client.profile.orders.index') }}" class="dropdown-item">Мої замовлення</a>
                             <a href="{{ route('client.profile.show') }}" class="dropdown-item">Мій профіль</a>
-                            <a href="{{ route('client.favorites.products') }}" class="dropdown-item">Обрані</a>
-                            @role('admin')
+                            <a href="{{ route('client.favorites.products') }}" class="dropdown-item">Обрані продукти</a>
+                            <a href="{{ route('client.favorites.posts') }}" class="dropdown-item">Обрані пости</a>
+                            @role('admin|SuperAdmin')
                                 <hr class="dropdown-divider">
-                                <a href="{{ route('admin.dashboard') }}" class="dropdown-item">Адмін-панель</a>
+                                <a href="{{ route('admin.dashboard.index') }}" class="dropdown-item">Адмін-панель</a>
                             @endrole
                             <hr class="dropdown-divider">
                             <form method="POST" action="{{ route('logout') }}" class="mb-0">
@@ -119,11 +120,11 @@
                         <i class="fas fa-heart"></i>
                     </span>
                 </a>
-                <a href="#" class="text-muted d-flex align-items-center justify-content-center">
+                <a href="{{route('cart.index')}}" class="text-muted d-flex align-items-center justify-content-center">
                     <span class="rounded-circle btn-md-square border">
                         <i class="fas fa-shopping-cart"></i>
                     </span>
-                    <span class="text-dark ms-2">$0.00</span>
+                    <span class="text-dark ms-2">0</span>
                 </a>
             </div>
         </div>

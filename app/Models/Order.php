@@ -52,7 +52,7 @@ class Order extends Model
     {
         $records = [
             [
-                'key' => self::BASKER_STATUS,
+                'key' => self::STATUS_PROCESSING,
                 //'name' => trans('lists.basket_type.' . self::BASKER_TYPE . '.name'),
                 'name'=>'Корзина'
             ],
@@ -70,7 +70,7 @@ class Order extends Model
     {
         $records = [
             [
-                'key' => self::TYPE_CASH,
+                'key' => self::TYPE_ORDER,
                 //'name' => trans('lists.basket_type.' . self::BASKER_TYPE . '.name'),
                 'name'=>'Готівкою'
             ],

@@ -28,8 +28,6 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
     Route::post('products/{product}/add-attribute', [ProductController::class, 'storeAttribute'])->name('products.storeAttribute');
 
     Route::resource('posts',PostController::class)->except('show');
-    Route::resource('categories',CategoryController::class)->except('show');
-    Route::post('/categories/order', [CategoryController::class, 'order'])->name('categories.order');
 
     Route::resource('attributes',AttributeController::class)->except('show');
     Route::resource('orders', OrderController::class)->except('show');
@@ -37,6 +35,16 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
     Route::prefix('leads')->group(function () {
         Route::get('/', [LeadController::class,'index'])->name('leads.index');
         Route::resource('mailings', MailingController::class)->except('show');
+    });
+
+    Route::prefix('categories')->name('admin.categories.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create/{parent?}', [CategoryController::class, 'create'])->name('create');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+        Route::post('/order', [CategoryController::class, 'order'])->name('order');
     });
 
     Route::get('roles',[RoleController::class, 'index'])->name('roles.index');
@@ -58,13 +66,6 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
 
 });
 
-
-Route::name('admin.')->group(function () {
-    Route::resource('categories', CategoryController::class);
-    Route::post('categories/order', [CategoryController::class, 'order'])->name('categories.order');
-});
-
-
 Route::prefix('admin')->name('admin')->group(function () {
         Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
@@ -78,3 +79,4 @@ Route::prefix('admin')->name('admin')->group(function () {
     Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
+

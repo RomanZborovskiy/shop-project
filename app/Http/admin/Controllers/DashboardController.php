@@ -3,13 +3,8 @@
 namespace App\Http\admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lead;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Permission\Models\Role;
-
 
 class DashboardController extends Controller
 {   

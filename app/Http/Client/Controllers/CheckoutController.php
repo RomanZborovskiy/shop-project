@@ -2,6 +2,7 @@
 
 namespace App\Http\client\Controllers;
 
+use App\Events\ConfirmOrder;
 use App\Http\Client\Requests\CheckoutRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
@@ -31,6 +32,8 @@ class CheckoutController extends Controller
             return redirect()->route('payment.gateway', $order)
                 ->with('message', 'Перенаправлення на сторінку оплати...');
         }
+        
+        ConfirmOrder::dispatch($order);
 
         return redirect()->route('client.dashboard')
             ->with('message', 'Ваше замовлення успішно оформлено!');

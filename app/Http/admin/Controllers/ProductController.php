@@ -37,14 +37,15 @@ class ProductController extends Controller
             $product->prices = Currency::getPrices($product->price);
         }
         
-        $categories = Category::pluck('name', 'id')->prepend('Всі', '');
+        $categories = Term::pluck('name', 'id')->prepend('Всі', '');
         return view('admin.products.index', compact('products','categories'));
     }
 
     public function create(Product $product)
     {
         $brands = Brand::all()->pluck('name', 'id');
-        $categories = Term::pluck('name', 'id');
+        $categories = Term::where('vocabulary', 'categories')
+                ->whereNotNull('parent_id')->pluck('name', 'id');
 
         return view('admin.products.create', compact('brands','categories'));
     }
@@ -67,7 +68,7 @@ class ProductController extends Controller
     public function edit(Request $request, Product $product)
     {
         $brands = Brand::all();
-        $categories = Term::pluck('name', 'id');
+        $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
         $attributes = Attribute::all();
 
         $properties = collect();

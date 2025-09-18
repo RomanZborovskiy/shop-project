@@ -1,79 +1,35 @@
-
-
-
 @extends('admin.layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>Категорії</h2>
-    {!! Lte3::nestedset($categories, [
-        'label' => 'Категорії',
-        'has_nested' => $vocabulary['has_hierarchy'],
+    <h1>Категорії</h1>
+
+    {!! Lte3::nestedset($terms, [
+        'label' => 'Categories',
+        'has_nested' => true,
         'routes' => [
-            'edit'   => $vocabulary['permissions']['update'] ? 'admin.categories.edit'   : null,
-            'create' => $vocabulary['permissions']['create'] ? 'admin.categories.create' : null,
-            'delete' => $vocabulary['permissions']['delete'] ? 'admin.categories.destroy': null,
-            'order'  => $vocabulary['permissions']['update'] ? 'categories.order' : null,
+            'edit' => 'admin.categories.edit',
+            'create' => 'admin.categories.create',
+            'delete' => 'admin.categories.destroy',
+            'order' => 'admin.categories.order',
+            'params' => [],
         ],
     ]) !!}
-</div>
 @endsection
 
+@push('scripts')
+<script>
+    $(document).on('nestedset:reorder', function (e, data) {
+        $.post("{{ route('admin.categories.order') }}", {
+            _token: '{{ csrf_token() }}',
+            order: data
+        }).done(function () {
+            console.log('Order updated');
+        });
+    });
+</script>
+@endpush
 
 
 
-{{-- @extends('admin.layouts.app')
 
-@section('content')
-<section class="content">
-        <div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Продукти</h3>
-            <div class="card-tools">
-                <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
-            </div>
-        </div>
 
-        <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Назва</th>
-                        <th>Тип</th>
-                        <th>Дії</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($categories as $category)
-                        <tr>
-                            <td>{{ $category->id }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->type }}</td>
-                            <td>
-                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Видалити</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7">Категорій не знайдено.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card-footer">
-            {{ $categories->links('pagination::bootstrap-4') }}
-        </div>
-    </div>
-</div>
-    </section>
-
-@endsection --}}

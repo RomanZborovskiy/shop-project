@@ -11,15 +11,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Term::where('vocabulary', 'categories')->get();
+        $categories = Term::get();
 
         return view('client.catalog.index', compact('categories'));
     }
 
-    public function show(Request $request, string $slug)
+    public function show(Request $request, Term $category)
     {
-        $category = Term::where('slug', $slug)->firstOrFail();
-
         $filters = $request->only([
             'price_from',
             'price_to',
@@ -29,10 +27,9 @@ class CategoryController extends Controller
         ]);
 
         $products = $category->products()->filter($filters)->paginate(12);
-
         $brands   = Brand::orderBy('name')->get();
-        
-        return view('client.catalog.show', compact('category', 'products','brands'));
+
+        return view('client.catalog.show', compact('category', 'products', 'brands'));
     }
 }
    

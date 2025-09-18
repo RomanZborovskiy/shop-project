@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasSlug;
 use Fomvasss\Seo\Models\HasSeo;
 ///use Kalnoy\Nestedset\NodeTrait;
 

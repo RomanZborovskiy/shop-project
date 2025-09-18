@@ -8,24 +8,24 @@
 
     <ul>
         @foreach($categories as $category)
-            <li>
-                <a href="{{ route('client.catalog.show', $category) }}">
-                    {{ $category->name }}
-                </a>
+    <li>
+        <a href="{{ route('client.catalog.show', $category) }}">
+            {{ $category->name }}
+        </a>
 
-                @if($category->children->count())
-                    <ul>
-                        @foreach($category->children as $child)
-                            <li>
-                                <a href="{{ route('client.catalog.show', $child) }}">
-                                    {{ $child->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </li>
-        @endforeach
+        @if($category->children->count())
+            <ul>
+                @foreach($category->children as $child)
+                    <li>
+                        <a href="{{ route('client.catalog.show', $child) }}">
+                            {{ $child->name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </li>
+@endforeach
     </ul>
 </div>
 @endsection

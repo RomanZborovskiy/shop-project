@@ -21,7 +21,6 @@
     ]) !!}
 
     @include('admin.products.inc.form')
-    @include('admin.components.meta', ['model' => $product ?? null])
 
     @foreach($product->getMedia('images') as $media)
             
@@ -29,7 +28,9 @@
         alt="{{ $product->name }}" 
         class="img-fluid mb-2 rounded border">
     @endforeach
+    @include('admin.components.meta', ['model' => $product ?? null])
     <br/>
+    {!! Lte3::btnSubmit('Зберегти') !!}   
     {!! Lte3::formClose() !!}
 
     <div class="card card-primary">
