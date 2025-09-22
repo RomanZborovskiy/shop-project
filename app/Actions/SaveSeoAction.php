@@ -4,10 +4,12 @@ namespace App\Actions;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Lorisleiva\Actions\Concerns\AsAction;
 
 class SaveSeoAction
 {
-    public function execute(Model $model, array $seo, string $group = 'ua'): void
+    use AsAction;
+    public function handle(Model $model, array $seo, string $group = 'ua'): void
     {
         if (empty($seo)) {
             return;
@@ -15,7 +17,9 @@ class SaveSeoAction
 
         $model->seo()->updateOrCreate(
             [
-                'group' => $group,
+                'group'       => $group,
+                'model_id'    => $model->getKey(),
+                'model_type'  => $model->getMorphClass(),
             ],
             [
                 'tags'  => $seo,

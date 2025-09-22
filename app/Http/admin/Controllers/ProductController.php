@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Imports\ProductsImport;
 use App\Models\Attribute;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\Property;
 use App\Models\Term;
@@ -56,7 +55,7 @@ class ProductController extends Controller
 
         $product=Product::create($data);
 
-        $saveSeo->execute($product, $data['seo'] ?? []);
+        SaveSeoAction::run($product, $data['seo'] ?? []);
 
         $product->mediaManage($request);
 
@@ -85,16 +84,16 @@ class ProductController extends Controller
         ));
     }
 
-    public function update(ProductRequest $request, Product $product, SaveSeoAction $saveSeo)  {
+    public function update(ProductRequest $request, Product $product)  {
         $data = $request->validated();
 
         $product->update($data);
 
-        $saveSeo->execute($product, $data['seo'] ?? []);
+        SaveSeoAction::run($product, $data['seo'] ?? []);
 
         $product->mediaManage($request);
 
-        return redirect()->route('products.index')->with('success', 'Продукт успішно оновлено!');
+        return redirect()->route('products.edit', $product->id)->with('success', 'Продукт успішно оновлено!');
     
     }
 

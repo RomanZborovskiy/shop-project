@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Facades\Favorite;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Favorite as FavoriteModel;
-use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {

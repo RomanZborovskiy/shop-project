@@ -19,41 +19,6 @@
             </ul>
         </li>
 
-        <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-               class="nav-link dropdown-toggle"><i class="fas fa-database"></i> <span class="nav-item-title">Laravel</span></a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
-                style="left: 0px; right: inherit;">
-                <li><a href="#" class="dropdown-item">Python</a></li>
-                <li><a href="#" class="dropdown-item text-bold">Laravel</a></li>
-                <li><a href="#" class="dropdown-item">VueJS</a></li>
-                <li><a href="#" class="dropdown-item">React</a></li>
-            </ul>
-        </li>
-
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                <i class="flag-icon flag-icon-us"></i>
-            </a>
-            <div class="dropdown-menu p-0" style="left: inherit; right: 0px;">
-                <a href="#" class="dropdown-item">
-                    <i class="flag-icon flag-icon-ua mr-2"></i> Ukrainian
-                </a>
-                <a href="#" class="dropdown-item active">
-                    <i class="flag-icon flag-icon-us mr-2"></i> English
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="flag-icon flag-icon-de mr-2"></i> German
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="flag-icon flag-icon-fr mr-2"></i> French
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="flag-icon flag-icon-es mr-2"></i> Spanish
-                </a>
-            </div>
-        </li>
-
         <li class="nav-item" data-toggle="tooltip" title="Theme">
             @if(session('lte_theme') === 'dark' || config('lte3.view.dark_mode'))
                 <a href="{{ route('lte3.data.save', ['key' => 'lte_theme', 'value' => 'light']) }}" class="nav-link"> <i class="fas fa-sun"></i></a>
@@ -61,32 +26,8 @@
                 <a href="{{ route('lte3.data.save', ['key' => 'lte_theme', 'value' => 'dark']) }}" class="nav-link"> <i class="fas fa-moon"></i></a>
             @endif
         </li>
-
-        <li class="nav-item d-none d-sm-inline-block" data-toggle="tooltip" title="Visit">
-            <a href="#" class="nav-link"> <i class="fas fa-chevron-circle-right"></i></a>
-        </li>
-
-        <li class="nav-item" data-toggle="tooltip" title="Change">
-            <div class="theme-switch-wrapper nav-link">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </li>
+    
     </ul>
-
-    <form class="form-inline ml-0 ml-md-3">
-        <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search..." aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->

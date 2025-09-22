@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
 use App\Events\ConfirmOrder;
 use App\Http\Client\Requests\CheckoutRequest;

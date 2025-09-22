@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Fomvasss\Seo\Models\HasSeo;
+use Fomvasss\Seo\Models\Seo;
 ///use Kalnoy\Nestedset\NodeTrait;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
@@ -38,6 +39,16 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
     public function posts()
     {
         return $this->hasMany(Post::class, );
+    }
+
+    public function seo()
+    {
+        return $this->morphOne(Seo::class, 'model');
+    }
+
+    public function getMorphClass()
+    {
+        return self::class; 
     }
 
     public static function vocabulariesList(string $columnKey = null, string $indexKey = null): array

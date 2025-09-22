@@ -34,6 +34,7 @@
     },
     "require-dev": {
         "almasaeed2010/adminlte": "^3.2",
+        "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",

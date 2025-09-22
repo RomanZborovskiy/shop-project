@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
-use App\Exports\ProductsExport;
-use App\Facades\Currency;
-use App\Http\admin\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
-use App\Imports\ProductsImport;
-use App\Models\Attribute;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
-use App\Models\Property;
-use App\Models\Term;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {

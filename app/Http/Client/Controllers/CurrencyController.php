@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CurrencyController extends Controller

@@ -2,8 +2,9 @@
 
 namespace App\Http\admin\Controllers;
 
+use App\Actions\SaveSeoAction;
 use App\Http\Controllers\Controller;
-use Fomvasss\SimpleTaxonomy\Models\Term;
+use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ class CategoryController extends Controller
 {
 public function index()
     {
-        $terms = Term::defaultOrder()->get()->toTree();
+        $terms = Term::get()->toTree();
 
         return view('admin.categories.index', compact('terms'));
     }
@@ -27,6 +28,10 @@ public function index()
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:terms,id',
+            'seo' => 'array',
+            'seo.title' => 'nullable|string|max:255',
+            'seo.description' => 'nullable|string|max:500',
+            'seo.keywords' => 'nullable|string|max:255',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -42,6 +47,8 @@ public function index()
             } else {
                 $term->saveAsRoot();
             }
+
+            SaveSeoAction::run($term, $data['seo'] ?? []);
         });
 
         return redirect()->route('admin.categories.index');
@@ -82,13 +89,18 @@ public function index()
 
     public function order(Request $request)
     {
-        $nodeList = $request->input('order', []);
+        $this->validate($request, [
+            'data' => 'required|array'
+        ]);
 
-        if (!empty($nodeList)) {
-            Term::rebuildTree($nodeList, true);
+        $entities = build_linear_array_sort($request->data);
+
+        foreach ($entities as $item) {
+            optional(Term::find($item['id']))->update($item);
         }
 
-        return response()->json(['status' => 'ok']);
+        return response()
+            ->json(['message' => 'Ok']);
     }
 }
     

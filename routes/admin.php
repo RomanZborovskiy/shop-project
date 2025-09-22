@@ -29,6 +29,8 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
 
     Route::resource('posts',PostController::class)->except('show');
 
+    Route::resource('users',UserController::class)->except('show');
+
     Route::resource('attributes',AttributeController::class)->except('show');
     Route::resource('orders', OrderController::class)->except('show');
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
 use App\Facades\Payment;
 use App\Http\Controllers\Controller;

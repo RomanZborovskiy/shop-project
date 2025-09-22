@@ -24,13 +24,13 @@ class PostController extends Controller
         return view('admin.posts.create', compact( 'categories'));
     }
 
-    public function store(PostRequest $request, SaveSeoAction $saveSeo)
+    public function store(PostRequest $request)
     {
         $data = $request->validated();
         $data['user_id'] = Auth::id(); 
         $post = Post::create($data);
 
-        $saveSeo->execute($post, $data['seo'] ?? []);
+        SaveSeoAction::run($post, $data['seo'] ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно створено!');
     }
@@ -48,7 +48,7 @@ class PostController extends Controller
 
         $post::findOrFail($post->id)->update($data);
 
-        $saveSeo->execute($post, $data['seo'] ?? []);
+        SaveSeoAction::run($post, $data['seo'] ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Пост успішно оновлено!');
     

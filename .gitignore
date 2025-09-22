@@ -17,6 +17,8 @@
 /public/hot
 /public/storage
 /public/docs
+/public/vendor/adminlte
+/public/vendor/lte3
 /storage/*.key
 /storage/pail
 /vendor

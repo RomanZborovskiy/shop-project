@@ -5,9 +5,9 @@
         <div class="container mt-4">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Пости</h3>
+            <h3 class="card-title">Користувачі</h3>
             <div class="card-tools">
-                <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
+                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
             </div>
         </div>
 
@@ -16,24 +16,24 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Назва</th>
-                        <th>Категорія</th>
-                        <th>Користувач</th>
-                        <th>slug</th>
+                        <th>Ім'я</th>
+                        <th>email</th>
+                        <th>Тулефон</th>
+                        <th>Статус</th>
                         <th>Дії</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($posts as $post)
+                    @forelse($users as $user)
                         <tr>
-                            <td>{{ $post->id }}</td>
-                            <td>{{ $post->name }}</td>
-                            <td>{{ $post->category->name ?? '—' }}</td>
-                            <td>{{ $post->user->name ?? '—' }}</td>
-                            <td>{{ $post->slug }}</td>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->phone}}</td>
+                            <td>{{ $user->status }}</td>
                             <td>
-                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
+                                <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning">Редагувати</a>
+                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Видалити</button>
@@ -42,7 +42,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">Постів знайдено.</td>
+                            <td colspan="7">Користувачів не знайдено.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="card-footer">
-            {{ $posts->links('pagination::bootstrap-4') }}
+            {{ $users->links('pagination::bootstrap-4') }}
         </div>
     </div>
 </div>

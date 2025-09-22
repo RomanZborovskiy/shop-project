@@ -19,7 +19,7 @@
 
         ]) !!}
 
-        {!! Lte3::number('old_price', $product->old_price ?? null, [
+        {!! Lte3::number('old_price', $product->old_price ?? '', [
             'label' => 'Стара ціна',
             'step' => 0.01,
         ]) !!}
@@ -45,7 +45,7 @@
         ]) !!}
 
 
-        {!! Lte3::mediaImage('images[]', null, [
+        {!! Lte3::mediaImage('images', null, [
             'label' => 'Додаткові зображення',
             'multiple' => true,
             'help' => 'Можна вибрати кілька файлів'

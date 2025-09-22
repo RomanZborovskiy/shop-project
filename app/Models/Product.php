@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Models\Traits\HasStaticLists;
 use App\Models\Traits\HasSlug;
+use Fomvasss\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\Models\Media;
 use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
 use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,6 +64,11 @@ class Product extends Model implements HasMedia
     {       
         $this->addMediaCollection('product_gallery')
             ->useDisk('public');
+    }
+
+    public function seo()
+    {
+        return $this->morphOne(Seo::class, 'model');
     }
 
     /**

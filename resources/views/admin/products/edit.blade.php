@@ -21,13 +21,7 @@
     ]) !!}
 
     @include('admin.products.inc.form')
-
-    @foreach($product->getMedia('images') as $media)
-            
-    <img src="{{ $media->getUrl('thumb') }}" 
-        alt="{{ $product->name }}" 
-        class="img-fluid mb-2 rounded border">
-    @endforeach
+    
     @include('admin.components.meta', ['model' => $product ?? null])
     <br/>
     {!! Lte3::btnSubmit('Зберегти') !!}   

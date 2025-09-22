@@ -3,14 +3,10 @@
 namespace App\Http\Client\Api\Controllers;
 
 use App\Http\Client\Api\Requests\ReviewRequest;
-use App\Http\Client\Api\Resources\CategoryResource;
-use App\Http\Client\Api\Resources\PageResource;
 use App\Http\Client\Api\Resources\ReviewResource;
 use App\Http\Controllers\Controller;
-use App\Models\Page;
 use App\Models\Product;
 use App\Models\Review;
-use App\Models\Term;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller

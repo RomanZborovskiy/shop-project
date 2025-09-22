@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\client\Controllers;
+namespace App\Http\Client\Controllers;
 
 use App\Http\Client\Requests\ReviewRequest;
 use App\Http\Controllers\Controller;

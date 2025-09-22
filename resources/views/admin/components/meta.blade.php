@@ -4,13 +4,13 @@
     </div>
     <div class="card-body">
 
-        {!! Lte3::text('seo[keywords]', $model->seo?->tags['title'] ?? null, [
-            'label' => 'title',
+        {!! Lte3::text('seo[title]', $model->seo?->tags['title'] ?? null, [
+            'label' => 'Заголовок',
             'type' => 'text',
         ]) !!}
 
-        {!! Lte3::text('seo[title]', $model->seo?->tags['keywords'] ?? null, [
-            'label' => 'title',
+        {!! Lte3::text('seo[keywords]', $model->seo?->tags['keywords'] ?? null, [
+            'label' => 'Ключові слова',
             'type' => 'text',
         ]) !!}
 
