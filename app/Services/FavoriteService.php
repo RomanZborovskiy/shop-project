@@ -14,7 +14,7 @@ class FavoriteService
 
         $favorite = Favorite::where([
             'model_id'   => $model->id,
-            'model_type' => get_class($model),
+            'model_type' => $model->getMorphClass(),
             'user_id'    => $userId,
         ])->first();
 
@@ -25,7 +25,7 @@ class FavoriteService
 
         Favorite::create([
             'model_id'   => $model->id,
-            'model_type' => get_class($model),
+            'model_type' => $model->getMorphClass(),
             'user_id'    => $userId,
         ]);
 
@@ -36,7 +36,7 @@ class FavoriteService
     {
         return Favorite::where([
             'model_id'   => $model->id,
-            'model_type' => get_class($model),
+            'model_type' => $model->getMorphClass(),
             'user_id'    => Auth::id(),
         ])->exists();
     }

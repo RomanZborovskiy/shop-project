@@ -8,9 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Traits\HasStaticLists;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Image\Enums\Fit;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\MediaLibrary\Models\Media;
 use Fomvasss\MediaLibraryExtension\HasMedia\HasMedia;
 use Fomvasss\MediaLibraryExtension\HasMedia\InteractsWithMedia;
 

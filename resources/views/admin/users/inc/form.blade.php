@@ -18,6 +18,16 @@
             'help' => 'Оберіть файл зображення',
         ]) !!}
 
+        {!! Lte3::select2('role', $user->role ?? null, $roles->pluck('name', 'name')->toArray(), [
+            'label' => 'Роль',
+            'placeholder' => 'Оберіть роль',
+        ]) !!}
+
+        {!! Lte3::select2('status', $puser->status ?? null, App\Models\User::statusList(), [
+            'label' => 'Статус',
+            'placeholder' => 'Оберіть статус',
+        ]) !!}
+
         {!! Lte3::text('password',  null, [
             'label' => 'Новий пароль',
             'type' => 'password',

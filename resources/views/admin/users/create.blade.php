@@ -14,7 +14,7 @@
         <div class="container-fluid">
 
     {!! Lte3::formOpen([
-        'action' => route('posts.store'),
+        'action' => route('users.store'),
         'model' => null,
         'files' => true,
         'method' => 'POST'

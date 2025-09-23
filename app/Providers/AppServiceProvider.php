@@ -50,5 +50,9 @@ class AppServiceProvider extends ServiceProvider
             $cart = Cart::getCart();
             $view->with('cart', $cart);
         });
+
+        View::composer('*', function ($view) {
+            $view->with('cartCount', Cart::getCount());
+        });
     }
 }

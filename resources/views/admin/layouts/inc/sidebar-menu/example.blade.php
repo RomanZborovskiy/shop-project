@@ -45,11 +45,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('users.index')}}" class="nav-link" data-pat="users">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Користувачі</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('leads.index')}}" class="nav-link" data-pat="leads">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Ліди</p>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
                     <a href="{{route('roles.index')}}" class="nav-link" data-pat="roles">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Ролі</p>
                     </a>
-                </li>
+                </li> --}}
                 
             </ul>
         </li>

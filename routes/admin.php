@@ -49,11 +49,6 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
         Route::post('/order', [CategoryController::class, 'order'])->name('order');
     });
 
-    Route::get('roles',[RoleController::class, 'index'])->name('roles.index');
-    Route::get('/roles/{user}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::patch('/roles/{user}/update', [RoleController::class, 'update'])->name('roles.update');
-
-
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/confirm-password', [ProfileController::class, 'showPasswordForm'])->name('profile.confirm.password.form');
     Route::post('/profile/confirm-password', [ProfileController::class, 'confirmPassword'])->name('profile.confirm.password');

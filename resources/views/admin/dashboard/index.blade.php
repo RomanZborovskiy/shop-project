@@ -49,7 +49,7 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href={{route('roles.index')}} class="small-box-footer">Переглянути користувачів <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href={{route('users.index')}} class="small-box-footer">Переглянути користувачів <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

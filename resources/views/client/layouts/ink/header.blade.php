@@ -124,7 +124,7 @@
                     <span class="rounded-circle btn-md-square border">
                         <i class="fas fa-shopping-cart"></i>
                     </span>
-                    <span class="text-dark ms-2">0</span>
+                    <span class="text-dark ms-2">{{ $cartCount }}</span>
                 </a>
             </div>
         </div>

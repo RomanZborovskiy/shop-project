@@ -27,7 +27,7 @@
     {!! Lte3::btnSubmit('Зберегти') !!}   
     {!! Lte3::formClose() !!}
 
-    <div class="card card-primary">
+    {{-- <div class="card card-primary">
     <div class="card-body">
         <form method="GET" action="{{ route('products.edit', $product) }}">
             <div class="form-group">
@@ -60,6 +60,6 @@
             </form>
         @endif
     </div>
-</div>
+</div> --}}
     </section>
 @endsection

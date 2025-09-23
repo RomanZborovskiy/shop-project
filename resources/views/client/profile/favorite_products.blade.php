@@ -6,7 +6,7 @@
 <div class="container py-5">
     <h1>Мої обрані товари</h1>
     <div class="row">
-        @forelse($products as $product)
+        @foreach($products as $product)
             <div class="col-md-3">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -18,17 +18,15 @@
                         <p>{{ $product->price }} грн</p>
 
                         <form method="POST" action="{{ route('client.favorites.product', $product) }}">
-                        @csrf
-                        <button class="btn btn-sm {{ \App\Facades\Favorite::isFavorite($product) ? 'btn-outline-danger' : 'btn-outline-success' }}" type="submit">
-                            {{ \App\Facades\Favorite::isFavorite($product) ? 'Видалити з обраних' : 'Додати в обрані' }}
-                        </button>
-                    </form>
+                            @csrf
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                Видалити з обраних
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        @empty
-            <p>Немає обраних товарів</p>
-        @endforelse
+        @endforeach
     </div>
 
     {{ $products->links() }}

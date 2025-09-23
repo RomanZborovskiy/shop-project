@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
             'description' => 'nullable|string|max:1000',
             'text' => 'required|string',
             'tags' => 'nullable|string|max:255',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'nullable|exists:terms,id',
             'user_id' => 'nullable|exists:users,id',
             'seo' => 'array',
             'seo.title' => 'nullable|string|max:255',

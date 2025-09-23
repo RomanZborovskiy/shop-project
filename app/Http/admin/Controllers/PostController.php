@@ -6,6 +6,7 @@ use App\Http\admin\Requests\PostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Term;
 use Illuminate\Support\Facades\Auth;
 use App\Actions\SaveSeoAction;
 
@@ -19,7 +20,7 @@ class PostController extends Controller
 
     public function create(Post $post)
     {
-        $categories = Category::where('type', 'article');
+        $categories = Term::where('vocabulary', 'categories');
 
         return view('admin.posts.create', compact( 'categories'));
     }
@@ -37,7 +38,7 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $categories = Category::where('type', 'product');
+        $categories = Term::where('vocabulary', 'categories');
 
         return view('admin.posts.edit', compact('post', 'categories'));
     }

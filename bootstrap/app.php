@@ -1,5 +1,7 @@
 <?php
 
+use App\Actions\GenerateSitemapAction;
+use App\Actions\ImportLocationsAction;
 use App\Http\Middleware\AdminPanel;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,7 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withCommands([
-        \App\Actions\ImportLocationsAction::class,  // реєструвати клас-команду
+        ImportLocationsAction::class,  
+        GenerateSitemapAction::class,  
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="content">
-        <div class="container mt-4">
+        <div class="container-fluid mt-4">
     <div class="card">
         <h1>Ліди</h1>
         <div class="card-tools">

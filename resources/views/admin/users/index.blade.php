@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="content">
-        <div class="container mt-4">
+        <div class="container-fluid mt-4">
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Користувачі</h3>
@@ -10,6 +10,8 @@
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
             </div>
         </div>
+
+        @include('admin.users.inc.filter')
 
         <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -20,6 +22,8 @@
                         <th>email</th>
                         <th>Тулефон</th>
                         <th>Статус</th>
+                        <th>Роль</th>
+                        <th>Дата створення</th>
                         <th>Дії</th>
                     </tr>
                 </thead>
@@ -31,6 +35,8 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone}}</td>
                             <td>{{ $user->status }}</td>
+                            <td>{{ $user->getRoleNames()->implode(', ') }}</td>
+                            <td>{{ $user->created_at }}</td>
                             <td>
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning">Редагувати</a>
                                 <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">

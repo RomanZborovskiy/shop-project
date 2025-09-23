@@ -48,6 +48,11 @@ class CartService
         return $this->order = $cart;
     }
 
+    public function getCount(): int
+    {
+        return $this->getCart()->purchases() ->sum('quantity');
+    }
+
     public function mergeGuestCartIntoUserCart(): void
     {
         if (!Auth::check()) {

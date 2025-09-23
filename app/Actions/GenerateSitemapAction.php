@@ -1,39 +1,36 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Actions;
 
-use App\Models\Post;
-use App\Models\Term;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+
 use App\Models\Page;
+use App\Models\Post;
 use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Support\Collection;
+use App\Models\Term;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
-class GenerateSitemap extends Command
+class GenerateSitemapAction
 {
-    protected $signature = 'sitemap:generate';
+    use AsAction;
 
-    protected $description = 'Generate a sitemap.xml for the application.';
+    public string $commandSignature = 'sitemap:generate';
 
-    public function handle()
+    public function handle(): string
     {
-        $this->info('Generating sitemap...');
-
         $urls = [];
 
         foreach (Page::cursor() as $page) {
             $urls[] = [
-                'loc' => url()->to($page->slug), 
+                'loc' => url()->to($page->slug),
                 'lastmod' => $page->updated_at->toAtomString(),
             ];
         }
 
         foreach (Term::cursor() as $category) {
             $urls[] = [
-                'loc' => url()->to('catalog/' . $category->slug), 
+                'loc' => url()->to('catalog/' . $category->slug),
                 'lastmod' => $category->updated_at->toAtomString(),
             ];
         }
@@ -53,15 +50,27 @@ class GenerateSitemap extends Command
         }
 
         $xml = view('admin.sitemap.xml', compact('urls'))->render();
-        Log::info('Виконується генераця карта сайту о ' . now());
 
         Storage::disk('public')->put('sitemap.xml', $xml);
+        Log::info('Виконується генерація sitemap о ' . now());
 
-        $sitemapPath = Storage::disk('public')->url('sitemap.xml');
-        $this->info("Sitemap generated successfully!");
-        $this->info("Location: " . $sitemapPath);
+        return Storage::disk('public')->url('sitemap.xml');
+    }
 
-        return Command::SUCCESS;
+    public function asCommand($command): int
+    {
+        $command->info('Generating sitemap...');
+
+        $sitemapPath = $this->handle();
+
+        $command->info('Sitemap generated successfully!');
+        $command->info("Location: " . $sitemapPath);
+
+        return 0;
+    }
+
+    public function asJob(): void
+    {
+        $this->handle();
     }
 }
-

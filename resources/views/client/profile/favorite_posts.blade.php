@@ -18,9 +18,9 @@
 
                         <form method="POST" action="{{ route('client.favorites.post', $post) }}">
                         @csrf
-                        <button class="btn btn-sm {{ \App\Facades\Favorite::isFavorite($post) ? 'btn-outline-danger' : 'btn-outline-success' }}" type="submit">
-                            {{ \App\Facades\Favorite::isFavorite($post) ? 'Видалити з обраних' : 'Додати в обрані' }}
-                        </button>
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                Видалити з обраних
+                            </button>
                     </form>
                     </div>
                 </div>

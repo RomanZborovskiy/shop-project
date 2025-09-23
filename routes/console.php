@@ -18,4 +18,4 @@ Schedule::call(function () {
 
 Schedule::job(new CacheDashboardStatsJob())->hourly();
 
-Schedule::job(new GenerateSitemapJob())->everySixHours();
+//Schedule::job(new GenerateSitemapJob())->everySixHours();

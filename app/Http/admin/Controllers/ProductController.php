@@ -31,10 +31,6 @@ class ProductController extends Controller
         ]);
         
         $products = Product::with(['brand', 'category'])->filter($filters)->paginate(10);
-
-        foreach ($products as $product) {
-            $product->prices = Currency::getPrices($product->price);
-        }
         
         $categories = Term::pluck('name', 'id')->prepend('Всі', '');
         return view('admin.products.index', compact('products','categories'));
@@ -42,7 +38,7 @@ class ProductController extends Controller
 
     public function create(Product $product)
     {
-        $brands = Brand::all()->pluck('name', 'id');
+        $brands = Brand::pluck('name', 'id');
         $categories = Term::where('vocabulary', 'categories')
                 ->whereNotNull('parent_id')->pluck('name', 'id');
 
@@ -70,10 +66,7 @@ class ProductController extends Controller
         $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
         $attributes = Attribute::all();
 
-        $properties = collect();
-        if ($request->filled('attribute_id')) {
-            $properties = Property::where('attribute_id', $request->attribute_id)->get();
-        }
+        $properties = $product->properties();
 
         return view('admin.products.edit', compact(
             'product',
