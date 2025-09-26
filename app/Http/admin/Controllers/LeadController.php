@@ -4,8 +4,6 @@ namespace App\Http\admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lead;
-use Spatie\Permission\Models\Role;
-
 
 class LeadController extends Controller
 {   

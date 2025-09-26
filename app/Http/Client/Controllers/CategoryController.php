@@ -11,8 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Term::get();
-
+        $categories = Term::whereNull('parent_id')->get(); 
         return view('client.catalog.index', compact('categories'));
     }
 

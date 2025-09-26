@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Variables</h1>
-<a href="{{ route('variables.create') }}" class="btn btn-primary mb-3">Create Variable</a>
+<a href="{{ route('variables.create') }}" class="btn btn-primary mb-3">Створити Variable</a>
 
 <table class="table table-bordered">
     <thead>
@@ -18,11 +18,11 @@
             <td>{{ $var->key }}</td>
             <td>{{ $var->value }}</td>
             <td>
-                <a href="{{ route('variables.edit', $var) }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{{ route('variables.edit', $var) }}" class="btn btn-sm btn-warning">Змінити</a>
                 <form action="{{ route('variables.destroy', $var) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Видалити</button>
                 </form>
             </td>
         </tr>

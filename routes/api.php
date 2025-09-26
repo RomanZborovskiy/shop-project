@@ -11,7 +11,6 @@ use App\Http\Client\Api\Controllers\ProductController;
 use App\Http\Client\Api\Controllers\ProfileController;
 use App\Http\Client\Api\Controllers\ReviewController;
 use App\Http\Client\Api\Controllers\UserOrderController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->name('api')->prefix('auth')->group(function(){

@@ -56,6 +56,18 @@
                         <p>Ліди</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('variables.index')}}" class="nav-link" data-pat="variables">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Variables</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('orders.index')}}" class="nav-link" data-pat="orders">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Замовлення</p>
+                    </a>
+                </li>
                 {{-- <li class="nav-item">
                     <a href="{{route('roles.index')}}" class="nav-link" data-pat="roles">
                         <i class="far fa-circle nav-icon"></i>

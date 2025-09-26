@@ -3,7 +3,6 @@
 namespace App\Http\Client\Api\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class UserOrderController extends Controller

@@ -4,7 +4,6 @@ namespace App\Http\admin\Controllers;
 
 use App\Http\admin\Requests\PostRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Post;
 use App\Models\Term;
 use Illuminate\Support\Facades\Auth;
