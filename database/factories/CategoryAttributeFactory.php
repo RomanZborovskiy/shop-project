@@ -18,22 +18,21 @@ class CategoryAttributeFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-{
-    // Отримуємо всі ID атрибутів
-    $attributes = Attribute::pluck('id')->all();
+    {
 
-    // Отримуємо всі ID категорій
-    $categories = Term::where('vocabulary', 'categories')->pluck('id')->all();
+        $attributes = Attribute::pluck('id')->all();
 
-    // Генеруємо всі можливі комбінації [attribute_id, category_id]
-    $allPairs = collect($attributes)->crossJoin($categories)->toArray();
 
-    // Faker обирає унікальну пару (ніколи не повторить в межах одного запуску)
-    [$attributeId, $categoryId] = fake()->unique()->randomElement($allPairs);
+        $categories = Term::where('vocabulary', 'categories')->pluck('id')->all();
 
-    return [
-        'attribute_id' => $attributeId,
-        'category_id'  => $categoryId,
-    ];
-}
+
+        $allPairs = collect($attributes)->crossJoin($categories)->toArray();
+
+        [$attributeId, $categoryId] = fake()->unique()->randomElement($allPairs);
+
+        return [
+            'attribute_id' => $attributeId,
+            'category_id'  => $categoryId,
+        ];
+    }
 }
