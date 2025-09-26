@@ -28,7 +28,7 @@
     @foreach($attributes as $attribute)
     {!! Lte3::select2(
         "attributes[{$attribute->id}]",
-        collect($properties)->firstWhere(fn($id) => in_array($id, $attribute->properties->pluck('id')->toArray())),
+        collect($propertyIds)->firstWhere(fn($id) => in_array($id, $attribute->properties->pluck('id')->toArray())),
         $attribute->properties->pluck('value', 'id')->prepend('-- виберіть --', '')->toArray(),
         [
             'label' => $attribute->name,

@@ -27,7 +27,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('categories.attributes.index')}}" class="nav-link" data-pat="attridutes">
+                    <a href="{{route('attributes.index')}}" class="nav-link" data-pat="attributes">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Атрибути</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('properties.index')}}" class="nav-link" data-pat="properties">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Властивості</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('categories.attributes.index')}}" class="nav-link" data-pat="category_attributes">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Добати атрибути до категорії</p>
                     </a>

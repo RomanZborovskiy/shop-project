@@ -28,8 +28,10 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roles'));
     }
 
-    public function create(Role $roles)
+    public function create(User $user)
     {
+        $roles = Role::pluck('name', 'name'); 
+
         return view('admin.users.create', compact('roles'));
     }
 
@@ -48,9 +50,12 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Користувача створено');
     }
 
-    public function edit(User $user, Role $roles)
+    public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user', 'roles'));
+        $roles = Role::pluck('name', 'name'); 
+        $userRole = $user->roles->pluck('name')->first(); 
+
+        return view('admin.users.edit', compact('user', 'roles', 'userRole'));
     }
 
     public function update(UserRequest $request, User $user)

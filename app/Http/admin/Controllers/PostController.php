@@ -46,7 +46,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $post::findOrFail($post->id)->update($data);
+        $post->update($data);
 
         SaveSeoAction::run($post, $data['seo'] ?? []);
 

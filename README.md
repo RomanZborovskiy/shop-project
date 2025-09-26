@@ -39,6 +39,7 @@ php artisan db:seed
 
 Сайт: http://localhost
 
-API документація: http://localhost/docs
+Генерація API документації: apidoc -i app/Http/Client/Api/Controllers -o public/apidoc
+API документація: http://localhost/apidoc/
 
 phpMyAdmin: http://localhost:8080

@@ -2,19 +2,18 @@
 
 @section('content')
 <div class="container">
-    <h2>Атрибути для категорії: {{ $category->name }}</h2>
+    <h2>Змінити атрибут: {{ $attribute->name }}</h2>
 
     {!! Lte3::formOpen([
-        'action' => route('categories.attributes.update', $category->id),
-        'model' => $category->id,
+        'action' => route('attributes.update', $attribute->id),
+        'model' => $attribute->id,
         'files' => true,
-        'method' => 'PATCH'
+        'method' => 'PUT'
     ]) !!}
 
-    {!! Lte3::select2('attributes[]', $selected, $attributes->toArray(), [
-        'label' => 'Атрибути',
-        'placeholder' => 'Оберіть атрибути',
-        'multiple' => true
+    {!! Lte3::text('name', $attribute->name ?? null, [
+        'label' => 'Назва атрибута',
+        'type' => 'text',
     ]) !!}
 
 

@@ -5,10 +5,10 @@
         <div class="container-fluid mt-4">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Список атрибутів</h3>
+            <h3 class="card-title">Список властивостей</h3>
         </div>
         <div class="card-tools">                 
-                    <a href="{{ route('attributes.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
+                    <a href="{{ route('properties.create') }}" class="btn btn-primary btn-sm">+ Додати</a>
                 </div>
         <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -16,17 +16,19 @@
                     <tr>
                         <th>ID</th>
                         <th>Назва</th>
+                        <th>Атрибут</th>
                         <th>Дії</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($attributes as $attribute)
+                    @forelse($properties as $property)
                         <tr>
-                            <td>{{ $attribute->id }}</td>
-                            <td>{{ $attribute->name }}</td>
+                            <td>{{ $property->id }}</td>
+                            <td>{{ $property->value }}</td>
+                            <td>{{ $property->attribute->name ?? '—' }}</td>
                             <td>
-                               <a href="{{ route('attributes.edit', $attribute) }}" class="btn btn-sm btn-warning">Редагувати</a>
-                                    <form action="{{ route('attributes.destroy', $attribute) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
+                               <a href="{{ route('properties.edit', $property) }}" class="btn btn-sm btn-warning">Редагувати</a>
+                                    <form action="{{ route('properties.destroy', $property) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger">Видалити</button>
@@ -35,14 +37,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">Атрибутів не знайдено.</td>
+                            <td colspan="7">Властивостів не знайдено.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
         <div class="card-footer">
-            {{ $attributes->links('pagination::bootstrap-4') }}
+            {{ $properties->links('pagination::bootstrap-4') }}
         </div>
     </div>
 </div>

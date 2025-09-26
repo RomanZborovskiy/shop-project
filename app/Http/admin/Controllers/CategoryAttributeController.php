@@ -13,7 +13,7 @@ class CategoryAttributeController extends Controller
     {
         $categories = Term::all();
 
-        return view('admin.attributes.index', compact('categories'));
+        return view('admin.category_attributes.index', compact('categories'));
     }
     public function edit($categoryId)
     {
@@ -21,7 +21,7 @@ class CategoryAttributeController extends Controller
         $attributes = Attribute::all();
         $selected = $category->attributes->pluck('id')->toArray();
 
-        return view('admin.attributes.edit', compact('category', 'attributes', 'selected'));
+        return view('admin.category_attributes.edit', compact('category', 'attributes', 'selected'));
     }
 
     public function update(Request $request, $categoryId)

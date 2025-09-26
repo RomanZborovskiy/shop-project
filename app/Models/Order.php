@@ -54,12 +54,17 @@ class Order extends Model
             [
                 'key' => self::STATUS_PROCESSING,
                 //'name' => trans('lists.basket_type.' . self::BASKER_TYPE . '.name'),
-                'name'=>'Корзина'
+                'name'=>'Обробляєьбся'
             ],
             [
                 'key' => self::STATUS_PENDING,
                 //'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
-                'name'=>'Обробляється'
+                'name'=>'Очікує підтвердження'
+            ],
+            [
+                'key' => self::NEW_STATUS,
+                //'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
+                'name'=>'Нове замовлення'
             ],
         ];
 
@@ -72,12 +77,12 @@ class Order extends Model
             [
                 'key' => self::TYPE_ORDER,
                 //'name' => trans('lists.basket_type.' . self::BASKER_TYPE . '.name'),
-                'name'=>'Готівкою'
+                'name'=>'Замовлення'
             ],
             [
-                'key' => self::TYPE_CART,
+                'key' => self::NEW_STATUS,
                 //'name' => trans('lists.basket_type.' . self::ORDER_TYPE . '.name'),
-                'name'=>'Картою'
+                'name'=>'Корзина'
             ],
         ];
 

@@ -12,19 +12,16 @@
 @endif
 @section('content')
 <div class="container">
-    <h2>Створити атрибут</h2>
+    <h2>Створити властивість</h2>
 
     {!! Lte3::formOpen([
-        'action' => route('attributes.store'),
+        'action' => route('properties.store'),
         'model' => null,
         'files' => true,
         'method' => 'POST'
     ]) !!}
 
-    {!! Lte3::text('name', $attribute->name ?? null, [
-        'label' => 'Назва атрибута',
-        'type' => 'text',
-    ]) !!}
+    @include('admin.properties.inc.form')
 
 
     {!! Lte3::btnSubmit('Зберегти') !!} 

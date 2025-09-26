@@ -27,7 +27,7 @@ class ProductController extends Controller
             'direction',
         ]);
         
-        $products = Product::with(['brand', 'category'])->filter($filters)->paginate(10);
+        $products = Product::with(['brand', 'category', 'media'])->filter($filters)->paginate(10);
         
         $categories = Term::pluck('name', 'id')->prepend('Всі', '');
         return view('admin.products.index', compact('products','categories'));
@@ -62,14 +62,14 @@ class ProductController extends Controller
         $brands = Brand::all();
         $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
         $attributes = $product->category?->attributes()->with('properties')->get() ?? collect();
-        $properties = $product->properties->pluck('id')->toArray();
+        $propertyIds = $product->properties->pluck('id')->toArray();
 
         return view('admin.products.edit', compact(
             'product',
             'brands',
             'categories',
             'attributes',
-            'properties'
+            'propertyIds'
         ));
     }
 

@@ -10,9 +10,8 @@
         </ul>
     </div>
 @endif
-@section('content')
-<div class="container">
-    <h2>Створити атрибут</h2>
+<section class="content">
+        <div class="container-fluid">
 
     {!! Lte3::formOpen([
         'action' => route('attributes.store'),
@@ -21,16 +20,13 @@
         'method' => 'POST'
     ]) !!}
 
-    {!! Lte3::text('name', $attribute->name ?? null, [
-        'label' => 'Назва атрибута',
-        'type' => 'text',
-    ]) !!}
+         @include('admin.attributes.inc.form')
 
-
-    {!! Lte3::btnSubmit('Зберегти') !!} 
+         {!! Lte3::btnSubmit('Зберегти') !!}
     {!! Lte3::formClose() !!}
 
-</div>
+    </section>
+    <!-- /.content -->
 @endsection
 
 

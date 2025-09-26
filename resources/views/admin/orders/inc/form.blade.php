@@ -1,11 +1,11 @@
-{!! Lte3::select2('status', $order->status ?? null, App\Models\Order::statusesList(), [
+        {!! Lte3::select2('status', $order->status ?? null, App\Models\Order::statusesList(), [
             'label' => 'Статус',
             'placeholder' => 'Оберіть статус',
         ]) !!}
 
-        {!! Lte3::select2('type', $order->type ?? null, App\Models\Order::typeList(), [
-            'label' => 'Вид оплати',
-            'placeholder' => 'Оберіть вид оплати',
+        {!! Lte3::select2('type', $order->status ?? null, App\Models\Order::typeList(), [
+            'label' => 'Тип',
+            'placeholder' => 'Оберіть тип',
         ]) !!}
 
         @php

@@ -20,11 +20,10 @@ class SendLeadMessageJob implements ShouldQueue
 
     public function handle(): void
     {
-        $emails = Lead::all()
-            ->map(fn($lead) => $lead->fields['email'] ?? null)
-            ->filter()
-            ->unique()
-            ->values();
+         $emails = Lead::query()
+            ->whereNotNull('fields->email')
+            ->distinct()
+            ->pluck('fields->email');
 
         if ($emails->isNotEmpty()) {
             Notification::route('mail', $emails->toArray())

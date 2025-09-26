@@ -22,7 +22,7 @@ class FavoriteController extends Controller
     public function products()
     {
         $products = FavoriteModel::where('user_id', auth()->id())
-            ->where('model_type', Product::class)
+            ->where('model_type', 'product')
             ->with('model')
             ->paginate(12) 
             ->through(fn ($favorite) => $favorite->model); 
@@ -42,7 +42,7 @@ class FavoriteController extends Controller
     public function posts()
     {
         $posts = FavoriteModel::where('user_id', auth()->id())
-            ->where('model_type', Post::class)
+            ->where('model_type', 'post')
             ->with('model')
             ->paginate(12) 
             ->through(fn ($favorite) => $favorite->model); 

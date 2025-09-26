@@ -193,7 +193,6 @@
                             <a href="{{route('client.dashboard')}}" class="nav-item nav-link active">Головна</a>
                             <a href="{{route('client.catalog.index')}}" class="nav-item nav-link">Каталог</a>
                             <a href="{{route('client.shop.index')}}" class="nav-item nav-link">Магазин</a>
-                            <a href="single.html" class="nav-item nav-link">Single Page</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Сторінки</a>
                                 <div class="dropdown-menu m-0">

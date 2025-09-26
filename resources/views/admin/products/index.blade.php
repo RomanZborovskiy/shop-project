@@ -33,8 +33,7 @@
                                 <td>{{ $product->id }}</td>
                                 <td>
                                     @if($product->hasMedia('images'))
-                                        <img src="{{ $product->getFirstMediaUrl('images', 'thumb') }}"  
-                                            width="50" height="50">
+                                        <img src="{{ $product->getFirstMediaUrl('images', 'thumb') }}" width="50" height="50">
                                     @else
                                         <span>—</span>
                                     @endif

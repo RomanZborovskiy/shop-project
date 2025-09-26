@@ -106,6 +106,16 @@ class CartService
 
         $purchase = $cart->purchases()->where('product_id', $product->id)->first();
 
+        $alreadyInCart = $purchase?->quantity ?? 0;
+
+        $available = $product->quantity - $alreadyInCart;
+
+        if ($available <= 0) {
+            return;
+        }
+
+        $quantity = min($quantity, $available);
+
         if ($purchase) {
             $purchase->quantity += $quantity;
             $purchase->save();
