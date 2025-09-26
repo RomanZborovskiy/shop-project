@@ -30,7 +30,7 @@
                 <td>{{ $message->status }}</td>
                 <td>{{ $message->scheduled_at?->format('Y-m-d H:i') ?? 'Одразу' }}</td>
                 <td>{{ $message->created_at->format('Y-m-d H:i') }}</td>
-                <td>
+                {{-- <td>
                     <a href="{{ route('mailings.edit', $message->id) }}" class="btn btn-sm btn-warning">Редагувати</a>
                     <form action="{{ route('mailings.destroy', $message->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Ви впевнені?')">
                         @csrf
@@ -38,7 +38,7 @@
                         <button class="btn btn-sm btn-danger">Видалити</button>
                         
                     </form>
-                </td>
+                </td> --}}
             </tr>
         @empty
             <tr><td colspan="5">Поки що немає розсилок</td></tr>
