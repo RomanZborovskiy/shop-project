@@ -21,7 +21,7 @@
             'method' => 'PUT'
         ]) !!}
 
-        {!! Lte3::text('name', $category->name, [
+        {!! Lte3::text('name', $category->name ?? null, [
             'label' => 'Назва категорії',
             'required' => true
         ]) !!}

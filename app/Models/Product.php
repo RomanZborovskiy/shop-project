@@ -60,6 +60,11 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Property::class, 'propertyables');
     }
 
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
+
     public function registerMediaCollections(): void
     {       
         $this->addMediaCollection('product_gallery')

@@ -36,6 +36,7 @@
         "almasaeed2010/adminlte": "^3.2",
         "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.23",
+        "ka4ivan/laravel-api-debugger": "^2.0",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",

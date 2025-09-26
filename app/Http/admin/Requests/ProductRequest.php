@@ -4,6 +4,7 @@ namespace App\Http\admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class ProductRequest extends FormRequest
 {
@@ -46,5 +47,20 @@ class ProductRequest extends FormRequest
             'seo.keywords' => 'nullable|string|max:255',
 
         ];
+    }
+
+      public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            $existingImagesCount = count($this->input('images_weight', []));
+            $deletedImagesCount  = count(array_filter($this->input('images_deleted', [])));
+            $newImagesCount      = count($this->file('images', []));
+
+            $total = $existingImagesCount - $deletedImagesCount + $newImagesCount;
+
+            if ($total > 3) {
+                $validator->errors()->add('images', 'Ви можете добавити моксимум 3 зображення.');
+            }
+        });
     }
 }

@@ -42,7 +42,7 @@ class OrderController extends Controller
 
         ConfirmOrder::dispatch($order);
 
-        return redirect()->route('orders.index')->with('success', 'Замовлення оновлено');
+        return redirect()->route('orders.edit')->with('success', 'Замовлення оновлено');
     }
 
     public function destroy(Order $order)

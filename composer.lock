@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef6beccee1d3344801c60a79811fdbf7",
+    "content-hash": "cce36d241beab2e6003ac8eb863e56ed",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -9250,6 +9250,68 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.1.1"
             },
             "time": "2025-04-30T06:54:44+00:00"
+        },
+        {
+            "name": "ka4ivan/laravel-api-debugger",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ka4ivan/laravel-api-debugger.git",
+                "reference": "e1173aabb300ed1ea31e9a53e55a238fee2688c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ka4ivan/laravel-api-debugger/zipball/e1173aabb300ed1ea31e9a53e55a238fee2688c2",
+                "reference": "e1173aabb300ed1ea31e9a53e55a238fee2688c2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ka4ivan\\ApiDebugger\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ka4ivan\\ApiDebugger\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kachula Ivan",
+                    "email": "ka4ivan.dev@gmail.com",
+                    "homepage": "https://github.com/ka4ivan",
+                    "role": "Architect & Developer"
+                }
+            ],
+            "description": "A debugging tool for Laravel APIs that provides request execution time and query profiling.",
+            "keywords": [
+                "api",
+                "debug",
+                "debugbar",
+                "kachula",
+                "laravel",
+                "monitoring",
+                "performance",
+                "profiler",
+                "query-log",
+                "request-debug"
+            ],
+            "support": {
+                "issues": "https://github.com/ka4ivan/laravel-api-debugger/issues",
+                "source": "https://github.com/ka4ivan/laravel-api-debugger/tree/2.0.0"
+            },
+            "time": "2025-07-28T19:55:15+00:00"
         },
         {
             "name": "laravel/pail",

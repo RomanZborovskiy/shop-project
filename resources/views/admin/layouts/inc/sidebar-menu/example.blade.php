@@ -27,9 +27,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('attributes.index')}}" class="nav-link" data-pat="attributes">
+                    <a href="{{route('categories.attributes.index')}}" class="nav-link" data-pat="attridutes">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Атрибути</p>
+                        <p>Добати атрибути до категорії</p>
                     </a>
                 </li>
                 <li class="nav-item">

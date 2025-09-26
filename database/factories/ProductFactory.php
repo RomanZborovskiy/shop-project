@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Term;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -31,7 +31,7 @@ class ProductFactory extends Factory
             'sku' => strtoupper(Str::random(10)),
             'slug' => Str::slug($name) . '-' . Str::random(5),
             'brand_id' => Brand::inRandomOrder()->value('id'),
-            'category_id' => Category::inRandomOrder()->value('id'),
+            'category_id' => Term::inRandomOrder()->value('id'),
         ];
     }
 

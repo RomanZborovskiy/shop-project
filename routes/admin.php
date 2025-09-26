@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\admin\Controllers\AttributeController;
+use App\Http\admin\Controllers\CategoryAttributeController;
 use App\Http\admin\Controllers\CategoryController;
 use App\Http\admin\Controllers\DashboardController;
 use App\Http\admin\Controllers\LeadController;
@@ -9,7 +9,6 @@ use App\Http\admin\Controllers\OrderController;
 use App\Http\admin\Controllers\PostController;
 use App\Http\admin\Controllers\ProductController;
 use App\Http\admin\Controllers\ProfileController;
-use App\Http\admin\Controllers\RoleController;
 use App\Http\admin\Controllers\SettingsController;
 use App\Http\admin\Controllers\UserController;
 use App\Http\admin\Controllers\VariableController;
@@ -31,7 +30,9 @@ Route::prefix('admin')->middleware(['auth','admin.panel'])->group(function () {
 
     Route::resource('users',UserController::class)->except('show');
 
-    Route::resource('attributes',AttributeController::class)->except('show');
+    Route::get('attridutes', [CategoryAttributeController::class, 'index'])->name('categories.attributes.index');
+    Route::get('attridutes/{id}/category', [CategoryAttributeController::class, 'edit'])->name('categories.attributes.edit');
+    Route::patch('attridutes/{id}/category', [CategoryAttributeController::class, 'update'])->name('categories.attributes.update');
     Route::resource('orders', OrderController::class)->except('show');
 
     Route::prefix('leads')->group(function () {

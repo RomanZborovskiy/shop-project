@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\ConfirmOrder;
+use App\Notifications\NewUserRegisteredNotification;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
-use App\Notifications\NewOrderAdminNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
-class ConfirmOrderAdmin implements ShouldQueue
+class NotifyAdminsAboutNewUser
 {
     /**
      * Create the event listener.
@@ -22,18 +22,16 @@ class ConfirmOrderAdmin implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(ConfirmOrder $event): void
+    public function handle(Registered $event): void
     {
-        $order = $event->order;
-
         $emails = User::role('admin')
-            ->pluck('email')
+            ->pluck('email')  
             ->filter()
             ->unique();
 
         if ($emails->isNotEmpty()) {
             Notification::route('mail', $emails->toArray())
-                ->notify(new NewOrderAdminNotification($order));
+                ->notify(new NewUserRegisteredNotification($event->user));
         }
     }
 }

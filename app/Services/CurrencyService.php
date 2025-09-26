@@ -74,8 +74,6 @@ class CurrencyService
 
     public function getPrices(float $amount): array
     {
-        $rates = $this->getRates();
-
         $prices = [];
         foreach ($this->available as $currency) {
             $prices[$currency] = $this->convert($amount, $currency);

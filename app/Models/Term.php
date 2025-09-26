@@ -51,6 +51,11 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
         return self::class; 
     }
 
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'category_attributes', 'category_id', 'attribute_id');
+    }
+
     public static function vocabulariesList(string $columnKey = null, string $indexKey = null): array
     {
         $records = [

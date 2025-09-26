@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Attribute;
 use App\Models\Term;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
  */
-class AttributeFactory extends Factory
+class CategoryAttributeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +18,10 @@ class AttributeFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->words(3, true);
         return [
-            'name' => ucfirst($name),
+            'attribute_id' => Attribute::inRandomOrder()->value('id') ?? Attribute::factory(),
+            'category_id' => Term::where('vocabulary', 'categories')->inRandomOrder()->value('id')
+                ?? Term::factory()->state(['vocabulary' => 'categories']),
         ];
     }
 }

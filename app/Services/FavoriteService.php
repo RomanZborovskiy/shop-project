@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteService
 {
+    protected array $favoritesCache = [];
+    protected bool $loaded = false;
+
     public function toggle(Model $model): bool
     {
         $userId = Auth::id();
@@ -32,12 +35,26 @@ class FavoriteService
         return true; 
     }
 
+    protected function loadFavorites(): void
+    {
+        if ($this->loaded || !Auth::check()) {
+            return;
+        }
+
+        $favorites = Favorite::where('user_id', Auth::id())->get();
+
+        foreach ($favorites as $fav) {
+            $this->favoritesCache[$fav->model_type][] = $fav->model_id;
+        }
+
+        $this->loaded = true;
+    }
+
     public function isFavorite(Model $model): bool
     {
-        return Favorite::where([
-            'model_id'   => $model->id,
-            'model_type' => $model->getMorphClass(),
-            'user_id'    => Auth::id(),
-        ])->exists();
+        $this->loadFavorites();
+
+        $type = $model->getMorphClass();
+        return in_array($model->id, $this->favoritesCache[$type] ?? []);
     }
 }

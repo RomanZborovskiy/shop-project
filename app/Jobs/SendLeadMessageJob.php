@@ -18,21 +18,6 @@ class SendLeadMessageJob implements ShouldQueue
 
     public function __construct(public Mailing $mailing) {}
 
-    // public function handle(): void
-    // {
-    //     Lead::orderBy('id')->chunkById(1000, function ($leads) {
-    //         foreach ($leads as $lead) {
-    //             $email = $lead->fields['email'] ?? null;
-    //             if ($email) {
-    //                 Mail::to($email)->send(
-    //                     new LeadMessageMail($this->mailing->subject, $this->mailing->body)
-    //                 );
-    //             }
-    //         }
-    //     });
-
-    //     $this->mailing->update(['status' => 'done']);
-    // }
     public function handle(): void
     {
         $emails = Lead::all()

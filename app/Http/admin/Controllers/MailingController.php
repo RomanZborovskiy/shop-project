@@ -49,7 +49,7 @@ class MailingController extends Controller
 
         Mailing::update($data);
 
-        return redirect()->route('mailings.index')->with('success', 'Повідомлення успішно оновлено!');
+        return redirect()->route('mailings.edit')->with('success', 'Повідомлення успішно оновлено!');
     
     }
 

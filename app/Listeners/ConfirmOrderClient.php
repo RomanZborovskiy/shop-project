@@ -7,7 +7,7 @@ use App\Notifications\ConfirmOrderClientNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ConfirmOrderClient
+class ConfirmOrderClient implements ShouldQueue
 {
     /**
      * Create the event listener.

@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
 public function index()
     {
-        $terms = Term::get()->toTree();
+        $terms = Term::get();
 
         return view('admin.categories.index', compact('terms'));
     }
@@ -64,6 +64,10 @@ public function index()
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:terms,id',
+            'seo' => 'array',
+            'seo.title' => 'nullable|string|max:255',
+            'seo.description' => 'nullable|string|max:500',
+            'seo.keywords' => 'nullable|string|max:255',
         ]);
 
         $category->update([
@@ -78,7 +82,9 @@ public function index()
             $category->saveAsRoot();
         }
 
-        return redirect()->route('admin.categories.index');
+        SaveSeoAction::run($category, $data['seo'] ?? []);
+
+        return redirect()->route('admin.categories.edit');
     }
 
     public function destroy(Term $category)

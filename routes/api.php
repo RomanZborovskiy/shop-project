@@ -8,7 +8,9 @@ use App\Http\Client\Api\Controllers\FavoriteController;
 use App\Http\Client\Api\Controllers\PageController;
 use App\Http\Client\Api\Controllers\PostController;
 use App\Http\Client\Api\Controllers\ProductController;
+use App\Http\Client\Api\Controllers\ProfileController;
 use App\Http\Client\Api\Controllers\ReviewController;
+use App\Http\Client\Api\Controllers\UserOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,19 +26,22 @@ Route::middleware(['api', 'auth:sanctum'])->name('api')->group(function (){
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::prefix('my')->group(function (){
-        Route::get('/profile', [ProductController::class, 'index']);
-        Route::post('/profile', [ProductController::class, 'update']);
+        Route::get('/profile', [ProfileController::class, 'show']);
+        Route::post('/profile', [ProfileController::class, 'update']);
         Route::get('/favorites', [FavoriteController::class, 'index']);
         Route::get('/products', [FavoriteController::class, 'products']);
         Route::get('/posts', [FavoriteController::class, 'posts']);
+        Route::get('/orders', [UserOrderController::class, 'index']);
+        //Route::get('/order', [UserOrderController::class, 'show']);
     });
 
     Route::prefix('products')->group(function () {
         Route::get('/{product}/reviews', [ReviewController::class, 'index']);
         Route::post('/{product}/review', [ReviewController::class, 'store']);
         Route::post('/{product}/favorite', [FavoriteController::class, 'toggleProduct']);
-        Route::post('/{post}/favorite', [FavoriteController::class, 'togglePost']);
     });
+
+    Route::post('/posts/{post}/favorite', [FavoriteController::class, 'togglePost']);
 });
 
 Route::middleware(['api'])->name('api')->group(function () {
@@ -44,11 +49,11 @@ Route::middleware(['api'])->name('api')->group(function () {
     Route::get('/page/{template}',[PageController::class,'show'])->name('page.show');
 
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
-        Route::get('{slug}', [ProductController::class, 'show']);
+        Route::get('{product}', [ProductController::class, 'show']);
         Route::get('/search', [ProductController::class, 'search']);
     });
 

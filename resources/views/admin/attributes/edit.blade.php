@@ -1,29 +1,25 @@
 @extends('admin.layouts.app')
 
 @section('content')
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-<section class="content">
-        <div class="container-fluid">
+<div class="container">
+    <h2>Атрибути для категорії: {{ $category->name }}</h2>
 
     {!! Lte3::formOpen([
-        'action' => route('attributes.update', $attribute),
-        'model' => $attribute,
+        'action' => route('categories.attributes.update', $category->id),
+        'model' => $category->id,
         'files' => true,
         'method' => 'PATCH'
     ]) !!}
 
-    @include('admin.attributes.inc.form')
+    {!! Lte3::select2('attributes[]', $selected, $attributes->toArray(), [
+        'label' => 'Атрибути',
+        'placeholder' => 'Оберіть атрибути',
+        'multiple' => true
+    ]) !!}
 
-    {!! Lte3::btnSubmit('Зберегти') !!}
+
+    {!! Lte3::btnSubmit('Зберегти') !!} 
     {!! Lte3::formClose() !!}
 
-    </section>
+</div>
 @endsection

@@ -3,14 +3,11 @@
 namespace App\Http\admin\Controllers;
 
 use App\Exports\ProductsExport;
-use App\Facades\Currency;
 use App\Http\admin\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductsImport;
-use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Product;
-use App\Models\Property;
 use App\Models\Term;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -64,9 +61,8 @@ class ProductController extends Controller
     {
         $brands = Brand::all();
         $categories = Term::where('vocabulary', 'categories')->pluck('name', 'id');
-        $attributes = Attribute::all();
-
-        $properties = $product->properties();
+        $attributes = $product->category?->attributes()->with('properties')->get() ?? collect();
+        $properties = $product->properties->pluck('id')->toArray();
 
         return view('admin.products.edit', compact(
             'product',
@@ -85,6 +81,12 @@ class ProductController extends Controller
         SaveSeoAction::run($product, $data['seo'] ?? []);
 
         $product->mediaManage($request);
+        $propertyIds = collect($request->input('attributes', []))
+            ->filter()
+            ->values()
+            ->toArray();
+
+        $product->properties()->sync($propertyIds);
 
         return redirect()->route('products.edit', $product->id)->with('success', 'Продукт успішно оновлено!');
     
@@ -97,35 +99,35 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success','Продукти видалено');
     }
 
-    public function storeAttribute(Request $request, Product $product)
-    {
-        $request->validate([
-            'property_id' => 'required|exists:properties,id',
-        ]);
+    // public function storeAttribute(Request $request, Product $product)
+    // {
+    //     $request->validate([
+    //         'property_id' => 'required|exists:properties,id',
+    //     ]);
 
-        $product->properties()->attach($request->property_id);
+    //     $product->properties()->attach($request->property_id);
 
-        return redirect()->route('products.index')->with('success', 'Атрибут додано до продукту');
-    }
+    //     return redirect()->route('products.index')->with('success', 'Атрибут додано до продукту');
+    // }
 
-    public function categoriesTree(Request $request)
-    {
-        $nodes = Term::get()->toTree();
+    // public function categoriesTree(Request $request)
+    // {
+    //     $nodes = Term::get()->toTree();
 
-        $traverse = function ($categories) use (&$traverse) {
-            $tree = [];
-            foreach ($categories as $category) {
-                $tree[] = [
-                    'id' => $category->id,
-                    'text' => $category->name,
-                    'children' => $traverse($category->children),
-                ];
-            }
-            return $tree;
-        };
+    //     $traverse = function ($categories) use (&$traverse) {
+    //         $tree = [];
+    //         foreach ($categories as $category) {
+    //             $tree[] = [
+    //                 'id' => $category->id,
+    //                 'text' => $category->name,
+    //                 'children' => $traverse($category->children),
+    //             ];
+    //         }
+    //         return $tree;
+    //     };
 
-        return response()->json($traverse($nodes));
-    }
+    //     return response()->json($traverse($nodes));
+    // }
 
     public function import(Request $request)
     {
@@ -137,15 +139,15 @@ class ProductController extends Controller
         return Excel::download(new ProductsExport, 'products.xlsx');
     }
 
-    public function addAttribute(Request $request, Product $product)
-    {
-        $request->validate([
-            'attribute_id' => 'required|exists:attributes,id',
-            'attribute_value_id' => 'required|exists:attribute_values,id',
-        ]);
+    // public function addAttribute(Request $request, Product $product)
+    // {
+    //     $request->validate([
+    //         'attribute_id' => 'required|exists:attributes,id',
+    //         'attribute_value_id' => 'required|exists:attribute_values,id',
+    //     ]);
 
-        $product->attributeValues()->attach($request->attribute_value_id);
+    //     $product->attributeValues()->attach($request->attribute_value_id);
 
-        return back()->with('success', 'Характеристика додана');
-    }
+    //     return back()->with('success', 'Характеристика додана');
+    // }
 }

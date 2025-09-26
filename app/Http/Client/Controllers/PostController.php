@@ -15,7 +15,8 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $post->with('category', 'user')->where('slug', $post->slug)->firstOrFail();
-        return view('client.posts.show',['model' => $post], compact('post'));
+        $post->load(['category', 'user']);
+
+        return view('client.posts.show', compact('post'));
     }
 }

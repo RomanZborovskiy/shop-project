@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\Term;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -27,7 +27,7 @@ class PostFactory extends Factory
             'text' => $this->faker->paragraphs(3, true),
             'tags' => $this->faker->optional()->words(3, true), 
             'slug' => Str::slug($name) . '-' . Str::random(4),
-            'category_id' => Category::inRandomOrder()->value('id'),
+            'category_id' => Term::inRandomOrder()->value('id'),
             'user_id' => User::inRandomOrder()->value('id'),
         ];
     }

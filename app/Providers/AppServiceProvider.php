@@ -10,7 +10,8 @@ use App\Services\CheckoutService;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,13 +47,29 @@ class AppServiceProvider extends ServiceProvider
         URL::forceRootUrl($url);
         }
 
-        View::composer('*', function ($view) {
-            $cart = Cart::getCart();
-            $view->with('cart', $cart);
-        });
+        AliasLoader::getInstance()->alias('Cart', Cart::class);
 
-        View::composer('*', function ($view) {
-            $view->with('cartCount', Cart::getCount());
-        });
+        Relation::morphMap([
+        'attribute' => \App\Models\Attribute::class,
+        'brand' => \App\Models\Brand::class,
+        'category_attribute'=> \App\Models\CategoryAttribute::class,
+        'district' => \App\Models\District::class,
+        'favorite' => \App\Models\Favorite::class,
+        'lead' => \App\Models\Lead::class,
+        'location' => \App\Models\Location::class,
+        'mailing' => \App\Models\Mailing::class,
+        'order' => \App\Models\Order::class,
+        'payment' => \App\Models\Payment::class,
+        'post' => \App\Models\Post::class,
+        'product' => \App\Models\Product::class,
+        'property' => \App\Models\Property::class,
+        'property_table' => \App\Models\Propertyable::class,
+        'purchase' => \App\Models\Purchase::class,
+        'region' => \App\Models\Region::class,
+        'review' => \App\Models\Review::class,
+        'term' => \App\Models\Term::class,
+        'user' => \App\Models\User::class,
+        'page' => \App\Models\Page::class,
+    ]);
     }
 }

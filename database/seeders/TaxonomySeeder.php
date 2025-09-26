@@ -16,39 +16,6 @@ class TaxonomySeeder extends Seeder
     public function run()
     {
         $this->seedVocabularies([
-            // BRANDS & MODELS
-            [
-                'vocabulary' => 'brands',
-                'terms' => [
-                    [
-                        'name' => 'Tesla',
-                        'description' => 'Tesla Motors',
-                        'terms' => [
-                            ['name' => 'Roadster', 'vocabulary' => 'models'],
-                            ['name' => 'Model S', 'vocabulary' => 'models'],
-                            ['name' => 'Model X', 'vocabulary' => 'models'],
-                            ['name' => 'Model 3', 'vocabulary' => 'models'],
-                        ],
-                    ],
-                    [
-                        'name' => 'BMW',
-                        'description' => 'Bayerische Motoren Werke AG',
-                        'terms' => [
-                            ['name' => 'i3', 'vocabulary' => 'models'],
-                            ['name' => 'M5', 'vocabulary' => 'models'],
-                            ['name' => 'X5', 'vocabulary' => 'models'],
-                            ['name' => 'X6', 'vocabulary' => 'models'],
-                        ],
-                    ],
-                ],
-            ],
-
-            // TAGS
-            [
-                'vocabulary' => 'tags',
-                'terms' => ['car', 'news', 'road', 'drive', 'presentation', 'sale'],
-            ],
-
             // CATEGORIES
             [
                 'vocabulary' => 'categories',
@@ -66,21 +33,6 @@ class TaxonomySeeder extends Seeder
                     ],
                 ],
             ],
-            //ARTICLE
-            [
-                'vocabulary' => 'articles',
-                'terms' => [
-                    [
-                        'name' => 'Nature',
-                        'terms' => ['Eath', 'Sky', 'Wather'],
-                    ],
-                    [
-                        'name' => 'Electronix',
-                        'terms' => ['Washengnashines', 'Phones'],
-                    ],
-                ],
-            ],
-
         ]);
     }
 

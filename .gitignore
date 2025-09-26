@@ -19,6 +19,7 @@
 /public/docs
 /public/vendor/adminlte
 /public/vendor/lte3
+/database/schema
 /storage/*.key
 /storage/pail
 /vendor

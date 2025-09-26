@@ -19,6 +19,50 @@ use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
+    /**
+     * @api {get} /api/cart Отримати кошик
+     * @apiName GetCart
+     * @apiGroup Cart
+     * @apiVersion 1.0.0
+     *
+     * @apiSuccess {Object} data Дані про кошик
+     * @apiSuccess {Number} data.id ID кошика
+     * @apiSuccess {Number} data.total_price Загальна сума
+     * @apiSuccess {String} data.currency Валюта
+     * @apiSuccess {Object[]} data.items Список товарів у кошику
+     * @apiSuccess {Number} data.items.id ID покупки
+     * @apiSuccess {Number} data.items.product_id ID продукту
+     * @apiSuccess {String} data.items.name Назва продукту
+     * @apiSuccess {Number} data.items.quantity Кількість
+     * @apiSuccess {Number} data.items.price Ціна за одиницю
+     * @apiSuccess {Number} data.items.subtotal Проміжна сума
+     *
+     * @apiSuccessExample {json} Успішна відповідь:
+     * HTTP/1.1 200 OK
+     * {
+     *   "data": {
+     *           "id": 29,
+     *           "total": "250.00",
+     *           "status": "new",
+     *           "products": [
+     *               {
+     *                   "id": 41,
+     *                   "quantity": 1,
+     *                   "price": "250.00",
+     *                   "subtotal": 250,
+     *                   "product": {
+     *                       "id": 11,
+     *                       "name": "Habitat Nomad 2 Door 3 Drawer Sideboard ",
+     *                       "price": "250.00",
+     *                       "slug": "habitat-nomad-2-door-3-drawer-sideboard"
+     *                   }
+     *               }
+     *           ]
+     *       },
+     *     ]
+     *   }
+     * }
+     */
     public function index(Request $request)
     {
         $cart = Cart::getCart();
@@ -26,6 +70,25 @@ class CartController extends Controller
         return CartResource::make($cart);
     }
 
+    /**
+     * @api {post} /api/cart/:product/add Додати продукт у кошик
+     * @apiName AddToCart
+     * @apiGroup Cart
+     * @apiVersion 1.0.0
+     *
+     * @apiParam {Number} product ID продукту (path param)
+     * @apiParam {Number} [qty=1] Кількість товару
+     *
+     * @apiSuccess {Boolean} success Статус операції
+     * @apiSuccess {String} message Повідомлення
+     *
+     * @apiSuccessExample {json} Успішна відповідь:
+     * HTTP/1.1 200 OK
+     * {
+     *   "success": true,
+     *   "message": "Продукт додано до корзини"
+     * }
+     */
     public function add(Request $request, Product $product)
     {
         $qty = max((int) $request->input('qty', 1), 1);
@@ -38,6 +101,25 @@ class CartController extends Controller
         ]);
     }
 
+    /**
+     * @api {delete} /api/cart/:purchase/remove Видалити продукт з кошика
+     * @apiName RemoveFromCart
+     * @apiGroup Cart
+     * @apiVersion 1.0.0
+     *
+     * @apiParam {Number} purchase ID покупки (path param)
+     * @apiParam {Number} [qty=1] Кількість для видалення
+     *
+     * @apiSuccess {Boolean} success Статус операції
+     * @apiSuccess {String} message Повідомлення
+     *
+     * @apiSuccessExample {json} Успішна відповідь:
+     * HTTP/1.1 200 OK
+     * {
+     *   "success": true,
+     *   "message": "Продукт видалено з корзини"
+     * }
+     */
     public function remove(Request $request, Purchase $purchase)
     {
         $qty = (int) $request->input('qty', 1);
@@ -54,6 +136,40 @@ class CartController extends Controller
         ]);
     }
     
+    /**
+     * @api {post} /api/cart/checkout Оформлення замовлення
+     * @apiName Checkout
+     * @apiGroup Cart
+     * @apiVersion 1.0.0
+     *
+     * @apiParam {String} name Ім’я користувача
+     * @apiParam {String} email Email користувача
+     * @apiParam {String="online","cod"} payment_method Метод оплати (online/cod)
+     * @apiParam {String} [phone] Телефон
+     * @apiParam {String} [address] Адреса доставки
+     *
+     * @apiSuccess {Boolean} success Статус операції
+     * @apiSuccess {String} message Повідомлення
+     * @apiSuccess {Number} order_id ID замовлення
+     * @apiSuccess {Number} payment_id ID платежу
+     * @apiSuccess {String} [redirect_url] URL для редіректу (якщо online оплата
+     *
+     * @apiSuccessExample {json} Успішна відповідь (оплата при отриманні):
+     * HTTP/1.1 200 OK
+     * {
+     *   "success": true,
+     *   "message": "Ваше замовлення успішно оформлено!",
+     *   "order_id": 16,
+     *   "payment_id": 45
+     * }
+     *
+     * @apiErrorExample {json} Помилка (порожній кошик):
+     * HTTP/1.1 400 Bad Request
+     * {
+     *   "success": false,
+     *   "message": "Ваш кошик порожній."
+     * }
+     */
     public function checkout (CartRequest $request)
     {
         $cartId = Cookie::get('cart_id');
