@@ -35,7 +35,7 @@ class VariableController extends Controller
     {
         $variable->update($request->validated());
 
-        return redirect()->route('variables.edit')->with('success', 'Variable updated');
+        return redirect()->back()->with('success', 'Variable updated');
     }
 
     public function destroy(Variable $variable)
