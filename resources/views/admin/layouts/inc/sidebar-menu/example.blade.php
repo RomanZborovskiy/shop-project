@@ -39,12 +39,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('orders.index')}}" class="nav-link" data-pat="orders">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Замовлення</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{route('users.index')}}" class="nav-link" data-pat="users">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Користувачі</p>
