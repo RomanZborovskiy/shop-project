@@ -14,12 +14,22 @@ class CheckoutService
 {
     public function getCartForCheckout(): ?Order
     {
-        $cartId = Cookie::get('cart_id');
-        if (!$cartId) {
-            return null;
+        if (Auth::check()) {
+            return Order::with('purchases')
+                ->where('user_id', Auth::id())
+                ->where('type', Order::TYPE_CART)
+                ->first();
         }
 
-        return Order::with('purchases')->find($cartId);
+        $cartId = Cookie::get('cart_id');
+        if ($cartId) {
+            return Order::with('purchases')
+                ->where('id', $cartId)
+                ->where('type', Order::TYPE_CART)
+                ->first();
+        }
+
+        return null;
     }
 
     public function processOrder(array $validated): Order
