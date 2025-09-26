@@ -50,7 +50,7 @@ class PostController extends Controller
 
         SaveSeoAction::run($post, $data['seo'] ?? []);
 
-        return redirect()->route('posts.edit')->with('success', 'Пост успішно оновлено!');
+        return redirect()->back()->with('success', 'Пост успішно оновлено!');
     
     }
 

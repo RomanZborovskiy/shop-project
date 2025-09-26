@@ -69,7 +69,7 @@ class UserController extends Controller
 
         $user->mediaManage($request);
 
-        return redirect()->route('users.edit')->with('success', 'Користувача оновлено');
+        return redirect()->back()->with('success', 'Користувача оновлено');
     }
 
     public function destroy(User $user)

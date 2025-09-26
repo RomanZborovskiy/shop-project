@@ -84,7 +84,7 @@ public function index()
 
         SaveSeoAction::run($category, $data['seo'] ?? []);
 
-        return redirect()->route('admin.categories.edit');
+        return redirect()->back();
     }
 
     public function destroy(Term $category)
