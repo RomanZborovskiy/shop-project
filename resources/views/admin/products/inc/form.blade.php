@@ -39,11 +39,15 @@
             'placeholder' => 'Оберіть статус',
         ]) !!}
 
-        {!! Lte3::textarea('description', $product->description ?? null, [
-            'label' => 'Description',
-            'rows' => 3,
-        ]) !!}
-
+        <div class="card card-outline card-info mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Description</h3>
+            </div>
+            <div class="card-body p-0">
+                <div id="description-editor" data-content="{{ $product->description ?? '' }}"></div>
+                <textarea name="description" class="d-none">{{ $product->description ?? '' }}</textarea>
+            </div>
+        </div>
 
         {!! Lte3::mediaImage('images', null, [
             'label' => 'Додаткові зображення',

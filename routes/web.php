@@ -18,6 +18,9 @@ use App\Http\Client\Controllers\ReviewController;
 use App\Http\Client\Controllers\UserOrderController;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 Route::get('/', function () {
     return view('client.pages.home');

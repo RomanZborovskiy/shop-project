@@ -30,7 +30,8 @@
         "orchestra/parser": "^10.0",
         "rap2hpoutre/laravel-log-viewer": "^2.5",
         "spatie/laravel-medialibrary": "^11.13",
-        "spatie/laravel-permission": "^6.21"
+        "spatie/laravel-permission": "^6.21",
+        "unisharp/laravel-filemanager": "^2.11"
     },
     "require-dev": {
         "almasaeed2010/adminlte": "^3.2",
