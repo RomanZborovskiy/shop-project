@@ -9,11 +9,11 @@
 
     <title>{{ config('app.name') }} | Dashboard</title>
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/toast-editor.js'])
-
     <link rel="apple-touch-icon" sizes="180x180" href="/vendor/lte3/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/vendor/lte3/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/vendor/lte3/img/favicons/favicon-16x16.png">
+
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

@@ -39,6 +39,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/vendor/adminlte/dist/js/demo.js"></script> {{--TODO: customize this--}}
 <script src="/vendor/lte3/main.js"></script>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<script src="{{ asset('js/toast-editor.js') }}"></script>
 @stack('scripts')
 @include('admin.layouts.inc.options')
 

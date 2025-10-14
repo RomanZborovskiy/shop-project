@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>@yield('title', 'Electro Shop')</title>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/toast-editor.js'])
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     @php

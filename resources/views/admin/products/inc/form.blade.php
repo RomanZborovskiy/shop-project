@@ -39,12 +39,12 @@
             'placeholder' => 'Оберіть статус',
         ]) !!}
 
-        <div class="card card-outline card-info mb-3">
+        <div class="card card-outline card-info mb-3 f-md-editor">
             <div class="card-header">
                 <h3 class="card-title">Опис</h3>
             </div>
             <div class="card-body p-0">
-                <div id="description-editor" data-content="{{ $product->description ?? '' }}"></div>
+                <div class="toast-editor" data-content="{{ $product->description ?? '' }}"></div>
                 <textarea name="description" class="d-none">{{ $product->description ?? '' }}</textarea>
             </div>
         </div>
@@ -58,7 +58,13 @@
          
 
     
-    
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initToastEditor();
+    });
+</script>
+@endpush
  
         
           
