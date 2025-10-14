@@ -101,6 +101,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Payment::class);
     }
 
+    public function activeSubscription()
+    {
+        return $this->hasOne(Subscription::class)->where('status', 'active');
+    }
+
     public static function statusList(string $columnKey = null, string $indexKey = null, array $options = []): array
     {
         $records = [

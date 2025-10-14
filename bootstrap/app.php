@@ -18,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin.panel' => AdminPanel::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'telegram/webhook',
+            'liqpay/webhook',
+        ]);
     })
     ->withCommands([
         ImportLocationsAction::class,  

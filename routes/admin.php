@@ -7,11 +7,13 @@ use App\Http\admin\Controllers\DashboardController;
 use App\Http\admin\Controllers\LeadController;
 use App\Http\admin\Controllers\MailingController;
 use App\Http\admin\Controllers\OrderController;
+use App\Http\admin\Controllers\PaymentController;
 use App\Http\admin\Controllers\PostController;
 use App\Http\admin\Controllers\ProductController;
 use App\Http\admin\Controllers\ProfileController;
 use App\Http\admin\Controllers\PropertyController;
 use App\Http\admin\Controllers\SettingsController;
+use App\Http\admin\Controllers\TelegramBotController;
 use App\Http\admin\Controllers\UserController;
 use App\Http\admin\Controllers\VariableController;
 use App\Http\Auth\ForgotPasswordController;
@@ -84,4 +86,8 @@ Route::prefix('admin')->name('admin')->group(function () {
     Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
+
+Route::post('/telegram/webhook', [TelegramBotController::class, 'webhook']);
+Route::post('/liqpay/webhook', [PaymentController::class, 'webhookLiqPay']);
+Route::get('/liqpay/result', [PaymentController::class, 'resultLiqPay']);
 
