@@ -41,7 +41,7 @@
 
         <div class="card card-outline card-info mb-3">
             <div class="card-header">
-                <h3 class="card-title">Description</h3>
+                <h3 class="card-title">Опис</h3>
             </div>
             <div class="card-body p-0">
                 <div id="description-editor" data-content="{{ $product->description ?? '' }}"></div>
