@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d0856ed3-3d98-4637-8043-1202f43a39c0",
+		"_postman_id": "9fcf8846-bf44-46ab-956d-4cd9b1553e11",
 		"name": "ITsupport",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39951799",
-		"_collection_link": "https://gg5555-2830.postman.co/workspace/99d1fe33-9bb6-4818-849e-1a36fe958116/collection/39951799-d0856ed3-3d98-4637-8043-1202f43a39c0?action=share&source=collection_link&creator=39951799"
+		"_collection_link": "https://gg5555-2830.postman.co/workspace/99d1fe33-9bb6-4818-849e-1a36fe958116/collection/39951799-9fcf8846-bf44-46ab-956d-4cd9b1553e11?action=share&source=collection_link&creator=39951799"
 	},
 	"item": [
 		{
@@ -112,85 +112,13 @@
 			]
 		},
 		{
-			"name": "New Request",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "3|Ij1Su9LOt16uGwvBZaewrVmOgFN2s9CtXsc0sbG6c249439b",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"subject\": \"Питання щодо замовлення #1\",\n  \"messages\": \n    {\n      \"body\": \"Доброго дня! Сайт не робить!\",\n      \"files\": [\n        {\"id\": \"9e1de396-ae7d-45f1-8219-43c9240a6b10\"},\n        {\"id\": \"9e1de396-ae7d-45f1-8219-43c9240a6b12\"}\n      ]\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://866cc8123b76.ngrok-free.app/api/my/tickets/019a49b6-a89b-7150-9a88-bf9da55f6403/close",
-					"protocol": "https",
-					"host": [
-						"866cc8123b76",
-						"ngrok-free",
-						"app"
-					],
-					"path": [
-						"api",
-						"my",
-						"tickets",
-						"019a49b6-a89b-7150-9a88-bf9da55f6403",
-						"close"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": null,
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Request",
+			"name": "test",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"user@example.com\",\n    \"code\": \"123456\"\n    \"password\": \"123456\"\n\n}"
+					"raw": "{\n    \"email\": \"user@example.com\",\n    \"code\": \"123456\"\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}api/otp/check",
