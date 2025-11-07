@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "0b373aa8-485e-470b-886b-7c6bfb28ed09",
+		"name": "ITsupport",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39951799",
+		"_collection_link": "https://gg5555-2830.postman.co/workspace/99d1fe33-9bb6-4818-849e-1a36fe958116/collection/39951799-0b373aa8-485e-470b-886b-7c6bfb28ed09?action=share&source=collection_link&creator=39951799"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "socialite login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 512345678,\n    \"first_name\": \"Taras\",\n    \"username\": \"tg_user\",\n    \"last_name\": \"famil\",\n    \"auth_date\": \"1734461234\",\n    \"hash\": \"83f2d3c47a0d...\",\n    \"email\": \"client@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/socialite/{provider}",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"socialite",
+								"{provider}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/otp/send",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"otp",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"code\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/otp/check",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"otp",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}api/auth/logout",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|Ij1Su9LOt16uGwvBZaewrVmOgFN2s9CtXsc0sbG6c249439b",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"subject\": \"Питання щодо замовлення #1\",\n  \"messages\": \n    {\n      \"body\": \"Доброго дня! Сайт не робить!\",\n      \"files\": [\n        {\"id\": \"9e1de396-ae7d-45f1-8219-43c9240a6b10\"},\n        {\"id\": \"9e1de396-ae7d-45f1-8219-43c9240a6b12\"}\n      ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://866cc8123b76.ngrok-free.app/api/my/tickets/019a49b6-a89b-7150-9a88-bf9da55f6403/close",
+					"protocol": "https",
+					"host": [
+						"866cc8123b76",
+						"ngrok-free",
+						"app"
+					],
+					"path": [
+						"api",
+						"my",
+						"tickets",
+						"019a49b6-a89b-7150-9a88-bf9da55f6403",
+						"close"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		}
+	]
+}
